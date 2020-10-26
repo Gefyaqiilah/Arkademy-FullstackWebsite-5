@@ -12,14 +12,14 @@ let data = {
     phone: '1-770-736-8031 x56442',
     website: 'hildegard.org'
 }
-
+//A
 const dataCopy = {
     ...data,
     name: "Gefy Aqiilah Aqshal",
     email: "gefyaqiilah26@gmail.com",
     hobby: ['coffee', 'playing games', 'swimming', 'programming']
 }
-
+//B
 const { street, city } = dataCopy.address
 
 console.log(dataCopy)

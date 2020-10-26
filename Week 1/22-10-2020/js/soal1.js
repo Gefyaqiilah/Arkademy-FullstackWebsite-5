@@ -1,7 +1,7 @@
-const biodata = {
+let biodata = {
     name: 'Gefy Aqiilah Aqshal',
     age: 19,
-    hobbies: ['coffee', 'playing games', 'swimming'],
+    hobbies: ['drinking coffee', 'playing games', 'swimming'],
     isMarried: false,
     schoolList: [
         {
@@ -33,11 +33,12 @@ const biodata = {
             level: 'Beginner'
         }, {
             skillName: 'Reactjs',
-            level: 'advanced'
+            level: 'Intermediate'
         }, {
             skillName: 'Bootstrap',
-            level: 'Beginner'
+            level: 'Intermediate'
         }
     ],
     interestInCoding: true
 }
+console.log(biodata)
