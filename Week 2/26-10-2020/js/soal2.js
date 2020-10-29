@@ -9,7 +9,7 @@ const searchName = (kata, jumlah, callback) => {
             let nameCopy = name.filter((el) => {
                 let el2 = el.toUpperCase()
                 let kata2 = kata.toUpperCase()
-                return el2.includes(kata2) === true
+                return el2.includes(kata2)
             })
             if (nameCopy.length >= jumlah) {
                 nameCopy.splice(jumlah, nameCopy.length - jumlah)
@@ -26,4 +26,4 @@ const searchName = (kata, jumlah, callback) => {
 const callback = (res) => {
     console.log(res)
 }
-searchName('ca', 10, callback)
+searchName('an', 10, callback)
