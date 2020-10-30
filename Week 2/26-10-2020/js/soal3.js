@@ -4,7 +4,7 @@ const valueBetween = (nilaiAwal, nilaiAkhir, dataArray) => {
             if (nilaiAwal < nilaiAkhir) {
                 let dataArrayCopy = dataArray.filter((el) => el >= nilaiAwal && el <= nilaiAkhir)
                 if (dataArrayCopy.length > 0) {
-                    return 'Nilai diantara ' + nilaiAwal + ' sampai ' + nilaiAkhir + ' adalah :\n' + dataArrayCopy
+                    return 'Menampilkan nilai diantara ' + nilaiAwal + ' sampai ' + nilaiAkhir + ' adalah :\n' + dataArrayCopy.join(', ')
                 } else {
                     return 'jumlah angka dalam dataArray tidak ada'
                 }
@@ -18,4 +18,4 @@ const valueBetween = (nilaiAwal, nilaiAkhir, dataArray) => {
         return 'Maaf nilai tidak lengkap, harap dicek kembali'
     }
 }
-console.log(valueBetween(7, 9, [1, 2, 4, 5, 7, 10]))
+console.log(valueBetween(7, 9, [1, 2, 4, 5, 7, , 9, 10]))

@@ -14,7 +14,7 @@ const searchName = (kata, jumlah, callback) => {
             if (nameCopy.length >= jumlah) {
                 nameCopy.splice(jumlah, nameCopy.length - jumlah)
             }
-            callback(`Menampilkan ${jumlah} hasil pencarian kata dari kata '${kata}' adalah :\n${nameCopy}`)
+            callback(`Menampilkan ${jumlah} hasil pencarian kalimat dari kata '${kata}' adalah :\n${nameCopy.join(', ')}`)
         } else {
             callback('argumen yang dimasukkan tidak valid, harap isi dengan benar')
         }
@@ -26,4 +26,4 @@ const searchName = (kata, jumlah, callback) => {
 const callback = (res) => {
     console.log(res)
 }
-searchName('an', 10, callback)
+searchName('an', 4, callback)

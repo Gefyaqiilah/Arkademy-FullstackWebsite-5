@@ -3,7 +3,7 @@ const stockCoffee = (orderCoffee, table) => {
         const coffeeMenu = ['v60', 'vietnam drip', 'latte', 'moccachino latte']
         let dataCoffee = [{
             name: 'arabica',
-            stock: 25
+            stock: 1000
         }]
         let dataIngridients = [{
             name: 'freshmilk',
@@ -131,7 +131,6 @@ Sisa Water              : ${checkingCoffee.dataIngridients[3].stock} gram
 const orderCoffee = async (orderCoffee, table) => {
     try {
         const checkingCoffee = await stockCoffee(orderCoffee)
-        // console.log(checkingCoffee);
         const makingCoffee = await makeCoffee(table)
         console.log(makingCoffee)
         const servingCoffee = await serveCoffee(checkingCoffee, table)
@@ -142,4 +141,4 @@ const orderCoffee = async (orderCoffee, table) => {
         }, 3000)
     }
 }
-orderCoffee([], 5)
+orderCoffee(['latte', 'vietnam drip', 'latte'], 5)
