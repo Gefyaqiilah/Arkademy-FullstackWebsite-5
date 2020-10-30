@@ -1,7 +1,7 @@
 # Arkademy-FullstackWebsite-5
-Repo berisi hasil tugas-tugas di arkademy bootcamp kelas fullstack website batch-5 Gefy Aqiilah Aqshal.
+Repo berisi hasil tugas-tugas di arkademy bootcamp kelas fullstack website batch-5 oleh Gefy Aqiilah Aqshal.
 
-## Penjelasan tata letak file
+### Penjelasan tata letak file
 Setiap Tugas yang diberikan saya buat folder berdasarkan tanggal ketika tugas itu diberikan, berikut penjelasan arti tiap folder :
 1. Folder Week ... = berisi kumpulan tugas perminggu
 2. Week/js = berisi kumpulan hasil tugas yang saya kerjakan khusus untuk file berformat javascript
@@ -10,4 +10,4 @@ Setiap Tugas yang diberikan saya buat folder berdasarkan tanggal ketika tugas it
 
 ### Repo ini dibuat oleh : 
 Nama : Gefy Aqiilah Aqshal
-Bootcamp : FullStack Website Developer - Batch 5 (Oktober - Desember 2020)
+<br>Bootcamp : FullStack Website Developer - Batch 5 (Oktober - Desember 2020)
