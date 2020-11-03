@@ -7,7 +7,7 @@ const stockCoffee = (orderCoffee, table) => {
         }]
         let dataIngridients = [{
             name: 'freshmilk',
-            stock: 946
+            stock: 500
         }, {
             name: 'condensed milk',
             stock: 560
@@ -18,7 +18,7 @@ const stockCoffee = (orderCoffee, table) => {
             name: 'water',
             stock: 2000
         }]
-        if (orderCoffee === undefined || orderCoffee.length === 0) {
+        if (orderCoffee === undefined || orderCoffee.length === 0 || typeof (table) !== 'number' || table === undefined) {
             reject('Parameter tidak boleh kosong')
         } else {
             let orderCoffeeCopy = [...orderCoffee]
@@ -58,7 +58,7 @@ const stockCoffee = (orderCoffee, table) => {
                             reject(`- ${checkOrderCoffee[i]} : not ready`)
                         }
                     } else if (checkOrderCoffee[i] === 'vietnam drip') {
-                        if (Math.sign(dataCoffeeCopy - 15) !== -1 && Math.sign(water - 175) !== -1 && Math.sign(freshMilk - 125) !== -1 && Math.sign(consendedMilk - 25) !== -1) {
+                        if (Math.sign(dataCoffeeCopy - 15) !== -1 && Math.sign(water - 175) !== -1 && Math.sign(consendedMilk - 25) !== -1) {
                             dataCoffeeCopy -= 15
                             water -= 175
                             consendedMilk -= 25
@@ -86,7 +86,8 @@ const stockCoffee = (orderCoffee, table) => {
                 dataIngridients[3].stock = water
                 let data = {
                     dataCoffee: [...dataCoffee],
-                    dataIngridients: [...dataIngridients]
+                    dataIngridients: [...dataIngridients],
+                    orderCoffee: [...checkOrderCoffee]
                 }
                 resolve(data)
             } else {
@@ -114,23 +115,80 @@ const serveCoffee = (checkingCoffee, table) => {
         console.log('\n* Sedang mengantar kan pesanan ke meja ' + table + ' .....')
         setTimeout(() => {
             resolve(
-                `* Kopi sudah diterima oleh pelanggan : )\n\n
+                `\n* Kopi sudah diterima oleh pelanggan : )\n\n
 berikut daftar sisa bahan:
 --------------------------------------------------------
-Sisa kopi arabika       : ${checkingCoffee.dataCoffee[0].stock} gram
-Sisa Freshmilk          : ${checkingCoffee.dataIngridients[0].stock} gram
-Sisa Consendedmilk      : ${checkingCoffee.dataIngridients[1].stock} gram
-Sisa Chocolate          : ${checkingCoffee.dataIngridients[2].stock} gram
-Sisa Water              : ${checkingCoffee.dataIngridients[3].stock} gram
+kopi arabika       : ${checkingCoffee.dataCoffee[0].stock} gram
+Freshmilk          : ${checkingCoffee.dataIngridients[0].stock} gram
+Consendedmilk      : ${checkingCoffee.dataIngridients[1].stock} gram
+Chocolate          : ${checkingCoffee.dataIngridients[2].stock} gram
+Water              : ${checkingCoffee.dataIngridients[3].stock} gram
                 `
             )
         }, 6000)
 
     })
 }
+
+const payCoffee = checkOrderCoffee => {
+    return new Promise((resolve, reject) => {
+        let harga = [{
+            name: 'v60',
+            price: 12000
+        }, {
+            name: 'latte',
+            price: 16000
+        }, {
+            name: 'vietnam drip',
+            price: 10000
+        }, {
+            name: 'moccachino latte',
+            price: 18000
+        }]
+        let orderCoffee = [...checkOrderCoffee.orderCoffee]
+        let hargaFilter = harga.filter((el) => {
+            let i = 0
+            while (i <= orderCoffee.length - 1) {
+                if (el.name === orderCoffee[i]) {
+                    return el.name === orderCoffee[i]
+                } else {
+                    i++
+                }
+            }
+        })
+        let amount = hargaFilter.reduce((acc, value) => {
+            let same = 0
+            for (let i = 0; i <= orderCoffee.length - 1; i++) {
+                if (value.name === orderCoffee[i]) {
+                    same += value.price
+                }
+            }
+            return acc + same
+        }, 0)
+
+        const inputPay = require('readline').createInterface({
+            input: process.stdin,
+            output: process.stdout
+        })
+        console.log('\nTotal harga kopi anda adalah : ' + amount)
+        inputPay.question('Silahkan membayar orderan pesanan anda : Rp. ', bayar => {
+            if (parseInt(bayar) > parseInt(amount)) {
+                console.log(`Kembalian nya : Rp. ${parseInt(bayar) - parseInt(amount)}\nTerimakasih, Silahkan ditunggu :)`);
+                resolve(parseInt(bayar) - parseInt(amount))
+            } else if (parseInt(bayar) < parseInt(amount)) {
+                reject(`Maaf uang anda kurang sebesar : Rp. ${parseInt(bayar) - parseInt(amount)}`);
+            } else if (parseInt(bayar) === parseInt(amount)) {
+                console.log("Uang anda pas, silahkan ditunggu :)");
+                resolve(parseInt(bayar) - parseInt(amount))
+            }
+            inputPay.close()
+        })
+    })
+}
 const orderCoffee = async (orderCoffee, table) => {
     try {
-        const checkingCoffee = await stockCoffee(orderCoffee)
+        const checkingCoffee = await stockCoffee(orderCoffee, table)
+        const payingCoffee = await payCoffee(checkingCoffee)
         const makingCoffee = await makeCoffee(table)
         console.log(makingCoffee)
         const servingCoffee = await serveCoffee(checkingCoffee, table)
@@ -141,4 +199,5 @@ const orderCoffee = async (orderCoffee, table) => {
         }, 3000)
     }
 }
-orderCoffee(['latte', 'vietnam drip', 'latte'], 5)
+//pesan v60
+orderCoffee(['latte', 'v60', 'v60', 'v60'], 10)

@@ -26,4 +26,4 @@ const searchName = (kata, jumlah, callback) => {
 const callback = (res) => {
     console.log(res)
 }
-searchName('an', 4, callback)
+searchName('zz', 4, callback)

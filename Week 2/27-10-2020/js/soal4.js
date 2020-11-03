@@ -10,7 +10,7 @@ const getData = (url, method) => {
                 console.log(el.name)
             })
         })
-        .catch(error => {
+        .catch(() => {
             console.log('URL atau Koneksi bermasalah')
         })
 }

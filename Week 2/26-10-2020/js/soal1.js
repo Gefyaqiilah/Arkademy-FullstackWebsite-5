@@ -7,8 +7,8 @@ Parameter :
 */
 const arr = [1, 2, 3, 4]
 const arr2 = 'string'
-console.log(Array.isArray(arr)) // true
-console.log(Array.isArray(arr2)) //false
+// console.log(Array.isArray(arr)) // true
+// console.log(Array.isArray(arr2)) //false
 
 /*
 2. Array concat() Method
@@ -20,7 +20,7 @@ const arr3 = [1, 2, 3, 4, 5]
 const arr4 = [6, 7, 8, 9, 10]
 const arr5 = [11, 12, 13]
 const concat = arr3.concat(arr4, arr5)
-console.log(concat)
+// console.log(concat)
 
 /*
 3. Array reduce() method
@@ -40,7 +40,7 @@ Parameter :
 const arr6 = [2, 2, 2, 2]
 const reduce = arr6.reduce((total, currentValue) => {
     return currentValue * total
-})
+}, 0)
 console.log(reduce)
 
 /*
@@ -54,7 +54,7 @@ Parameter :
  */
 const arr7 = ['ada', 'aku', 'disini']
 const join = arr7.join(' ')
-console.log(join)
+// console.log(join)
 
 /*
 5. Array splice() method
@@ -81,8 +81,8 @@ Parameter :
 const arr9 = [4, 7, 3, 1, 5]
 const min = Math.min.apply(Math, arr9) // Before ES6
 const min2 = Math.min(...arr9)  // After ES6
-console.log(min)
-console.log(min2)
+// console.log(min)
+// console.log(min2)
 
 /*
 7. Math.max() method
@@ -93,8 +93,8 @@ Parameter :
 const arr10 = [6, 7, 3, 33, 2, 20]
 const max = Math.max.apply(Math, arr10)
 const max2 = Math.max(...arr10)
-console.log(max)
-console.log(max2)
+// console.log(max)
+// console.log(max2)
 
 /*
 8. Math.round() method
@@ -104,7 +104,7 @@ Parameter :
 1. x	= (Required). The number to be rounded
 */
 const round = Math.round(9.51)
-console.log(round)
+// console.log(round)
 
 /*
 9. Math.sign method
@@ -116,13 +116,13 @@ Parameter :
 1. X    = (Required) A number
 */
 const minus = 934 - 950
-console.log(minus)
+// console.log(minus)
 if (Math.sign(minus) === 1) {
-    console.log(minus + ' is positive')
+    // console.log(minus + ' is positive')
 } else if (Math.sign(minus) === 0) {
-    console.log(minus + ' is equal')
+    // console.log(minus + ' is equal')
 } else if (Math.sign(minus) === -1) {
-    console.log(minus + ' is negative')
+    // console.log(minus + ' is negative')
 }
 
 /*
@@ -136,5 +136,5 @@ Parameter:
 2. start = (Optional). Default 0. At which position in the array to start the search
 */
 const arr11 = ['harimau', 'kelinci', 'kucing', 'marmut', 'tikus']
-const includes = arr11.includes('harimau')
+const includes = arr11.includes('harima') //true
 console.log(includes)
