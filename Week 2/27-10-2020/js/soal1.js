@@ -7,8 +7,11 @@ const cekHariKerja = (day) => {
                 let dayCopy = day.toUpperCase()
                 return itemCopy === dayCopy
             })
-
-            reject(new Error(`Hari ${day} bukan hari kerja`))
+            if (cek) {
+                resolve(cek)
+            } else {
+                reject(new Error(`Hari ${day} bukan hari kerja`))
+            }
 
         })
     })
