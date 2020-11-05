@@ -2,7 +2,7 @@ const palindrom = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 })
-palindrom.question('Masukkan kalimat yang mau direverse : ', kalimat => {
+palindrom.question('Masukkan kalimat yang mau direverse :malam ', kalimat => {
     if (kalimat.length > 0) {
         let n = kalimat.length - 1
         let i = 0;

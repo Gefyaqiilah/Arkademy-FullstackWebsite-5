@@ -22,7 +22,7 @@ const divideAndSort = (number) => {
             containerArray = []
             i = j + 1
         }
-        console.log(numberResults.join(''))
+        console.log(parseInt(numberResults.join('')))
     }
 }
 let number = 5956560159466056
