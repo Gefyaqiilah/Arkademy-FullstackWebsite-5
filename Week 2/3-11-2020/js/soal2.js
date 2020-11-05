@@ -4,8 +4,8 @@ const palindrom = require('readline').createInterface({
 })
 palindrom.question('Masukkan kalimat yang mau direverse : ', kalimat => {
     if (kalimat.length > 0) {
-        let i = 0;
         let n = kalimat.length - 1
+        let i = 0;
         let j = 0;
         let results = '';
         let subs = '';
