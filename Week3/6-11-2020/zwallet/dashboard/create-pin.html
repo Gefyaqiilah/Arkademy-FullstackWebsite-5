@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css" crossorigin="anonymous">
     <!-- Manual Css -->
-    <link rel="stylesheet" href="assets/css/reset-password.css">
+    <link rel="stylesheet" href="assets/css/create-pin.css">
     <!-- Font Google Nunito sans -->
    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">    <title>Hello, world!</title>
 </head>
@@ -18,7 +18,7 @@
                 <div class="container">
                     <h1 class="logo">Zwallet</h1>
                     <div class="phone-group">
-                        <img src="assets/img/phone-group.png" alt="phone-group" class="">
+                        <img src="assets/img/phone-group.png" alt="Vector 3" class="img-fluid vector-3">
                     </div>
                     <p class="desc-1">App that Covering Banking Needs.</p>
                     <p class="desc-2">Zwallet is an application that focussing in banking needs for all users
@@ -36,17 +36,19 @@
                         Create 6 digits pin to secure all your money and your data in Zwallet app. Keep it secret and don’t tell anyone about your Zwallet account password and the PIN.
                     </p>
                     <form action="" class="form">
-                        <div class="form-group row">
-                            <div class="col-md-9 email-position">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"><img src="assets/img/mail.png" alt=""></span>
-                                    </div>
-                                    <input type="email" class="form-control input-border-bottom" placeholder="Enter your e-mail" aria-label="Username" aria-describedby="basic-addon1">
-                                </div>
+                        <div class="row">
+                            <div class="col-md-9 email-position ">
+                                <div class="input-group pin">
+                                    <input type="text" min="0" maxlength="1" class="form-control pin-1" name="" id="" required>
+                                    <input type="text" min="0" maxlength="1" class="form-control pin-2" name="" id="" required>
+                                    <input type="text" min="0" maxlength="1" class="form-control pin-3" name="" id="" required>
+                                    <input type="text" min="0" maxlength="1" class="form-control pin-4" name="" id="" required>
+                                    <input type="text" min="0" maxlength="1" class="form-control pin-5" name="" id="" required>
+                                    <input type="text" min="0" maxlength="1" class="form-control pin-6" name="" id="" required>                   
+                                             </div> 
                             </div>
                                <div class="col-md-9 btn-login-position">
-                               <button>Confirm</button>
+                               <button type="submit">Confirm</button>
                                </div>
                     </form>
                 </div>

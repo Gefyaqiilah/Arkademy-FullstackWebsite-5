@@ -59,6 +59,16 @@ body {
 /* side right */
 .side-right {}
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .side-right .title {
     font-style: normal;
     font-weight: 700;
@@ -87,11 +97,11 @@ body {
 }
 
 .form-control {
-    border-top: none !important;
-    border-right: none !important;
-    border-left: none !important;
-    border-bottom: 1.5px solid rgba(169, 169, 169, 0.6) !important;
-    border-radius: 0 !important;
+    border: 1px solid rgba(169, 169, 169, 0.8);
+    width: 53px;
+    height: 65px;
+    overflow: hidden !important;
+    border-radius: 10px !important;
 }
 
 ::placeholder {
@@ -162,9 +172,11 @@ body {
     font-size: 18px;
     line-height: 25px;
     text-align: center;
+    outline: none;
 
     color: #88888F;
 }
+
 
 .col-md-9.signup-position {
     font-style: normal;
@@ -185,4 +197,45 @@ body {
 
 .col-md-9.signup-position p .signup {
     color: #6379F4;
+}
+
+.pin {
+    display: flex;
+    flex-direction: row;
+}
+
+.pin-1 {
+    margin: 5px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.pin-2 {
+    margin: 5px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.pin-3 {
+    margin: 5px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.pin-4 {
+    margin: 5px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.pin-5 {
+    margin: 5px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.pin-6 {
+    margin: 5px;
+    font-weight: 700;
+    text-align: center;
 }
