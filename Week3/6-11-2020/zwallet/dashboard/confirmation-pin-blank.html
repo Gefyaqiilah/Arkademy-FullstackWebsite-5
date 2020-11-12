@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css" crossorigin="anonymous">
     <!-- Manual Css -->
-    <link rel="stylesheet" href="assets/css/confirmation.css">
+    <link rel="stylesheet" href="assets/css/confirmation-pin-blank.css">
     <!-- Font Google Nunito sans -->
    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">    <title>Hello, world!</title>
    <!-- Add icon library -->
@@ -121,7 +121,8 @@
             </div>
           </div>
           <div class="button-continue">
-              <button>Continue</button>
+              <!-- Open the modal -->
+              <button id="show-modal-pin">Continue</button>
             </div>
         </div>
         </div>
@@ -137,5 +138,62 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal PIN -->
+    <div id="modalPIN" class="modal-pin">
+        <!-- Modal cont ent -->
+        <div class="modalpin-content">
+          <div class="modalpin-header">
+              <p>Enter PIN to Transfer</p>
+              <span class="close"><img src="assets/img/x.png" alt=""></span>
+          </div>
+          <div class="modalpin-body">
+            <p>Enter your 6 digits PIN for confirmation to continue transferring money. </p>
+            <form action="" class="form">
+                        <div class=" pin">
+                            <input type="text" min="0" maxlength="1" class="form-control pin-1" name="" id="" required>
+                            <input type="text" min="0" maxlength="1" class="form-control pin-2" name="" id="" required>
+                            <input type="text" min="0" maxlength="1" class="form-control pin-3" name="" id="" required>
+                            <input type="text" min="0" maxlength="1" class="form-control pin-4" name="" id="" required>
+                            <input type="text" min="0" maxlength="1" class="form-control pin-5" name="" id="" required>
+                            <input type="text" min="0" maxlength="1" class="form-control pin-6" name="" id="" required>                   
+                                     </div> 
+          <div class="modalpin-footer">
+            <button type="submit">Confirm</button>
+        </div>
+        </form>
+        </div>
+      </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+// Get the modal
+var modal = document.getElementById("modalPIN");
+
+// Get the button that opens the modal
+var btn = document.getElementById("show-modal-pin");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
 </body>
 </html>
