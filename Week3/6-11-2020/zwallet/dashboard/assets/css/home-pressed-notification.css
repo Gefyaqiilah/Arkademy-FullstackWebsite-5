@@ -370,7 +370,6 @@ main .transaction-history {
 }
 
 .balance-graphic .graphic {
-    background-color: rgb(78, 6, 6);
     display: block;
     /* width: 80%; */
     margin: auto auto 0 auto;

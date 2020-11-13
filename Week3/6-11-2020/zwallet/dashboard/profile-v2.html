@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home pressed notification</title>
+    <title>Profile V2</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css" crossorigin="anonymous">
     <!-- Manual Css -->
-    <link rel="stylesheet" href="assets/css/home-pressed-notification.css">
+    <link rel="stylesheet" href="assets/css/profile-v2.css">
     <!-- Font Google Nunito sans -->
    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">    <title>Hello, world!</title>
    <!-- Add icon library -->
@@ -28,7 +28,7 @@
                         <h1>Robert Chandler</h1>
                         <p>+62 8139 3877 7946</p>
                         <div class="notification">
-                            <img src="assets/img/bell.png" id="show-notification" alt="">
+                            <img src="assets/img/bell.png" class="notification" alt="">
                         </div>
                     </div>
              </div>
@@ -41,9 +41,9 @@
                 <div class="container">
                     <div class="menu-grid">
                     <div class="menu-dashboard">
-                        <div class="location"><img src="assets/img/icon-menu-ruler.png" alt=""></div>
-                        <div class=""><img src="assets/img/icon-menu-grid.png" alt=""></div>
-                        <div class="menu-name active">Dashboard</div>
+                        <div class=""></div>
+                        <div class=""><img src="assets/img/grid.png" alt=""></div>
+                        <div class="menu-name">Dashboard</div>
                     </div>
                     <div class="menu-transfer">
                         <div class=""></div>
@@ -56,9 +56,9 @@
                         <div class="menu-name">Top Up</div>
                     </div>
                     <div class="menu-profile">
-                        <div class=""></div>
-                        <div class=""><img src="assets/img/icon-menu-profile.png" alt=""></div>
-                        <div class="menu-name">Profile</div>
+                        <div class="location"><img src="assets/img/icon-menu-ruler.png" alt=""></div>
+                        <div class=""><img src="assets/img/icon-menu-user-purple.png" alt=""></div>
+                        <div class="menu-name active">Profile</div>
                     </div>
                     <div  class="menu-logout">
                         <div class=""></div>
@@ -68,44 +68,56 @@
                 </div>                                       
             </div>
         </div>
-            <div class="balance-detail">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 col-md-6">
-                            <p class="mt-4 ml-2 balance">Balance</p>
-                            <h1 class="ml-2 balance-amount">Rp.120.000</h1>
-                            <p class="ml-2 telephone">+62 813-9387-7946</p>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-6">
-                            <div class="row justify-content-end mt-4 mr-3">
-                                <button class="transfer col-md-6"><img src="assets/img/plus.png" alt="">Transfer</button>
-                                <div class="w-100"></div>
-                                <button class="topup col-md-6 mt-3"><img src="assets/img/arrow-up.png" alt=""> Top Up</button>
-                            </div>
-                        </div>
+            <div class="detail-profile">
+                <div class="profile-information">
+                    <div class="profile-photo">
+                        <img src="assets/img/Rectangle 25-80x80.png" class="photo-profile" alt="">
+                        <p><img src="assets/img/edit-2.png" alt=""> Edit</p>
+                    </div>
+                    <div class="profile-name">
+                        <h1>Robert Chandler</h1>
+                        <p>+62 813-9387-7946</p>
                     </div>
                 </div>
             </div>
-            <div class="balance-graphic">
-                    <div class="income-expense">
-                        <div class="income">
-                            <img src="assets/img/arrow-down-green.png" alt="">
-                            <p class="income-text">Income</p>
-                            <p class="amount">Rp2.120.000</p>
-                        </div>
-                        <div class="expense">
-                            <img src="assets/img/arrow-up-red.png" alt="">
-                            <p class="income-text">Income</p>
-                            <p class="amount">Rp2.120.000</p>
-                        </div>
+
+            <div class="profile-menu">
+                <div class="personal-information list-menu">
+                    <div class="list-menu-left">
+                        <p>Personal Information</p>
                     </div>
-                    <div class="graphic">
-                            <img src="assets/img/graphic.png" alt="">
+                    <div class="list-menu-right">
+                        <img src="assets/img/arrow-left.png" alt="">    
                     </div>
-            </div>
-            <div class="transaction-history">
+                </div>
+                <div class="change-password list-menu">
+                    <div class="list-menu-left">
+                        <p>Change Password</p>
+                    </div>
+                    <div class="list-menu-right">
+                        <img src="assets/img/arrow-left.png" alt="">    
+                    </div>
+                </div>
+                <div class="change-pin list-menu">
+                    <div class="list-menu-left">
+                        <p>Change PIN</p>
+                    </div>
+                    <div class="list-menu-right">
+                        <img src="assets/img/arrow-left.png" alt="">    
+                    </div>
+                </div>
+                <div class="logout list-menu">
+                    <div class="list-menu-left">
+                        <p>Logout</p>
+                    </div>
+                    <div class="list-menu-right">
+                        <img src="assets/img/arrow-left.png" alt="">    
+                    </div>
+                </div>
+            </div>          
+            <div class="contacts-info">
                 <div class="container ">
-                <div class="transaction-history-grid">
+                <div class="contacts-info-grid">
                     <div class="title">
                         <p>Transaction History</p>
                         <a href="#">See all</a>
@@ -146,8 +158,7 @@
                     </div>
                 </div>
             </div>
-            </div>
-        </div>
+            </div>        </div>
     </div>
     </main>
     <footer>
@@ -161,74 +172,5 @@
             </div>
         </div>
     </footer>
-    <!-- notification box -->
-    <div class="notification-box-show" id="show-notification">
-    <div class="notification-box">
-        <div class="today-notification">
-            <div class="today-title">
-                Today
-            </div>
-            <div class="list-today">
-                <div class="arrow-icon">
-                    <img src="assets/img/arrow-down-green.png" alt="">
-                </div>
-                <div class="detail-list-today">
-                    <p class="detail-name">Transfered from Joshua Lee</p>
-                    <p class="detail-nominal">Rp220.000</p>
-                </div>
-            </div>
-            <div class="list-today">
-                <div class="arrow-icon">
-                    <img src="assets/img/arrow-up-red.png" alt="">
-                </div>
-                <div class="detail-list-today">
-                    <p class="detail-name">Netflix subscription</p>
-                    <p class="detail-nominal">Rp149.000</p>
-                </div>
-            </div>
-        </div>
-        <div class="week-notification">
-            <div class="week-title">
-                This Week
-            </div>
-            <div class="list-week">
-                <div class="arrow-icon">
-                    <img src="assets/img/arrow-up-red.png" alt="">
-                </div>
-                <div class="detail-list-week">
-                    <p class="detail-name">Transfer to Jessica Lee</p>
-                    <p class="detail-nominal">Rp100.000</p>
-                </div>
-            </div>
-            <div class="list-week">
-                <div class="arrow-icon">
-                    <img src="assets/img/arrow-down-green.png" alt="">
-                </div>
-                <div class="detail-list-week">
-                    <p class="detail-name">Top up from BNI E-Banking</p>
-                    <p class="detail-nominal">Rp300.000</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-    const bell = document.getElementById('show-notification')
-    const notificationBox = document.getElementsByClassName('notification-box-show')[0]
-    bell.addEventListener('click',()=>{
-        let cek = window.getComputedStyle(notificationBox,null).display
-        if(cek=='block'){
-        notificationBox.style.display = "none";      
-        }else{
-        notificationBox.style.display = "block";      
-        }
-    })
-
-    window.onclick = function(event){
-        if(event.target !== bell){
-        notificationBox.style.display = "none";      
-        }
-    }
-</script>
 </body>
 </html>
