@@ -296,7 +296,9 @@ main .transaction-history {
     display: grid;
     grid-template-columns: 0.5fr 1fr 1fr;
     grid-template-rows: 100px;
-    grid-template-areas: 'foto detail-name amount'
+    gap: 10px 0px;
+    grid-template-areas: 'foto detail-name amount';
+    /* margin-top: 20px; */
 }
 
 .transaction img {
