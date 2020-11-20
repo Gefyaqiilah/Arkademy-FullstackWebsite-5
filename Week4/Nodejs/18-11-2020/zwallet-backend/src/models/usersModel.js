@@ -24,14 +24,14 @@ class Models {
     })
   }
 
-  getUserByNameAndPhoneNumber (firstName,phoneNumber){
-    return new Promise((resolve,reject)=>{
-      connection.query('SELECT * FROM users WHERE firstName LIKE ? AND phoneNumber LIKE ?',[firstName,phoneNumber],(error,results)=>{
+  getUserByNameAndPhoneNumber (firstName, phoneNumber) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM users WHERE firstName LIKE ? AND phoneNumber LIKE ?', [firstName, phoneNumber], (error, results) => {
         if (!error) {
           resolve(results)
         } else {
           reject(error)
-        }        
+        }
       })
     })
   }

@@ -25,7 +25,7 @@ app.use('/users', routerUsers)
 
 // error handling
 app.use('*', (req, res) => {
-  usersHelpers.response(res, null, {status:'failed',statusCode:404}, { message: 'Sorry API endpoint Not Found' })
+  usersHelpers.response(res, null, { status: 'failed', statusCode: 404 }, { message: 'Sorry API endpoint Not Found' })
 })
 
 app.listen(PORT, () => console.log('Express server running on port : ' + PORT))
