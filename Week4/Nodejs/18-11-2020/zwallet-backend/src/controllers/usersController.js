@@ -3,7 +3,7 @@ const usersModel = require('../models/usersModel')
 
 class Controllers {
   getUsers (req, res) {
-    usersModel.getUser()
+    usersModel.getUsers()
       .then(results => {
         usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
       })
@@ -12,15 +12,17 @@ class Controllers {
       })
   }
 
-  getUsersById (req, res) {
+  getUsersById (req, res, next) {
     const idUser = req.params.idUser
-    usersModel.getUserById(idUser)
+    usersModel.getUsersById(idUser)
       .then(results => {
-        console.log(results.length)
-        if (results.length > 0) {
-          usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        if (results.length === 0) {
+          const error = new Error(`User with number ID:${idUser} not Found..`)
+          error.statusCode = 500
+          error.status = 'failed'
+          next(error)
         } else {
-          usersHelpers.response(res, results, { status: 'failed', statusCode: 500 }, { message: `Sorry User with number ID:${idUser} Not Found` })
+          usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
         }
       })
       .catch(error => {
@@ -34,7 +36,7 @@ class Controllers {
     name --> ${firstName}
     phone --> ${phoneNumber}
     `)
-    usersModel.getUserByNameAndPhoneNumber(firstName, phoneNumber)
+    usersModel.getUsersByNameAndPhoneNumber(firstName, phoneNumber)
       .then(results => {
         usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
       })
@@ -44,7 +46,7 @@ class Controllers {
   }
 
   insertUsers (req, res) {
-    const { firstName, lastName, email, password, phoneNumber, balance, pin } = req.body
+    const { firstName, lastName, email, password, phoneNumber, pin } = req.body
     const data = {
       firstName,
       lastName,
@@ -52,12 +54,12 @@ class Controllers {
       phoneNumber,
       password,
       pin,
-      balance,
-      createdAt : new Date(),
-      updatedAt : null
+      balance : 0,
+      createdAt: new Date(),
+      updatedAt: null
     }
-    console.log(data);
-    usersModel.insertUser(data)
+    console.log(data)
+    usersModel.insertUsers(data)
       .then(results => {
         usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
       })
@@ -67,19 +69,18 @@ class Controllers {
   }
 
   updateUsers (req, res) {
-    const { firstName = '', lastName = '', email = '', password = '', phoneNumber = '', balance = 0, pin = '' } = req.body
+    const { firstName = '', lastName = '', email = '', password = '', phoneNumber = '', pin = '' } = req.body
     const idUser = req.params.idUser
     const data = {
       firstName,
       lastName,
       email,
       password,
-      phoneNumber,
-      balance,
+      phoneNumber,  
       pin,
-      updatedAt:new Date()
+      updatedAt: new Date()
     }
-    usersModel.updateUser(idUser, data)
+    usersModel.updateUsers(idUser, data)
       .then(results => {
         usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
       })
@@ -90,7 +91,7 @@ class Controllers {
 
   deleteUsers (req, res) {
     const idUser = req.params.idUser
-    usersModel.deleteUser(idUser)
+    usersModel.deleteUsers(idUser)
       .then(results => {
         usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
       })

@@ -5,8 +5,10 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 // import router
-const routerUsers = require('./src/routers/usersRoute')
+const usersRoute = require('./src/routers/usersRoute')
 const usersHelpers = require('./src/helpers/usersHelpers')
+const transfersRoute = require('./src/routers/transfersRoute')
+const topUpRoute = require('./src/routers/topUpRoute')
 const PORT = process.env.PORT
 
 // CORS
@@ -21,9 +23,14 @@ app.use(bodyParser.json())
 app.use(morgan('dev'))
 
 // grouping end-point
-app.use('/users', routerUsers)
+app.use('/users', usersRoute)
+app.use('/transfers', transfersRoute)
+app.use('/topup', topUpRoute)
 
 // error handling
+app.use((err, req, res, next) => {
+  usersHelpers.response(res, null, { status: err.status, statusCode: err.statusCode }, { message: err.message })
+})
 app.use('*', (req, res) => {
   usersHelpers.response(res, null, { status: 'failed', statusCode: 404 }, { message: 'Sorry API endpoint Not Found' })
 })

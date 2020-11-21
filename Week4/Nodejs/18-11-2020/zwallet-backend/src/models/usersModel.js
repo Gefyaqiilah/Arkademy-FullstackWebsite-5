@@ -1,6 +1,6 @@
 const connection = require('../configs/db')
 class Models {
-  getUser () {
+  getUsers () {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM users', (error, results) => {
         if (!error) {
@@ -12,7 +12,7 @@ class Models {
     })
   }
 
-  getUserById (id) {
+  getUsersById (id) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM users WHERE id = ?', id, (error, results) => {
         if (!error) {
@@ -24,7 +24,7 @@ class Models {
     })
   }
 
-  getUserByNameAndPhoneNumber (firstName, phoneNumber) {
+  getUsersByNameAndPhoneNumber (firstName, phoneNumber) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM users WHERE firstName LIKE ? AND phoneNumber LIKE ?', [firstName, phoneNumber], (error, results) => {
         if (!error) {
@@ -36,7 +36,7 @@ class Models {
     })
   }
 
-  insertUser (data) {
+  insertUsers (data) {
     return new Promise((resolve, reject) => {
       connection.query('INSERT INTO users SET ?', data, (error, results) => {
         if (!error) {
@@ -48,7 +48,7 @@ class Models {
     })
   }
 
-  updateUser (id, data) {
+  updateUsers (id, data) {
     return new Promise((resolve, reject) => {
       connection.query('UPDATE users SET ? WHERE id = ?', [data, id], (error, results) => {
         if (!error) {
@@ -60,7 +60,7 @@ class Models {
     })
   }
 
-  deleteUser (id) {
+  deleteUsers (id) {
     return new Promise((resolve, reject) => {
       connection.query('DELETE FROM users WHERE id = ?', id, (error, results) => {
         if (!error) {
