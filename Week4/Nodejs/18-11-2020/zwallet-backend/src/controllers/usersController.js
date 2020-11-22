@@ -38,7 +38,14 @@ class Controllers {
     `)
     usersModel.getUsersByNameAndPhoneNumber(firstName, phoneNumber)
       .then(results => {
-        usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        if(results.length===0){
+          const error = new Error(`User with firstname : ${firstName} and phoneNumber : ${phoneNumber} not Found..`)
+          error.statusCode = 500
+          error.status = 'failed'
+          next(error)
+        }else{
+          usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        }
       })
       .catch(error => {
         usersHelpers.response(res, null, { status: 'failed', statusCode: 500 }, error)
