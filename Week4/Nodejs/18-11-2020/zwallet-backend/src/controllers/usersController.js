@@ -30,7 +30,7 @@ class Controllers {
       })
   }
 
-  getUsersByNameAndPhoneNumber (req, res) {
+  getUsersByNameAndPhoneNumber (req, res, next) {
     const { firstName = '', phoneNumber = '' } = req.query
     console.log(`
     name --> ${firstName}
@@ -38,12 +38,12 @@ class Controllers {
     `)
     usersModel.getUsersByNameAndPhoneNumber(firstName, phoneNumber)
       .then(results => {
-        if(results.length===0){
+        if (results.length === 0) {
           const error = new Error(`User with firstname : ${firstName} and phoneNumber : ${phoneNumber} not Found..`)
           error.statusCode = 500
           error.status = 'failed'
           next(error)
-        }else{
+        } else {
           usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
         }
       })
