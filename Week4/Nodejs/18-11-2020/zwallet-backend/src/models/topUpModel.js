@@ -3,7 +3,7 @@ const connection = require('../configs/db')
 class Models {
   getTopUp () {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM topup', (error, results) => {
+      connection.query('SELECT * FROM topup ORDER BY topUpDate DESC', (error, results) => {
         if (!error) {
           resolve(results)
         } else {

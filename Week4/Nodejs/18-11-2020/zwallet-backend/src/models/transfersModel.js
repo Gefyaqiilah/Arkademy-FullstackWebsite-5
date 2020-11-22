@@ -3,7 +3,7 @@ const connection = require('../configs/db')
 class Models {
   getTransfers () {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM transfers', (error, results) => {
+      connection.query('SELECT * FROM transfers ORDER BY transferDate DESC', (error, results) => {
         if (!error) {
           resolve(results)
         } else {
