@@ -31,7 +31,7 @@ class Controllers {
   }
 
   getUsersByNameAndPhoneNumber (req, res) {
-    const { firstName = '', phoneNumber = '',limit = 10 } = req.query
+    const { firstName = '', phoneNumber = '' } = req.query
     console.log(`
     name --> ${firstName}
     phone --> ${phoneNumber}
