@@ -6,6 +6,16 @@ repo ini berisi project zwallet back-end, yang mana di Zwallet back-end ini tela
 2. <b>transfers</b>
 3. <b>topup</b>
 
+## Cara mengakses project zwallet-backend
+
+1. Pastikan sudah menginstall nodejs, xampp, postman (optional).
+2. Jalankan MYSQL SERVER di xampp
+3. Buat Database bernama zwallet dan kemudian Import database mysql zwallet di folder utama database/zwallet.mysql
+4. install semua module yang diperlukan dengan mengetik npm install dan kemudian enter (pastikan internet tersedia) di cmd pada direktori Zwallet-BackEnd
+5. Masih di direktori yang sama, jalankan express server dengan mengetik npm run start
+6. akses endpoint api dengan menggunakan postman (rekomendasi)
+7. Klik dibagian Request example dibagian bawah untuk melihat contoh request yang valid
+
 ## Penjelasan EndPoint API
 
 1.  <b>users</b> <br>
