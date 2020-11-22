@@ -13,65 +13,65 @@ class Models {
     })
   }
 
-  getTopUpById(idTransfer){
-    return new Promise((resolve,reject)=>{
-      connection.query('SELECT * FROM topup WHERE idTopUp = ?',idTransfer, (error, results) => {
+  getTopUpById (idTransfer) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM topup WHERE idTopUp = ?', idTransfer, (error, results) => {
         if (!error) {
           resolve(results)
         } else {
-          reject(error)
-        }
-      })      
-    })
-  }
-
-  getTopUpByFirstName(firstName,limit){
-    return new Promise((resolve,reject)=>{
-      connection.query(`SELECT topup.senderName, users.firstName AS receiverUsername ,topup.amount, topup.topUpDate, topup.notes FROM users INNER JOIN topup ON users.id = topup.idReceiver AND users.firstName = ? ORDER BY topup.topUpDate DESC LIMIT ${limit}`,firstName,(error,results)=>{
-        if(!error){
-          resolve(results)
-        }else{
           reject(error)
         }
       })
     })
   }
 
-  insertTopUp(data){
-    return new Promise((resolve,reject)=>{
-      console.log(data.idReceiver);
-      connection.query('SELECT balance FROM users WHERE id = ?',data.idReceiver,(error,results)=>{
-        if(!error){
+  getTopUpByFirstName (firstName, limit) {
+    return new Promise((resolve, reject) => {
+      connection.query(`SELECT topup.senderName, users.firstName AS receiverUsername ,topup.amount, topup.topUpDate, topup.notes FROM users INNER JOIN topup ON users.id = topup.idReceiver AND users.firstName = ? ORDER BY topup.topUpDate DESC LIMIT ${limit}`, firstName, (error, results) => {
+        if (!error) {
+          resolve(results)
+        } else {
+          reject(error)
+        }
+      })
+    })
+  }
+
+  insertTopUp (data) {
+    return new Promise((resolve, reject) => {
+      console.log(data.idReceiver)
+      connection.query('SELECT balance FROM users WHERE id = ?', data.idReceiver, (error, results) => {
+        if (!error) {
           const balanceAmount = parseInt(JSON.parse(JSON.stringify(results[0].balance))) + parseInt(data.amount)
-          connection.query("UPDATE users SET balance = ? WHERE id = ?",[balanceAmount,data.idReceiver],(errorUpdateBalance,resultsUpdateBalance)=>{
-            if(!errorUpdateBalance){
-              connection.query("INSERT INTO topup SET ?",data,(errorAddTopUp,resultsaddTopUp)=>{
-                if(!errorAddTopUp){
+          connection.query('UPDATE users SET balance = ? WHERE id = ?', [balanceAmount, data.idReceiver], (errorUpdateBalance, resultsUpdateBalance) => {
+            if (!errorUpdateBalance) {
+              connection.query('INSERT INTO topup SET ?', data, (errorAddTopUp, resultsaddTopUp) => {
+                if (!errorAddTopUp) {
                   resolve(resultsaddTopUp)
-                }else{
+                } else {
                   reject(errorAddTopUp)
                 }
               })
-            }else{
+            } else {
               reject(errorUpdateBalance)
             }
           })
-        }else{
+        } else {
           reject(error)
         }
       })
-    })      
+    })
   }
 
-  deleteTopUp(idTopUp){
-    return new Promise((resolve,reject)=>{
-      connection.query('DELETE FROM topup WHERE idTopUp = ?',idTopUp, (error, results) => {
+  deleteTopUp (idTopUp) {
+    return new Promise((resolve, reject) => {
+      connection.query('DELETE FROM topup WHERE idTopUp = ?', idTopUp, (error, results) => {
         if (!error) {
           resolve(results)
         } else {
           reject(error)
         }
-      })      
+      })
     })
   }
 }

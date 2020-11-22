@@ -42,19 +42,19 @@ class Controller {
   }
 
   getTransactionByNameAndType (req, res, next) {
-    const { firstName, type = 'all',limit='10' } = req.query
+    const { firstName, type = 'all', limit = '10' } = req.query
     console.log(`
     --> ${limit}
     --> ${type}
     `)
     if (type === 'transfers') {
-      transfersModel.getTransactionTransfers(firstName,limit)
+      transfersModel.getTransactionTransfers(firstName, limit)
         .then(results => {
           if (results.length === 0) {
             const error = new Error(`Data Transfer User with firstName :${firstName} not Found..`)
             error.statusCode = 500
             error.status = 'failed'
-            next(error)
+            return next(error)
           } else {
             transfersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
           }
@@ -69,7 +69,7 @@ class Controller {
             const error = new Error(`Data Transfer User with firstName :${firstName} not Found..`)
             error.statusCode = 500
             error.status = 'failed'
-            next(error)
+            return next(error)
           } else {
             transfersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
           }
@@ -77,8 +77,11 @@ class Controller {
         .catch(error => {
           transfersHelpers.response(res, null, { status: 'failed', statusCode: 500 }, error.message)
         })
-    } else if (type === 'all') {
-
+    } else {
+      const error = new Error(`data type ${type} not found ..`)
+      error.statusCode = 500
+      error.status = 'failed'
+      return next(error)
     }
   }
 

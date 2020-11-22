@@ -31,7 +31,7 @@ class Controllers {
   }
 
   getUsersByNameAndPhoneNumber (req, res) {
-    const { firstName = '', phoneNumber = '' } = req.query
+    const { firstName = '', phoneNumber = '',limit = 10 } = req.query
     console.log(`
     name --> ${firstName}
     phone --> ${phoneNumber}
@@ -54,7 +54,7 @@ class Controllers {
       phoneNumber,
       password,
       pin,
-      balance : 0,
+      balance: 0,
       createdAt: new Date(),
       updatedAt: null
     }
@@ -76,7 +76,7 @@ class Controllers {
       lastName,
       email,
       password,
-      phoneNumber,  
+      phoneNumber,
       pin,
       updatedAt: new Date()
     }
