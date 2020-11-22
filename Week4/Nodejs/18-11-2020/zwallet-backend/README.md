@@ -19,3 +19,6 @@ repo ini berisi project zwallet back-end, yang mana di Zwallet back-end ini tela
     Berisi data topup, yang mana di endpoint ini memungkinkan mengirim uang selain dari user ke user, tapi dari nama pengirim (misalkan nama Bank) ke user, ketika ditambahkan data topup itu artinya saldo si user yang menerima akan ditambah.
     Di endpoint ini server menerima beberapa method request, Diantaranya :
     GET, GET BY ID, GET BY FIRSTNAME (user) & LIMIT(Default=10), INSERT, DELETE.
+   
+## Request Example 
+https://explore.postman.com/templates/14484/zwallet-back-end
