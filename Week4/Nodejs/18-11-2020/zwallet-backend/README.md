@@ -8,7 +8,7 @@ repo ini berisi project zwallet back-end, yang mana di Zwallet back-end ini tela
 
 ## Penjelasan EndPoint API
 
-1.  _users_ <br>
+1.  <b>users</b> <br>
     Berisi data identitas yang dikhusus kan untuk user yang mendaftar dizwallet, Di endpoint ini server menerima beberapa method request, Diantaranya :
     GET, GET BY ID, GET BY FIRSTNAME & PHONE NUMBER & LIMIT, DELETE, PATCH, INSERT.
 2.  _transfers_<br>
