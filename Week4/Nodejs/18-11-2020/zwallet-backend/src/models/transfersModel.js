@@ -73,7 +73,7 @@ class Models {
 
   getTransactionTransfers (firstName, limit) {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT users.firstName AS Sender,transfers.idReceiver,transfers.amount,transfers.transferDate,transfers.notes FROM users INNER JOIN transfers ON users.id = transfers.idSender AND users.firstName = ? ORDER BY transfers.transferDate DESC LIMIT ${limit}`, [firstName], (error, results) => {
+      connection.query(`SELECT usersSender.firstName AS Sender,usersReceiver.firstName as Receiver,transfers.amount,transfers.transferDate,transfers.notes FROM users as usersSender INNER JOIN transfers ON usersSender.id = transfers.idSender AND usersSender.firstName = ? INNER JOIN users as usersReceiver ON usersReceiver.id = transfers.idReceiver ORDER BY transfers.transferDate DESC LIMIT ${limit}`, [firstName], (error, results) => {
         if (!error) {
           resolve(results)
         } else {
@@ -85,7 +85,7 @@ class Models {
 
   getTransactionReceiver (firstName, limit) {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT transfers.idSender AS IDSender,users.firstName AS receiver,transfers.amount,transfers.transferDate,transfers.notes FROM users INNER JOIN transfers ON users.id = transfers.idReceiver AND users.firstName = ? ORDER BY transfers.transferDate DESC LIMIT ${limit}`, firstName, (error, results) => {
+      connection.query(`SELECT usersSender.firstName AS Sender,usersReceiver.firstName AS receiver,transfers.amount,transfers.transferDate,transfers.notes FROM users AS usersReceiver INNER JOIN transfers ON usersReceiver.id = transfers.idReceiver AND usersReceiver.firstName = ? INNER JOIN users AS usersSender ON usersSender.id = transfers.idSender ORDER BY transfers.transferDate DESC LIMIT ${limit}`, firstName, (error, results) => {
         if (!error) {
           resolve(results)
         } else {

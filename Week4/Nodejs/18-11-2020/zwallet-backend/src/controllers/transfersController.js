@@ -12,11 +12,20 @@ class Controller {
       })
   }
 
-  getTransferById (req, res) {
+  getTransferById (req, res,next) {
     const idTransfer = req.params.idTransfer
+    console.log(idTransfer);
     transfersModel.getTransferById(idTransfer)
       .then(results => {
-        transfersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        console.log(results);
+        if (results.length === 0) {
+          const error = new Error(`Data Transfer User with ID :${idTransfer} not Found..`)
+          error.statusCode = 500
+          error.status = 'failed'
+          return next(error)
+        } else {
+          transfersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        }
       })
       .catch(error => {
         transfersHelpers.response(res, null, { status: 'failed', statusCode: 500 }, error)
@@ -42,7 +51,7 @@ class Controller {
   }
 
   getTransactionByNameAndType (req, res, next) {
-    const { firstName, type = 'all', limit = '10' } = req.query
+    const { firstName, type = 'transfers', limit = '10' } = req.query
     console.log(`
     --> ${limit}
     --> ${type}
