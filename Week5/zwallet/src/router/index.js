@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import LandingPage from '../views/main/LandingPage.vue'
+import LandingPage from '../views/main/landing-page/LandingPage.vue'
 import Login from '../views/auth/Login.vue'
-import Register from '../views/auth/Register.vue'
-import AddPin from '../views/auth/AddPin.vue'
+import SignUp from '@/views/auth/SignUp.vue'
+import CreatePin from '@/views/auth/CreatePin.vue'
+import ResetPassword from '@/views/auth/ResetPassword.vue'
 import Auth from '../views/auth/Auth.vue'
+import Home from '@/views/main/home/Home.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,25 +16,37 @@ const routes = [
     component: LandingPage
   },
   {
-    path: '/login/:nama',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
-  {
-    path: '/addPin',
-    name: 'AddPin',
-    component: AddPin
-    // redirect: '/register'
+    path: '/home',
+    name: 'Home',
+    component: Home
   },
   {
     path: '/auth',
     name: 'Auth',
-    component: Auth
+    component: Auth,
+    redirect: '/auth/login',
+    children: [
+      {
+        path: 'login',
+        name: 'Login',
+        component: Login
+      },
+      {
+        path: 'signup',
+        name: 'SignUp',
+        component: SignUp
+      },
+      {
+        path: 'createpin',
+        name: 'CreatePin',
+        component: CreatePin
+      },
+      {
+        path: 'resetpassword',
+        name: 'ResetPassword',
+        component: ResetPassword
+      }
+    ]
     // redirect: '/register'
   }
 ]
