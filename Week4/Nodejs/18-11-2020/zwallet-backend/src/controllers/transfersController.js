@@ -3,7 +3,11 @@ const transfersHelpers = require('../helpers/transfersHelpers')
 
 class Controller {
   getTransfers (req, res) {
-    transfersModel.getTransfers()
+    const {page = 1,limit = 2,order = "DESC"}=req.query
+    const ordered = order.toUpperCase()
+    const offset = page ? (parseInt(page)-1) * parseInt(limit) : 0;
+
+    transfersModel.getTransfers(limit,offset,ordered)
       .then(results => {
         transfersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
       })
@@ -12,12 +16,12 @@ class Controller {
       })
   }
 
-  getTransferById (req, res,next) {
+  getTransferById (req, res, next) {
     const idTransfer = req.params.idTransfer
-    console.log(idTransfer);
+    console.log(idTransfer)
     transfersModel.getTransferById(idTransfer)
       .then(results => {
-        console.log(results);
+        console.log(results)
         if (results.length === 0) {
           const error = new Error(`Data Transfer User with ID :${idTransfer} not Found..`)
           error.statusCode = 500
@@ -51,13 +55,12 @@ class Controller {
   }
 
   getTransactionByNameAndType (req, res, next) {
-    const { firstName, type = 'transfers', limit = '10' } = req.query
-    console.log(`
-    --> ${limit}
-    --> ${type}
-    `)
+    const { firstName, type = 'transfers',page=1, limit = '2',order = "DESC" } = req.query
+    const offset = page ? (parseInt(page)-1)*parseInt(limit) : 0;
+    const ordered = order.toUpperCase()
+    console.log(offset);
     if (type === 'transfers') {
-      transfersModel.getTransactionTransfers(firstName, limit)
+      transfersModel.getTransactionTransfers(firstName, limit,offset,ordered)
         .then(results => {
           if (results.length === 0) {
             const error = new Error(`Data Transfer User with firstName :${firstName} not Found..`)
@@ -72,7 +75,7 @@ class Controller {
           transfersHelpers.response(res, null, { status: 'failed', statusCode: 500 }, error.message)
         })
     } else if (type === 'receiver') {
-      transfersModel.getTransactionReceiver(firstName, limit)
+      transfersModel.getTransactionReceiver(firstName, limit,offset,ordered)
         .then(results => {
           if (results.length === 0) {
             const error = new Error(`Data Transfer User with firstName :${firstName} not Found..`)

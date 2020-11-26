@@ -3,7 +3,10 @@ const topUpHelpers = require('../helpers/topUpHelpers')
 
 class Controller {
   getTopUp (req, res) {
-    topUpModel.getTopUp()
+    const {page = 1,limit = 2,order = "DESC"}=req.query
+    const ordered = order.toUpperCase()
+    const offset = page ? (parseInt(page)-1) * parseInt(limit) : 0;
+    topUpModel.getTopUp(limit,offset,ordered)
       .then(results => {
         topUpHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
       })
@@ -24,12 +27,15 @@ class Controller {
   }
 
   getTopUpByFirstName (req, res, next) {
-    const { firstName, limit = 10 } = req.query
+    const { firstName,page = 1, limit = 2,order="DESC" } = req.query
     console.log(`
     firstName --> ${firstName}
     limit --> ${limit}
     `)
-    topUpModel.getTopUpByFirstName(firstName, limit)
+    const ordered = order.toUpperCase()
+
+    const offset = page ? (parseInt(page)-1) * parseInt(limit) : 0;
+    topUpModel.getTopUpByFirstName(firstName, limit,offset,ordered)
       .then(results => {
         if (results.length === 0) {
           const error = new Error(`Data TopUp User with firstName :${firstName} not Found..`)

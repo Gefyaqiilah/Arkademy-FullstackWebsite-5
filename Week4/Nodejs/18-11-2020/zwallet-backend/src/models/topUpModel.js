@@ -1,9 +1,9 @@
 const connection = require('../configs/db')
 
 class Models {
-  getTopUp () {
+  getTopUp (limit,offset,order) {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM topup ORDER BY topUpDate DESC', (error, results) => {
+      connection.query(`SELECT * FROM topup ORDER BY topUpDate ${order} LIMIT ${offset},${limit}`, (error, results) => {
         if (!error) {
           resolve(results)
         } else {
@@ -25,9 +25,9 @@ class Models {
     })
   }
 
-  getTopUpByFirstName (firstName, limit) {
+  getTopUpByFirstName (firstName, limit,offset,order) {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT topup.senderName, users.firstName AS receiverUsername ,topup.amount, topup.topUpDate, topup.notes FROM users INNER JOIN topup ON users.id = topup.idReceiver AND users.firstName = ? ORDER BY topup.topUpDate DESC LIMIT ${limit}`, firstName, (error, results) => {
+      connection.query(`SELECT topup.senderName, users.firstName AS receiverUsername ,topup.amount, topup.topUpDate, topup.notes FROM users INNER JOIN topup ON users.id = topup.idReceiver AND users.firstName LIKE ? ORDER BY topup.topUpDate ${order} LIMIT ${offset},${limit}`, firstName, (error, results) => {
         if (!error) {
           resolve(results)
         } else {

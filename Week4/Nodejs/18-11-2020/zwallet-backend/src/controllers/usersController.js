@@ -3,7 +3,9 @@ const usersModel = require('../models/usersModel')
 
 class Controllers {
   getUsers (req, res) {
-    usersModel.getUsers()
+    const {page = 1,limit=2,order="DESC"} = req.query
+    const offset = page ? (parseInt(page)-1) * parseInt(limit) : 0
+    usersModel.getUsers(limit,offset,order)
       .then(results => {
         usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
       })
