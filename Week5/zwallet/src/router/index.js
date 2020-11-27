@@ -6,7 +6,15 @@ import SignUp from '@/views/auth/SignUp.vue'
 import CreatePin from '@/views/auth/CreatePin.vue'
 import ResetPassword from '@/views/auth/ResetPassword.vue'
 import Auth from '../views/auth/Auth.vue'
-import Home from '@/views/main/home/Home.vue'
+import Home from '@/views/main/home/Home'
+import HomeComponent from '@/components/module/home/Home'
+import SearchReceiver from '@/components/module/transfer/SearchReceiver'
+import InputAmount from '@/components/module/transfer/InputAmount'
+import Confirmation from '@/components/module/transfer/Confirmation'
+import StatusSucceed from '@/components/module/transfer/StatusSucceed'
+import StatusFailed from '@/components/module/transfer/StatusFailed'
+import TransactionHistory from '@/components/module/history/TransactionHistory'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -18,7 +26,45 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    redirect: '/home/home',
+    children: [
+      {
+        path: 'home',
+        name: 'HomeComponent',
+        component: HomeComponent
+      },
+      {
+        path: 'searchreceiver',
+        name: 'SearchReceiver',
+        component: SearchReceiver
+      },
+      {
+        path: 'inputamount',
+        name: 'InputAmount',
+        component: InputAmount
+      },
+      {
+        path: 'confirmation',
+        name: 'Confirmation',
+        component: Confirmation
+      },
+      {
+        path: 'statussucceed',
+        name: 'StatusSucceed',
+        component: StatusSucceed
+      },
+      {
+        path: 'statusfailed',
+        name: 'StatusFailed',
+        component: StatusFailed
+      },
+      {
+        path: 'transactionhistory',
+        name: 'TransactionHistory',
+        component: TransactionHistory
+      }
+    ]
   },
   {
     path: '/auth',
