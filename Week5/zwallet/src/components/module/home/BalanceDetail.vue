@@ -99,4 +99,26 @@ export default {
 .topup:focus{
   outline:none;
 }
+@media (max-width: 576px) {
+  .balance-detail .balance-amount {
+    text-align: center;
+  }
+
+  .balance-detail .balance {
+    text-align: center;
+  }
+
+  .balance-detail .telephone {
+    text-align: center;
+    margin: 0 auto 0 auto;
+  }
+
+  .balance-detail .transfer {
+    margin: 0 auto 0 auto;
+  }
+
+  .balance-detail .topup {
+    margin: 0 auto 50px auto;
+  }
+}
 </style>

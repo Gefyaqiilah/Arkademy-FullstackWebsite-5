@@ -50,4 +50,15 @@ export default {
     color: #EFEFEF;
     margin: 20px 0 0 0;
 }
+@media (max-width:992px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: 'footer-right''footer-right';
+    }
+
+    .footer-grid .footer-left p {
+        margin: 0 auto;
+        text-align: center;
+    }
+}
 </style>

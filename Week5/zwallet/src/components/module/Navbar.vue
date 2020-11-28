@@ -121,4 +121,20 @@ nav {
     margin: 0 0;
     max-height: 55px;
 }
+@media screen and (max-width:576px){
+  .nav-left h1 {
+    text-align: center;
+    margin: 50px 0 0 auto;
+    width: 100%;
+  }
+
+  .nav-right {
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-right .account-info {
+    margin: 50px auto 50px auto;
+  }
+}
 </style>

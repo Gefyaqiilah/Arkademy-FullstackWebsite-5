@@ -44,7 +44,6 @@ export default {
         token: localStorage.getItem('refreshToken')
       })
         .then(results => {
-          console.log('masukkk')
           const accessToken = results.data.result.accessToken
           const decoded = jwt.verify(accessToken, process.env.VUE_APP_JWT_KEY)
           console.log(decoded)
@@ -106,5 +105,28 @@ main{
 .pages{
   grid-area:pages;
 }
-
+@media (max-width:992px) {
+    main {
+        padding: 20px 20px 20px 20px;
+    }
+   .grid-main {
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(2, max-content);
+        grid-template-areas:
+            'menu'
+            'pages'
+        ;
+        gap: 20px 20px;
+    }
+}
+@media (max-width:768px) {
+    .grid-main {
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(2, max-content);
+        grid-template-areas:
+            'menu'
+            'pages'
+        ;
+    }
+}
 </style>

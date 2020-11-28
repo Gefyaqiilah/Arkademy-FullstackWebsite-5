@@ -54,4 +54,14 @@ export default {
 .transaction-history{
   grid-area:TransactionHistory;
 }
+@media (max-width:992px) {
+.home-grid{
+  grid-template-columns: 100%;
+  grid-template-rows: max-content;
+  grid-template-areas:
+  "BalanceDetail"
+  "BalanceGraphic"
+  "TransactionHistory"
+}
+}
 </style>

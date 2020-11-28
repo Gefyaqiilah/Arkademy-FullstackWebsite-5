@@ -8,22 +8,22 @@
               <div class="menu-name active">Dashboard</div>
           </div>
           <div class="menu-transfer">
-              <div class=""></div>
+              <div class="location"></div>
               <div class=""><img src="/img/icon-menu-arrow-up.png" alt=""></div>
               <div class="menu-name">Transfer</div>
           </div>
           <div class="menu-topup">
-              <div class=""></div>
+              <div class="location"></div>
               <div class=""><img src="/img/icon-menu-plus.png" alt=""></div>
               <div class="menu-name">Top Up</div>
           </div>
           <div class="menu-profile">
-              <div class=""></div>
+              <div class="location"></div>
               <div class=""><img src="/img/icon-menu-profile.png" alt=""></div>
               <div class="menu-name">Profile</div>
           </div>
           <div class="menu-logout" v-if="Object.keys(userData).length > 0">
-              <div class=""></div>
+              <div class="location"></div>
               <div class=""><img src="/img/icon-menu-log-out.png" alt=""></div>
               <div class="menu-name">Logout</div>
           </div>
@@ -66,7 +66,6 @@ export default {
     /* align-items: flex-end; */
     grid-template-columns: 100%;
     grid-template-rows: repeat(5, 50px);
-    ;
     /* justify-content: space-evenly; */
 }
 .menu-grid > div{
@@ -113,6 +112,36 @@ export default {
     font-size: 18px;
     line-height: 31px;
     color: #6379F4;
+
+}
+@media (max-width:992px) {
+    .menu{
+        position:sticky;
+        top:0;
+    }
+
+    .menu .menu-grid {
+    display:flex;
+    flex-direction: row;
+    /* background-color: lightcoral; */
+    gap: 35px;
+    padding:15px;
+
+}
+.menu-grid > div{
+  margin:auto 0 auto 0 ;
+}
+.menu-grid .menu-logout {
+    margin: auto 0 auto 0;
+}
+.menu-name{
+    display:none;
+}
+.location{
+    display:none;
+}
+}
+@media (max-width:768px) {
 
 }
 </style>
