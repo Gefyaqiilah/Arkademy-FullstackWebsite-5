@@ -51,15 +51,43 @@ class Models {
   checkFirstNameAndEmail (firstName,email){
     return new Promise((resolve,reject)=>{
       connection.query('SELECT firstName, email FROM users WHERE firstName = ? AND email = ?',[firstName,email],((error,results)=>{
-        if(results.length === 0){
-          console.log('ini masuk kesini');
-          resolve(error)          
+        if(!error){
+          // if(results.length === 0){
+          //   resolve(results)          
+          // }else{
+          //   reject('username or email are already used by other users')
+          // }
+          resolve(results)
         }else{
-          reject('username and email are already used by other users')
-        }
+          reject(error)
+        } 
       }))
     })
   }
+  getDataToken (email) {
+    return new Promise ((resolve,reject)=>{
+      connection.query('SELECT firstName, lastName,email,phoneNumber,balance FROM users WHERE email = ?',email,(error,results)=>{
+        if(!error){
+          resolve(results)
+        }else{
+          reject(error)
+        }
+      })    
+    })
+  }
+  userLogin (email) {
+    return new Promise ((resolve,reject)=>{
+    connection.query('SELECT * from users WHERE email = ?',email,((error,results)=>{
+      if(!error){
+        resolve(results)
+        console.log(results);
+      }else{
+        reject(error)
+      }
+    }))
+  })
+}
+
   updateUsers (id, data) {
     return new Promise((resolve, reject) => {
       connection.query('UPDATE users SET ? WHERE id = ?', [data, id], (error, results) => {

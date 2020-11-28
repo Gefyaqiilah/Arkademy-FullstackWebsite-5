@@ -1,6 +1,6 @@
 <template>
   <div class="home-grid">
-    <BalanceDetail class="balance-detail"/>
+    <BalanceDetail :phoneNumber="userData.phoneNumber" :balance="userData.balance" l class="balance-detail"/>
     <BalanceGraphic class="balance-graphic"/>
     <TransactionHistory class="transaction-history"/>
   </div>
@@ -16,6 +16,22 @@ export default {
     BalanceDetail,
     BalanceGraphic,
     TransactionHistory
+  },
+  data () {
+    return {
+      userData: this.token.token
+    }
+  },
+  props: ['token'],
+  mounted () {
+    this.redirect()
+  },
+  methods: {
+    redirect () {
+      if (!localStorage.getItem('accessToken')) {
+        this.$router.replace('/auth/login')
+      }
+    }
   }
 }
 </script>
@@ -27,6 +43,7 @@ export default {
     "BalanceDetail BalanceDetail"
     "BalanceGraphic TransactionHistory"
   ;
+  gap: 20px 20px;
 }
 .balance-detail{
   grid-area:BalanceDetail;

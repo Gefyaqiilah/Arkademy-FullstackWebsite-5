@@ -9,10 +9,10 @@
                 <div class="user-photo">
                     <img src="/img/Rectangle 25.png" alt="">
                 </div>
-                <h1>Robert Chandler</h1>
-                <p>+62 8139 3877 7946</p>
+                <h1 style="text-transform:capitalize;">{{userData.firstName +' '+ userData.lastName}}</h1>
+                <p>{{userData.phoneNumber}}</p>
                 <div class="notification">
-                    <img src="assets/img/bell.png" class="notification" alt="">
+                    <img src="/img/bell.png" class="notification" alt="">
                 </div>
             </div>
       </div>
@@ -22,7 +22,21 @@
 
 <script>
 export default {
-  name: 'Navbar'
+  name: 'Navbar',
+  data () {
+    return {
+      userData: {
+        ...this.token,
+        lastName: this.token.lastName !== null ? this.token.lastName : '',
+        phoneNumber: this.token.phoneNumber !== null ? this.token.phoneNumber : '-'
+      }
+    }
+  },
+  props: {
+    token: Object
+  },
+  methods: {
+  }
 }
 </script>
 

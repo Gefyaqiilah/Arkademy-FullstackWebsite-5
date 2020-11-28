@@ -69,7 +69,15 @@ export default {
     showModalPin () {
       console.log('ini dipanggil')
       this.$refs.modal.showModalPin()
+    },
+    redirect () {
+      if (!localStorage.getItem('accessToken')) {
+        this.$router.replace('/auth/login')
+      }
     }
+  },
+  mounted () {
+    this.redirect()
   }
 }
 </script>

@@ -84,19 +84,30 @@ export default {
         .then(() => {
           alert('Your account has been successfully created.')
           this.clearForm()
+          this.$router.replace('/auth/login')
         })
-        .catch(() => {
-          alert('Failed to create your account.')
+        .catch(error => {
+          if (error.response.status === 409) {
+            alert('Oops! username and password are already used by other users')
+          } else if (error.response.status === 500) {
+            alert('Oops! looks like the server is having trouble')
+          }
         })
     },
     clearForm () {
       this.username = ''
       this.password = ''
       this.email = ''
+    },
+    redirect () {
+      if (localStorage.getItem('accessToken')) {
+        this.$router.push('/home')
+      }
     }
   },
   mounted () {
     this.detectInputInserted()
+    this.redirect()
   }
 }
 </script>

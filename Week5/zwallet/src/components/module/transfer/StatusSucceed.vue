@@ -62,7 +62,17 @@
 
 <script>
 export default {
-  name: 'StatusSucceed'
+  name: 'StatusSucceed',
+  methods: {
+    redirect () {
+      if (!localStorage.getItem('accessToken')) {
+        this.$router.replace('/auth/login')
+      }
+    }
+  },
+  mounted () {
+    this.redirect()
+  }
 }
 </script>
 

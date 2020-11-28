@@ -1,11 +1,11 @@
 <template>
 <div>
     <header>
-        <Navbar/>
+        <Navbar :token="getToken"/>
     </header>
     <main class="grid-main">
-        <Menu class="menu"/>
-        <router-view class="pages"/>
+        <Menu class="menu" :token="getToken"/>
+        <router-view class="pages" :token="sendToken"/>
     </main>
     <footer>
       <Footer/>
@@ -16,12 +16,71 @@
 import Navbar from '@/components/module/Navbar'
 import Menu from '@/components/module/Menu'
 import Footer from '@/components/module/Footer'
+import axios from 'axios'
+import jwt from 'jsonwebtoken'
 export default {
-  name: 'Transfer',
+  name: 'Home',
+  data () {
+    return {
+      token: localStorage.getItem('accessToken') || null,
+      timer: ''
+    }
+  },
   components: {
     Navbar,
     Menu,
     Footer
+  },
+  methods: {
+    sendProps () {
+      if (this.$route.name === 'HomeComponent') {
+        return {
+          token: this.token
+        }
+      }
+    },
+    fetchToken () {
+      return axios.post(`${process.env.VUE_APP_SERVICE_API}/users/token`, {
+        token: localStorage.getItem('refreshToken')
+      })
+        .then(results => {
+          console.log('masukkk')
+          const accessToken = results.data.result.accessToken
+          const decoded = jwt.verify(accessToken, process.env.VUE_APP_JWT_KEY)
+          console.log(decoded)
+          this.token = decoded
+          localStorage.setItem('accessToken', JSON.stringify(decoded))
+        })
+        .catch(() => {
+          alert('Looks like server in error')
+        })
+    }
+  },
+  mounted () {
+    this.fetchToken()
+    console.log(this.$router.name)
+    this.timer = setInterval(this.fetchToken, 30000)
+  },
+  computed: {
+    convert () {
+      return JSON.parse(this.token)
+    },
+    // eslint-disable-next-line vue/return-in-computed-property
+    sendToken () {
+      if (this.$route.name === 'HomeComponent') { return { token: JSON.parse(this.token) } }
+      if (this.$route.name === 'SearchReceiver') { return { token: 'ini search receiver' } }
+    },
+    getToken: {
+      get: function () {
+        return JSON.parse(this.token)
+      },
+      set: function () {
+        this.token = JSON.parse(localStorage.getItem('accessToken'))
+      }
+    }
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)
   }
 }
 </script>

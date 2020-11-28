@@ -22,6 +22,7 @@
         </div>
     </div>
   </div>
+  <infinite-loading @infinite="infiniteHandler"></infinite-loading>
 </div>
 </template>
 
@@ -29,6 +30,7 @@
 import axios from 'axios'
 export default {
   name: 'SearchReceiver',
+  props: ['token'],
   data: () => {
     return {
       search: '',
@@ -40,16 +42,25 @@ export default {
       // eslint-disable-next-line eqeqeq
       return axios.get(`${process.env.VUE_APP_SERVICE_API}/users?page=1&limit=4&order=asc`)
         .then(results => {
-          console.log('lagi jalan ini')
           this.userReceiver = results.data.result
         })
         .catch(error => {
           console.log(error)
         })
+    },
+    redirect () {
+      if (!localStorage.getItem('accessToken')) {
+        this.$router.replace('/auth/login')
+      }
+    },
+    infiniteHandler ($state) {
+      axios.get(`${process.env.VUE_APP_SERVICE_API}/users?page=`)
     }
   },
   mounted () {
     this.searchReceiver()
+    this.redirect()
+    console.log()
   }
 }
 </script>

@@ -4,8 +4,8 @@
       <div class="row">
           <div class="col-12 col-sm-6 col-md-6">
               <p class="mt-4 ml-2 balance">Balance</p>
-              <h1 class="ml-2 balance-amount">Rp.120.000</h1>
-              <p class="ml-2 telephone">+62 813-9387-7946</p>
+              <h1 class="ml-2 balance-amount">Rp.{{userBalance}}</h1>
+              <p class="ml-2 telephone">{{userNumber}}</p>
           </div>
           <div class="col-12 col-sm-6 col-md-6">
               <div class="row justify-content-end mt-4 mr-3">
@@ -21,7 +21,14 @@
 
 <script>
 export default {
-  name: 'BalanceDetail'
+  name: 'BalanceDetail',
+  data () {
+    return {
+      userNumber: this.phoneNumber !== null ? this.phoneNumber : '-',
+      userBalance: this.balance
+    }
+  },
+  props: ['phoneNumber', 'balance']
 }
 </script>
 

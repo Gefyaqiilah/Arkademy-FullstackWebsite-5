@@ -23,8 +23,11 @@ press continue to the next steps.
     <form action="" method="">
     <div class="field-amount">
         <div class="form-group">
-          <div class="input-group">
-              <input type="number" id="amount" class="form-control input-amount shadow-none" placeholder="0.00" aria-label="Username" aria-describedby="basic-addon1" required>
+          <div class="input-group" style="display:flex; justify-content:center;">
+          <div class="input-group-prepend">
+            <span class="rp" id="basic-addon1">Rp.</span>
+          </div>
+         <input style="block" type="number" id="amount" class="form-control input-amount shadow-none" placeholder="0.00" aria-label="Username" aria-describedby="basic-addon1" required>
               </div>
           </div>
     </div>
@@ -49,7 +52,17 @@ press continue to the next steps.
 
 <script>
 export default {
-  name: 'InputAmount'
+  name: 'InputAmount',
+  methods: {
+    redirect () {
+      if (!localStorage.getItem('accessToken')) {
+        this.$router.replace('/auth/login')
+      }
+    }
+  },
+  mounted () {
+    this.redirect()
+  }
 }
 </script>
 
@@ -138,11 +151,18 @@ export default {
 }
 .input-amount{
   display: block;
- max-width:max-content;
+ max-width:200px;
  height:56px;
- margin:0 auto;
  font-style: normal;
-font-weight: bold;
+font-weight: 700;
+font-size: 42px;
+line-height: 56px;
+text-align: center;
+color: #6379F4;
+}
+.rp{
+font-style: normal;
+font-weight: 700;
 font-size: 42px;
 line-height: 56px;
 text-align: center;
@@ -247,7 +267,7 @@ color: rgba(169, 169, 169, 0.8);
     border-top: none !important;
     border-right: none !important;
     border-left: none !important;
-    border-bottom: 1.5px solid rgba(169, 169, 169, 0.6);
+    border-bottom: none !important;
     border-radius: 0 !important;
     background-color: transparent !important;
     margin: 0 auto !important;
@@ -257,7 +277,7 @@ color: rgba(169, 169, 169, 0.8);
     border-top: none !important;
     border-right: none !important;
     border-left: none !important;
-    border-bottom: none !important;
+    border-bottom: 1.5px !important;
     border-radius: 0 !important;
     background-color: transparent !important;
 }

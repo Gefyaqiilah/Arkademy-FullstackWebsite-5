@@ -22,7 +22,7 @@
               <div class=""><img src="/img/icon-menu-profile.png" alt=""></div>
               <div class="menu-name">Profile</div>
           </div>
-          <div  class="menu-logout">
+          <div class="menu-logout" v-if="Object.keys(userData).length > 0">
               <div class=""></div>
               <div class=""><img src="/img/icon-menu-log-out.png" alt=""></div>
               <div class="menu-name">Logout</div>
@@ -34,7 +34,15 @@
 
 <script>
 export default {
-  name: 'Menu'
+  name: 'Menu',
+  data () {
+    return {
+      userData: {
+        ...this.token
+      }
+    }
+  },
+  props: ['token']
 }
 </script>
 
