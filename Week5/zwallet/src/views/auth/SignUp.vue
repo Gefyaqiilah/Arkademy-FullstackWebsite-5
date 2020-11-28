@@ -9,7 +9,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"><img src="/img/user.png" alt=""></span>
                     </div>
-                    <input type="text" id="username" class="form-control input-border-bottom shadow-none" placeholder="Enter your username" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input v-model="username" type="text" id="username" class="form-control input-border-bottom shadow-none" placeholder="Enter your username" aria-label="Username" aria-describedby="basic-addon1" required>
                 </div>
             </div>
             <div class="col-md-9 email-position">
@@ -17,7 +17,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"><img src="/img/mail.png" alt=""></span>
                     </div>
-                    <input type="email" id="email" class="form-control input-border-bottom shadow-none" placeholder="Enter your e-mail" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input v-model="email" type="email" id="email" class="form-control input-border-bottom shadow-none" placeholder="Enter your e-mail" aria-label="Username" aria-describedby="basic-addon1" required>
                 </div>
             </div>
             <div class="col-md-9 pass-position">
@@ -25,15 +25,15 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"><img src="/img/lock.png" alt=""></span>
                       </div>
-                      <input type="password" id="password" class="form-control input-border-bottom shadow-none" placeholder="Enter your password" aria-label="Username" aria-describedby="basic-addon1" required>
+                      <input v-model="password" type="password" id="password" class="form-control input-border-bottom shadow-none" placeholder="Enter your password" aria-label="Username" aria-describedby="basic-addon1" required>
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><img src="/img/eye-crossed.png" alt=""></span>
+                            <span class="input-group-text" id="basic-addon1"><img v-on:click="showPassword" id="btnShowPassword" src="/img/eye-crossed.png" alt=""></span>
                           </div>
                       </div>
                   </div>
               </div>
                 <div class="col-md-9 btn-login-position">
-                <button class="btn-signup ">Sign Up</button>
+                <button class="btn-signup" v-on:click.prevent="signUpUser">Sign Up</button>
                 </div>
                 <div class="col-md-9 signup-position">
                     <p>Already have an account? Let’s <span class="signup">Login</span></p>
@@ -44,8 +44,16 @@
 
 <script>
 import $ from 'jquery'
+import axios from 'axios'
 export default {
   name: 'SignUp',
+  data () {
+    return {
+      username: '',
+      password: '',
+      email: ''
+    }
+  },
   methods: {
     detectInputInserted () {
       $(document).on('change', function () {
@@ -58,6 +66,33 @@ export default {
           buttonSignUp.style.color = '#88888F'
         }
       })
+    },
+    showPassword () {
+      const inputPassword = document.getElementById('password')
+      if (inputPassword.type === 'password') {
+        inputPassword.type = 'text'
+      } else {
+        inputPassword.type = 'password'
+      }
+    },
+    signUpUser () {
+      return axios.post(`${process.env.VUE_APP_SERVICE_API}/users`, {
+        firstName: this.username,
+        email: this.email,
+        password: this.password
+      })
+        .then(() => {
+          alert('Your account has been successfully created.')
+          this.clearForm()
+        })
+        .catch(() => {
+          alert('Failed to create your account.')
+        })
+    },
+    clearForm () {
+      this.username = ''
+      this.password = ''
+      this.email = ''
     }
   },
   mounted () {

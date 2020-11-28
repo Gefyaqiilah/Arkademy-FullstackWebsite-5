@@ -11,7 +11,7 @@ import BalanceDetail from '@/components/module/home/BalanceDetail'
 import BalanceGraphic from '@/components/module/home/BalanceGraphic'
 import TransactionHistory from '@/components/module/home/TransactionHistory'
 export default {
-  name: 'Home2',
+  name: 'Home',
   components: {
     BalanceDetail,
     BalanceGraphic,

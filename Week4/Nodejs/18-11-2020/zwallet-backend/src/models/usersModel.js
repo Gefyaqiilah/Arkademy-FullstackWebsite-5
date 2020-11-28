@@ -48,6 +48,18 @@ class Models {
     })
   }
 
+  checkFirstNameAndEmail (firstName,email){
+    return new Promise((resolve,reject)=>{
+      connection.query('SELECT firstName, email FROM users WHERE firstName = ? AND email = ?',[firstName,email],((error,results)=>{
+        if(results.length === 0){
+          console.log('ini masuk kesini');
+          resolve(error)          
+        }else{
+          reject('username and email are already used by other users')
+        }
+      }))
+    })
+  }
   updateUsers (id, data) {
     return new Promise((resolve, reject) => {
       connection.query('UPDATE users SET ? WHERE id = ?', [data, id], (error, results) => {

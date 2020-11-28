@@ -145,9 +145,6 @@ export default {
     font-weight: 700;
     font-size: 18px;
     line-height: 25px;
-    /* identical to box height */
-
-
     color: #4D4B57;
 }
 

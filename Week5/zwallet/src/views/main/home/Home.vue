@@ -10,21 +10,18 @@
     <footer>
       <Footer/>
     </footer>
-  <ModalPin/>
 </div>
 </template>
 <script>
 import Navbar from '@/components/module/Navbar'
 import Menu from '@/components/module/Menu'
 import Footer from '@/components/module/Footer'
-import ModalPin from '@/components/module/transfer/ModalPin'
 export default {
   name: 'Transfer',
   components: {
     Navbar,
     Menu,
-    Footer,
-    ModalPin
+    Footer
   }
 }
 </script>

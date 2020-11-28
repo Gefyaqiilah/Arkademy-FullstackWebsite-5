@@ -8,44 +8,17 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1"><img src="/img/search.png" alt=""></span>
           </div>
-          <input type="text" class="form-control search-input-text shadow-none" placeholder="Search receiver here" aria-label="Username" aria-describedby="basic-addon1">
+          <input type="text" v-model="search" class="form-control search-input-text shadow-none" placeholder="Search receiver here" aria-label="Username" aria-describedby="basic-addon1">
           </div>
       </div>
   <div class="list-receiver">
-    <div class="receiver">
+    <div v-for="listReceiver in userReceiver" :key="listReceiver.id" class="receiver">
         <div class="thumbnail-photo">
-            <img src="/img/1-70x70.png" alt="">
+            <img src="/img/1-70x70.png" :alt="listReceiver.firstName + ' Foto'">
         </div>
         <div class="detail-username">
-            <p class="username">Samuel Suhi</p>
-            <p class="telephone">+62 813-8492-9994</p>
-        </div>
-    </div>
-    <div class="receiver">
-        <div class="thumbnail-photo">
-            <img src="/img/4.png" alt="">
-        </div>
-        <div class="detail-username">
-            <p class="username">Momo Taro</p>
-            <p class="telephone">+62 812-4343-6731</p>
-        </div>
-    </div>
-    <div class="receiver">
-        <div class="thumbnail-photo">
-            <img src="/img/3.png" alt="">
-        </div>
-        <div class="detail-username">
-            <p class="username">Jessica Keen</p>
-            <p class="telephone">+62 811-3452-5252</p>
-        </div>
-    </div>
-    <div class="receiver">
-        <div class="thumbnail-photo">
-            <img src="/img/5.png" alt="">
-        </div>
-        <div class="detail-username">
-            <p class="username">Michael Le</p>
-            <p class="telephone">+62 810-4224-4613</p>
+            <p class="username">{{listReceiver.firstName +' '+ listReceiver.lastName}}</p>
+            <p class="telephone">{{listReceiver.phoneNumber}}</p>
         </div>
     </div>
   </div>
@@ -53,8 +26,31 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'SearchReceiver'
+  name: 'SearchReceiver',
+  data: () => {
+    return {
+      search: '',
+      userReceiver: []
+    }
+  },
+  methods: {
+    searchReceiver () {
+      // eslint-disable-next-line eqeqeq
+      return axios.get(`${process.env.VUE_APP_SERVICE_API}/users?page=1&limit=4&order=asc`)
+        .then(results => {
+          console.log('lagi jalan ini')
+          this.userReceiver = results.data.result
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  },
+  mounted () {
+    this.searchReceiver()
+  }
 }
 </script>
 
