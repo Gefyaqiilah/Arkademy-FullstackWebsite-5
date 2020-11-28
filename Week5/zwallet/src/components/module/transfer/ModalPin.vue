@@ -307,4 +307,109 @@ export default {
   font-weight: 700;
   text-align: center;
 }
+
+@media (max-width:992px) {
+    main {
+        padding: 20px 0 0 0;
+    }
+
+    main .grid-main {
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(4, auto);
+        grid-template-areas:
+            'menu'
+            'transfer-to'
+        ;
+        gap: 20px 0;
+    }
+
+    main .menu {
+        border-radius: 0px;
+    }
+
+    main .transfer-to {
+        border-radius: 0px;
+    }
+
+    footer .footer-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: 'footer-right''footer-right';
+    }
+
+    .footer-grid .footer-left p {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .menu .menu-grid {
+        grid-template-columns: repeat(5, 2fr);
+        grid-template-rows: 100%;
+        gap: 30px;
+        margin: 50px 0;
+    }
+
+    .menu-grid .menu-logout {
+        display: grid;
+        grid-template-columns: 0.3fr 1fr 3fr;
+        align-self: start;
+        margin: 0 0 0px 0;
+    }
+
+    .transfer-to .button-continue {
+        /* background-color: tomato; */
+        align-items: center;
+    }
+
+    .transfer-to .button-continue button {
+        margin: 40px 30px;
+    }
+
+    .modalpin-content {
+        width: 50%;
+    }
+}
+
+@media (max-width:768px) {
+    main .grid-main {
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(4, auto);
+        grid-template-areas:
+            'transfer-to'
+            'menu'
+        ;
+        gap: 20px 0;
+    }
+
+    .menu .menu-grid {
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(4, 50px);
+        gap: 30px;
+    }
+
+    .modalpin-content {
+        width: 60%;
+    }
+}
+
+@media (max-width:576px) {
+
+    .nav-left h1 {
+        text-align: center;
+        margin: 50px 0 0 auto;
+        width: 100%;
+    }
+
+    .nav-right {
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-right .account-info {
+        margin: 50px auto 50px auto;
+    }
+
+    .modalpin-content {
+        width: 80%;
+    }
+}
 </style>

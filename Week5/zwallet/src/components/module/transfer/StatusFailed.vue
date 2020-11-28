@@ -122,15 +122,14 @@ export default {
     color: #4D4B57;
 }
 
-.info-succeed .desc-failed {
+.desc-failed {
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 28px;
     text-align: center;
     color: #7A7886;
-
-    width: 591px;
+    max-width: 591px;
     word-wrap: break-word;
 }
 
@@ -290,5 +289,15 @@ export default {
 
     outline: none;
 }
-
+@media screen and (max-width:576px) {
+    .desc-failed{
+        width:300px;
+    }
+}
+@media screen and (max-width:360px){
+    .desc-failed{
+        width:200px;
+        font-size:0.8em;
+    }
+}
 </style>

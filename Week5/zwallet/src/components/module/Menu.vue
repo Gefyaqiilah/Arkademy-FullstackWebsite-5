@@ -3,28 +3,28 @@
   <div class="container">
       <div class="menu-grid">
           <div class="menu-dashboard">
-              <div class="location"><img src="/img/icon-menu-ruler.png" alt=""></div>
-              <div class=""><img src="/img/icon-menu-grid.png" alt=""></div>
+              <div class="location"><img src="/img/icon-menu-ruler.png" class="menu-icon" alt=""></div>
+              <div class=""><img src="/img/icon-menu-grid.png" class="menu-icon" alt=""></div>
               <div class="menu-name active">Dashboard</div>
           </div>
           <div class="menu-transfer">
               <div class="location"></div>
-              <div class=""><img src="/img/icon-menu-arrow-up.png" alt=""></div>
+              <div class=""><img src="/img/icon-menu-arrow-up.png" class="menu-icon" alt=""></div>
               <div class="menu-name">Transfer</div>
           </div>
           <div class="menu-topup">
               <div class="location"></div>
-              <div class=""><img src="/img/icon-menu-plus.png" alt=""></div>
+              <div class=""><img src="/img/icon-menu-plus.png" class="menu-icon" alt=""></div>
               <div class="menu-name">Top Up</div>
           </div>
           <div class="menu-profile">
               <div class="location"></div>
-              <div class=""><img src="/img/icon-menu-profile.png" alt=""></div>
+              <div class=""><img src="/img/icon-menu-profile.png" class="menu-icon" alt=""></div>
               <div class="menu-name">Profile</div>
           </div>
           <div class="menu-logout" v-if="Object.keys(userData).length > 0">
               <div class="location"></div>
-              <div class=""><img src="/img/icon-menu-log-out.png" alt=""></div>
+              <div class=""><img src="/img/icon-menu-log-out.png" class="menu-icon" alt=""></div>
               <div class="menu-name">Logout</div>
           </div>
       </div>
@@ -143,5 +143,15 @@ export default {
 }
 @media (max-width:768px) {
 
+}
+@media screen and (max-width:326px){
+  .menu-icon{
+      width:1.3em;
+  }
+}
+@media screen and (max-width:300px){
+  .menu-icon{
+      width:1.0em;
+  }
 }
 </style>

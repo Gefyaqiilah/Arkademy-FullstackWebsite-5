@@ -144,10 +144,10 @@ export default {
 }
 .detail-amount{
   grid-area:detail-amount;
-  margin:40px 20px 0 20px;
+  padding:30px 20px;
 }
 .field-amount{
-  margin: 80px 0 0 0 ;
+  margin: 50px 0 0 0 ;
 }
 .input-amount{
   display: block;
@@ -181,6 +181,7 @@ color:black;
   display:block;
   display:flex;
   justify-items: center;
+  /* padding:50px; */
 }
 .input-group-position{
  justify-content: center;
@@ -280,5 +281,12 @@ color: rgba(169, 169, 169, 0.8);
     border-bottom: 1.5px !important;
     border-radius: 0 !important;
     background-color: transparent !important;
+}
+@media screen and (max-width:400px) {
+  .btn-confirm{
+    display: block;
+    margin:0 auto;
+    margin-bottom:30px;
+  }
 }
 </style>
