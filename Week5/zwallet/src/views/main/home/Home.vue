@@ -87,8 +87,7 @@ export default {
     },
     // eslint-disable-next-line vue/return-in-computed-property
     sendToken () {
-      return { style: 'margin:50px 0 50px 0' }
-      // if (this.$route.name === 'HomeComponent') { return { token: JSON.parse(this.token) } }
+      if (this.$route.name === 'HomeComponent') { return { token: JSON.parse(this.token) } }
       // if (this.$route.name === 'SearchReceiver') { return { style: 'margin:50px 0 50px 0;' } }
     },
     getToken: {
