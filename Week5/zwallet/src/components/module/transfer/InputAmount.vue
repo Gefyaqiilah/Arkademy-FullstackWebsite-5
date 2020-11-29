@@ -55,7 +55,7 @@ export default {
   name: 'InputAmount',
   methods: {
     redirect () {
-      if (!localStorage.getItem('accessToken')) {
+      if (!localStorage.getItem('dataUser')) {
         this.$router.replace('/auth/login')
       }
     }

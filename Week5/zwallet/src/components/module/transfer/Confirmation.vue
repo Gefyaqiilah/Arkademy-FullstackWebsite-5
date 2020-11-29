@@ -71,7 +71,7 @@ export default {
       this.$refs.modal.showModalPin()
     },
     redirect () {
-      if (!localStorage.getItem('accessToken')) {
+      if (!localStorage.getItem('dataUser')) {
         this.$router.replace('/auth/login')
       }
     }

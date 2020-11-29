@@ -2,7 +2,7 @@ const connection = require('../configs/db')
 class Models {
   getUsers (limit,offset,order) {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT * FROM users ORDER BY createdAt ${order} LIMIT ${offset},${limit}`,(error, results) => {
+      connection.query(`SELECT id, firstName, lastName, email, phoneNumber FROM users ORDER BY createdAt ${order} LIMIT ${offset},${limit}`,(error, results) => {
         if (!error) {
           resolve(results)
         } else {

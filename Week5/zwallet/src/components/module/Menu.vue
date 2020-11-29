@@ -22,7 +22,7 @@
               <div class=""><img src="/img/icon-menu-profile.png" class="menu-icon" alt=""></div>
               <div class="menu-name">Profile</div>
           </div>
-          <div class="menu-logout" v-if="Object.keys(userData).length > 0">
+          <div class="menu-logout" :style="styling" v-if="Object.keys(userData).length > 0" v-on:click.prevent="logOut">
               <div class="location"></div>
               <div class=""><img src="/img/icon-menu-log-out.png" class="menu-icon" alt=""></div>
               <div class="menu-name">Logout</div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Menu',
   data () {
@@ -42,7 +43,25 @@ export default {
       }
     }
   },
-  props: ['token']
+  props: ['token', 'styling'],
+  methods: {
+    logOut () {
+      return axios.post(`${process.env.VUE_APP_SERVICE_API}/users/logout`, {}, {
+        headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}` }
+      })
+        .then(results => {
+          localStorage.removeItem('accessToken')
+          localStorage.removeItem('refreshToken')
+          localStorage.removeItem('dataUser')
+          alert('Logout successfull')
+          this.$router.replace('/auth/login')
+        })
+        .catch(error => {
+          console.log(error)
+          alert('Failed to logout')
+        })
+    }
+  }
 }
 </script>
 

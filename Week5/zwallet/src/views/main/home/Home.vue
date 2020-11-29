@@ -4,7 +4,7 @@
         <Navbar :token="getToken" v-if="renderComponent"/>
     </header>
     <main class="grid-main">
-        <Menu class="menu" :token="getToken"/>
+        <Menu class="menu" :token="getToken" v-bind:styling="this.$route.name==='SearchReceiver'? 'margin:50px 0 50px 0':'margin:auto 0 50px 0' "/>
         <router-view class="pages" :token="sendToken" v-if="renderComponent"/>
     </main>
     <footer>
@@ -23,7 +23,7 @@ export default {
   name: 'Home',
   data () {
     return {
-      token: localStorage.getItem('accessToken') || null,
+      token: localStorage.getItem('dataUser') || null,
       timer: '',
       renderComponent: true
     }
@@ -50,7 +50,7 @@ export default {
           const decoded = jwt.verify(accessToken, process.env.VUE_APP_JWT_KEY)
           // eslint-disable-next-line eqeqeq
           const getLocalToken = {
-            ...JSON.parse(localStorage.getItem('accessToken')),
+            ...JSON.parse(localStorage.getItem('dataUser')),
             exp: 0,
             iat: 0
           }
@@ -61,9 +61,9 @@ export default {
           }
           // eslint-disable-next-line eqeqeq
           if (JSON.stringify(getLocalToken) === JSON.stringify(getFreshToken)) {
-
           } else {
-            localStorage.setItem('accessToken', JSON.stringify(decoded))
+            localStorage.setItem('accessToken', JSON.stringify(accessToken))
+            localStorage.setItem('dataUser', JSON.stringify(getFreshToken))
             this.renderComponent = false
             this.$nextTick(() => {
               this.renderComponent = true
@@ -72,6 +72,7 @@ export default {
         })
         .catch(() => {
           clearInterval(this.timer)
+          console.log(localStorage.getItem('refreshToken'))
           console.log('Looks like server having trouble')
         })
     }
@@ -86,20 +87,21 @@ export default {
     },
     // eslint-disable-next-line vue/return-in-computed-property
     sendToken () {
-      if (this.$route.name === 'HomeComponent') { return { token: JSON.parse(this.token) } }
-      if (this.$route.name === 'SearchReceiver') { return { token: 'ini search receiver' } }
+      return { style: 'margin:50px 0 50px 0' }
+      // if (this.$route.name === 'HomeComponent') { return { token: JSON.parse(this.token) } }
+      // if (this.$route.name === 'SearchReceiver') { return { style: 'margin:50px 0 50px 0;' } }
     },
     getToken: {
       get: function () {
         return JSON.parse(this.token)
       },
       set: function () {
-        this.token = JSON.parse(localStorage.getItem('accessToken'))
+        this.token = JSON.parse(localStorage.getItem('dataUser'))
       }
     }
   },
   updated () {
-    this.token = localStorage.getItem('accessToken')
+    this.token = localStorage.getItem('dataUser')
   },
   beforeDestroy () {
     clearInterval(this.timer)

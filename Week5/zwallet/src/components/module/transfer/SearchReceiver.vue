@@ -2,13 +2,14 @@
 <div class="search-receiver">
   <div class="search-receiver-title">
     <p>Search Receiver</p>
+    <button class="login-btn btn-text-white" v-on:click.prevent="sortByName">Sort by name</button>
   </div>
   <div class="search-input">
     <div class="input-group">
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1"><img src="/img/search.png" alt=""></span>
           </div>
-          <input type="text" v-model="search" class="form-control search-input-text shadow-none" placeholder="Search receiver here" aria-label="Username" aria-describedby="basic-addon1">
+          <input type="text" v-model="search" class="form-control search-input-text shadow-none" placeholder="Search phone number receiver here" aria-label="Username" aria-describedby="basic-addon1">
           </div>
       </div>
   <div class="list-receiver">
@@ -34,13 +35,14 @@ export default {
   data: () => {
     return {
       search: '',
-      userReceiver: []
+      userReceiver: [],
+      toggleSort: true
     }
   },
   methods: {
     searchReceiver () {
       // eslint-disable-next-line eqeqeq
-      return axios.get(`${process.env.VUE_APP_SERVICE_API}/users?page=1&limit=4&order=asc`)
+      return axios.get(`${process.env.VUE_APP_SERVICE_API}/users?page=1&limit=10&order=asc`)
         .then(results => {
           this.userReceiver = results.data.result
         })
@@ -49,12 +51,29 @@ export default {
         })
     },
     redirect () {
-      if (!localStorage.getItem('accessToken')) {
+      if (!localStorage.getItem('dataUser')) {
         this.$router.replace('/auth/login')
       }
     },
     infiniteHandler ($state) {
       axios.get(`${process.env.VUE_APP_SERVICE_API}/users?page=`)
+    },
+    sortByName () {
+      if (this.toggleSort) {
+        this.userReceiver.sort((a, b) => {
+          if (a.firstName.toUpperCase() < b.firstName.toUpperCase()) return -1
+          if (a.firstName.toUpperCase() > b.firstName.toUpperCase()) return 1
+          return 0
+        })
+        this.toggleSort = false
+      } else {
+        this.userReceiver.sort((a, b) => {
+          if (b.firstName.toUpperCase() < a.firstName.toUpperCase()) return -1
+          if (b.firstName.toUpperCase() > a.firstName.toUpperCase()) return 1
+          return 0
+        })
+        this.toggleSort = true
+      }
     }
   },
   mounted () {
@@ -181,5 +200,47 @@ export default {
     font-size: 16px;
     line-height: 22px;
     color: #7A7886;
+}
+/* button */
+.login-btn {
+    width: max-content;
+    height: max-content;
+    background: #6379F4;
+    margin-left:auto;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0px 6px 75px rgba(100, 87, 87, 0.05);
+    border-radius: 12px;
+}
+.login-btn:focus{
+  outline:none;
+}
+.signup-btn {
+    width: max-content;
+    height: max-content;
+    background: #FFFFFF;
+    border: 2px solid #6379F4;
+    box-sizing: border-box;
+    box-shadow: 0px 6px 75px rgba(100, 87, 87, 0.05);
+    border-radius: 12px;
+}
+.signup-btn:focus{
+  outline: none;
+}
+.btn-text-white {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.btn-text-purple {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 25px;
+    text-align: center;
+    color: #6379F4;
 }
 </style>

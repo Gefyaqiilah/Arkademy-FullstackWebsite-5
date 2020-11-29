@@ -9,6 +9,7 @@ class Controllers {
     this.userLogin = this.userLogin.bind(this)
     this.generateAccessToken = this.generateAccessToken.bind(this)
     this.newToken = this.newToken.bind(this)
+    this.userLogOut = this.userLogOut.bind(this)
   }
   getUsers (req, res) {
     const {page = 1,limit=4,order="DESC"} = req.query
@@ -91,7 +92,10 @@ class Controllers {
                   const token = this.generateAccessToken(userDataToken)
                   const refreshToken = jwt.sign(userDataToken,process.env.REFRESH_TOKEN)
                   const resultsResponse = {accessToken:token,refreshToken}
-                  this.resultsTokens.push(refreshToken)
+                  this.resultsTokens.push({
+                    ...userDataToken,
+                    refreshToken : refreshToken
+                  })
                   console.log(this.resultsTokens)
                 usersHelpers.response(res, resultsResponse, { status: 'Auth Successful', statusCode: 200 }, null)
               }else{
@@ -109,12 +113,22 @@ class Controllers {
       usersHelpers.response(res, null, { status: 'failed', statusCode: 300 }, error)
     })
   }
+  userLogOut (req,res,next){
+    console.log(this.resultsTokens.length)
+    if(this.resultsTokens.length !== 0){
+      const filter = this.resultsTokens.filter((user)=>user.email !== req.user.email)
+      this.resultsTokens = filter
+      usersHelpers.response(res, {message:`${req.user.firstName} has logged out`}, { status: 'succeed', statusCode: 200 }, null)
+    }else{
+      usersHelpers.response(res,null, { status: 'failed', statusCode: 404 }, {message:'forbidden'})
+    }
+  }
   generateAccessToken (userData) {
       return jwt.sign(
       userData,
       process.env.ACCESS_TOKEN,
       {
-        expiresIn:'15s'
+        expiresIn:'1h'
       })  
     }
   newToken (req,res) {
@@ -123,8 +137,11 @@ class Controllers {
     ini refreshtoken --> ${this.resultsTokens}
     dan ini refresh request --> ${refreshToken}
     `);
+    const checkRefreshToken = this.resultsTokens.find((x)=>{
+      return x.refreshToken === refreshToken
+    }) 
     if(refreshToken == null) return usersHelpers.response(res, null, { status: 'failed', statusCode: 401 }, {message:'token not exists'})
-    if(this.resultsTokens.includes(refreshToken)){
+    if(checkRefreshToken){
       jwt.verify(refreshToken,process.env.REFRESH_TOKEN,(err,user)=>{
         if(!err){
           console.log(`

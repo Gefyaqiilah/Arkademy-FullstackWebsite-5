@@ -85,8 +85,9 @@ export default {
           const accessToken = results.data.result.accessToken
           const refreshToken = results.data.result.refreshToken
           const decoded = jwt.verify(accessToken, process.env.VUE_APP_JWT_KEY)
-          localStorage.setItem('accessToken', JSON.stringify(decoded))
+          localStorage.setItem('dataUser', JSON.stringify(decoded))
           localStorage.setItem('refreshToken', refreshToken)
+          localStorage.setItem('accessToken', accessToken)
           this.$router.push('/home')
         })
         .cath(error => {
@@ -106,7 +107,7 @@ export default {
       })
     },
     redirect () {
-      if (localStorage.getItem('accessToken')) {
+      if (localStorage.getItem('dataUser')) {
         this.$router.push('/home')
       }
     },

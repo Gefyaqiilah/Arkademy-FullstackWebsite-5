@@ -79,7 +79,7 @@ const routes = [
       },
       {
         path: 'personalinformation',
-        name: 'Personal Information',
+        name: 'PersonalInformation',
         component: PersonalInformation
       },
       {
