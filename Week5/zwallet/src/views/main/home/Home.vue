@@ -1,11 +1,11 @@
 <template>
 <div>
     <header>
-        <Navbar :token="getToken"/>
+        <Navbar :token="getToken" v-if="renderComponent"/>
     </header>
     <main class="grid-main">
         <Menu class="menu" :token="getToken"/>
-        <router-view class="pages" :token="sendToken"/>
+        <router-view class="pages" :token="sendToken" v-if="renderComponent"/>
     </main>
     <footer>
       <Footer/>
@@ -18,12 +18,14 @@ import Menu from '@/components/module/Menu'
 import Footer from '@/components/module/Footer'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
+// Vue.forceUpdate()
 export default {
   name: 'Home',
   data () {
     return {
       token: localStorage.getItem('accessToken') || null,
-      timer: ''
+      timer: '',
+      renderComponent: true
     }
   },
   components: {
@@ -46,19 +48,37 @@ export default {
         .then(results => {
           const accessToken = results.data.result.accessToken
           const decoded = jwt.verify(accessToken, process.env.VUE_APP_JWT_KEY)
-          console.log(decoded)
-          this.token = decoded
-          localStorage.setItem('accessToken', JSON.stringify(decoded))
+          // eslint-disable-next-line eqeqeq
+          const getLocalToken = {
+            ...JSON.parse(localStorage.getItem('accessToken')),
+            exp: 0,
+            iat: 0
+          }
+          const getFreshToken = {
+            ...decoded,
+            exp: 0,
+            iat: 0
+          }
+          // eslint-disable-next-line eqeqeq
+          if (JSON.stringify(getLocalToken) === JSON.stringify(getFreshToken)) {
+
+          } else {
+            localStorage.setItem('accessToken', JSON.stringify(decoded))
+            this.renderComponent = false
+            this.$nextTick(() => {
+              this.renderComponent = true
+            })
+          }
         })
         .catch(() => {
-          alert('Looks like server in error')
+          clearInterval(this.timer)
+          console.log('Looks like server having trouble')
         })
     }
   },
   mounted () {
     this.fetchToken()
-    console.log(this.$router.name)
-    this.timer = setInterval(this.fetchToken, 30000)
+    this.timer = setInterval(this.fetchToken, 5000)
   },
   computed: {
     convert () {
@@ -77,6 +97,9 @@ export default {
         this.token = JSON.parse(localStorage.getItem('accessToken'))
       }
     }
+  },
+  updated () {
+    this.token = localStorage.getItem('accessToken')
   },
   beforeDestroy () {
     clearInterval(this.timer)

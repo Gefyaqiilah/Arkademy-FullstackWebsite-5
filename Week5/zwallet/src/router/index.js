@@ -14,7 +14,10 @@ import Confirmation from '@/components/module/transfer/Confirmation'
 import StatusSucceed from '@/components/module/transfer/StatusSucceed'
 import StatusFailed from '@/components/module/transfer/StatusFailed'
 import TransactionHistory from '@/components/module/history/TransactionHistory'
-
+import TopUp from '@/components/module/topup/TopUp'
+import Profile from '@/components/module/profile/Profile'
+import PersonalInformation from '@/components/module/profile/PersonalInformation'
+import ChangePin from '@/components/module/profile/ChangePin'
 Vue.use(VueRouter)
 
 const routes = [
@@ -63,6 +66,26 @@ const routes = [
         path: 'transactionhistory',
         name: 'TransactionHistory',
         component: TransactionHistory
+      },
+      {
+        path: 'topup',
+        name: 'TopUp',
+        component: TopUp
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: Profile
+      },
+      {
+        path: 'personalinformation',
+        name: 'Personal Information',
+        component: PersonalInformation
+      },
+      {
+        path: 'changepin',
+        name: 'Change Pin',
+        component: ChangePin
       }
     ]
   },

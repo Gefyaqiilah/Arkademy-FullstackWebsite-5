@@ -9,7 +9,7 @@
           </div>
           <div class="col-12 col-sm-6 col-md-6">
               <div class="row justify-content-end mt-4 mr-3">
-                  <button class="transfer col-md-6"><img src="/img/plus.png" alt="">Transfer</button>
+                  <button class="transfer col-md-6" v-on:click.prevent="linkTransfer"><img src="/img/plus.png" alt="">Transfer</button>
                   <div class="w-100"></div>
                   <button class="topup col-md-6 mt-3"><img src="/img/arrow-up.png" alt=""> Top Up</button>
               </div>
@@ -28,7 +28,12 @@ export default {
       userBalance: this.balance
     }
   },
-  props: ['phoneNumber', 'balance']
+  props: ['phoneNumber', 'balance'],
+  methods: {
+    linkTransfer () {
+      this.$router.push('/home/searchreceiver')
+    }
+  }
 }
 </script>
 
