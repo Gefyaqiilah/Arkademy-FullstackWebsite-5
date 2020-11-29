@@ -9,6 +9,14 @@ dizwallet ini memungkinkan users untuk :
 4.  <b>cek history transfer</b>
 5.  dll
 
+## Screenshot zwallet 
+![Uploadi
+![Screenshot (443)](https://user-images.githubusercontent.com/54069791/100553965-0abbf100-32c4-11eb-9e15-752cc438035d.png)
+ng Screenshot (445).png…]()
+![Screenshot (444)](https://user-images.githubusercontent.com/54069791/100553964-0a235a80-32c4-11eb-95d9-5b24caa247d3.png)
+![Screenshot (446)](https://user-images.githubusercontent.com/54069791/100553966-0b548780-32c4-11eb-857c-066839ec4f01.png)
+
+
 ## Project setup
 
 ```
