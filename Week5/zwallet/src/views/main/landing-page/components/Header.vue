@@ -8,10 +8,10 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto mr-5">
               <li class="nav-item active mr-5">
-              <button class="login-btn btn-text-white">Login</button>
+              <button class="login-btn btn-text-white"><router-link class="btn-text-white" to="/auth/login">Login</router-link></button>
               </li>
               <li class="nav-item">
-                  <button class="signup-btn btn-text-purple">Sign Up</button>
+                  <button class="signup-btn btn-text-purple"><router-link class="btn-text-purple" to="/auth/signup">Sign Up</router-link></button>
               </li>
             </ul>
             </div>
@@ -97,6 +97,7 @@ export default {
     line-height: 25px;
     text-align: center;
     color: #FFFFFF;
+    text-decoration:none;
 }
 
 .btn-text-purple {
@@ -105,6 +106,7 @@ export default {
     font-size: 18px;
     line-height: 25px;
     text-align: center;
+    text-decoration:none;
     color: #6379F4;
 }
 @media screen and (max-width:576px){
