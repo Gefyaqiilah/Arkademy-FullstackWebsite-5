@@ -54,6 +54,7 @@ export default {
   background-color: #FFFFFF;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 25px;
+  box-sizing: border-box;
 }
 .transaction-history-grid {
     display: grid;

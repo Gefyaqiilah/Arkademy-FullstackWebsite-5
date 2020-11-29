@@ -41,7 +41,7 @@
               </div>
           </div>
           <div class="side-right">
-              <p>Manage</p>
+              <p><router-link to="/home/addphonenumber">Manage</router-link></p>
           </div>
       </div>
     </div>

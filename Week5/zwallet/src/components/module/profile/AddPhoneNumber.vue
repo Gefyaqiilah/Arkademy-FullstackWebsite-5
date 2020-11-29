@@ -69,7 +69,7 @@ export default {
       }
     },
     redirect () {
-      if (!localStorage.getItem('dataUser')) {
+      if (!localStorage.getItem('dataUser') || JSON.parse(localStorage.getItem('dataUser')).phoneNumber !== null) {
         this.$router.replace('/auth/login')
       }
     }

@@ -54,12 +54,19 @@ export default {
 }
 
 .balance-graphic .graphic {
-    display: block;
-    margin: auto auto 0 auto;
-    text-align: center;
+  /* background-color: rgb(78, 6, 6); */
+  display: block;
+  /* width: 80%; */
+  margin: auto auto 0 auto;
+  text-align: center;
 }
 
 .balance-graphic .graphic img {
-    width: max-content;
+  width: max-content;
+}
+@media screen and (max-width:400px){
+.balance-graphic .graphic img {
+  width: 100%;
+}
 }
 </style>

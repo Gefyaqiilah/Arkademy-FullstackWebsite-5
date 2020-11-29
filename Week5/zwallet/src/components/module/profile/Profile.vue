@@ -13,7 +13,7 @@
     <div class="profile-menu">
         <div class="personal-information list-menu">
             <div class="list-menu-left">
-                <p>Personal Information</p>
+                <p><router-link class="text-decoration" to="/home/personalinformation">Personal Information</router-link></p>
             </div>
             <div class="list-menu-right">
                 <img src="/img/arrow-left.png" alt="">
@@ -127,7 +127,10 @@ export default {
     line-height: 28px;
     color: #4D4B57;
 }
-
+.text-decoration {
+    color: #4D4B57;
+    text-decoration:none;
+}
 .list-menu-right {
     grid-area: list-menu-right;
 }
