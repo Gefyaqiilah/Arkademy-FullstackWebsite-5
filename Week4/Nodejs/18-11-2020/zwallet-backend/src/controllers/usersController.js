@@ -12,7 +12,7 @@ class Controllers {
     this.userLogOut = this.userLogOut.bind(this)
   }
   getUsers (req, res) {
-    const {page = 1,limit=4,order="DESC"} = req.query
+    const {page = 1,limit=4,order="ASC"} = req.query
     const offset = page ? (parseInt(page)-1) * parseInt(limit) : 0
     usersModel.getUsers(limit,offset,order)
       .then(results => {

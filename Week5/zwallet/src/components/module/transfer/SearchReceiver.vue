@@ -12,18 +12,30 @@
           <input type="text" v-model="search" class="form-control search-input-text shadow-none" placeholder="Search phone number receiver here" aria-label="Username" aria-describedby="basic-addon1">
           </div>
       </div>
-  <div class="list-receiver">
+  <div v-if="!search" class="list-receiver">
     <div v-for="listReceiver in userReceiver" :key="listReceiver.id" class="receiver">
         <div class="thumbnail-photo">
             <img src="/img/1-70x70.png" :alt="listReceiver.firstName + ' Foto'">
         </div>
         <div class="detail-username">
-            <p class="username">{{listReceiver.firstName +' '+ listReceiver.lastName}}</p>
+            <p class="username">{{listReceiver.firstName +' '}}{{listReceiver.lastName !==null ? listReceiver.lastName : ''}}</p>
             <p class="telephone">{{listReceiver.phoneNumber}}</p>
         </div>
     </div>
   </div>
-  <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+  <div v-if="search" class="list-receiver">
+    <div v-for="listReceiver in searchUser" :key="listReceiver.id" class="receiver">
+        <div class="thumbnail-photo">
+            <img src="/img/1-70x70.png" :alt="listReceiver.firstName + ' Foto'">
+        </div>
+        <div class="detail-username">
+            <p class="username">{{listReceiver.firstName +' '}}{{listReceiver.lastName !==null ? listReceiver.lastName : ''}}</p>
+            <p class="telephone">{{listReceiver.phoneNumber}}</p>
+        </div>
+    </div>
+  </div>
+  <div v-observe-visibility="handleScrolledBottom">
+  </div>
 </div>
 </template>
 
@@ -36,19 +48,20 @@ export default {
     return {
       search: '',
       userReceiver: [],
-      toggleSort: true
+      toggleSort: true,
+      page: 1
     }
   },
   methods: {
-    searchReceiver () {
-      // eslint-disable-next-line eqeqeq
-      return axios.get(`${process.env.VUE_APP_SERVICE_API}/users?page=1&limit=10&order=asc`)
-        .then(results => {
-          this.userReceiver = results.data.result
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    async fetchReceiver () {
+      const fetchReceiver = await axios.get(`${process.env.VUE_APP_SERVICE_API}/users?page=${this.page}`)
+      this.userReceiver.push(...fetchReceiver.data.result)
+    },
+    handleScrolledBottom (isVisible) {
+      if (isVisible) {
+        this.page++
+        this.fetchReceiver()
+      }
     },
     redirect () {
       if (!localStorage.getItem('dataUser')) {
@@ -77,9 +90,16 @@ export default {
     }
   },
   mounted () {
-    this.searchReceiver()
+    this.fetchReceiver()
     this.redirect()
     console.log()
+  },
+  computed: {
+    searchUser () {
+      return this.userReceiver.filter((user) => {
+        return user.firstName.match(this.search)
+      })
+    }
   }
 }
 </script>
