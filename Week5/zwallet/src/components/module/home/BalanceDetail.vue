@@ -11,7 +11,9 @@
               <div class="row justify-content-end mt-4 mr-3">
                   <button class="transfer col-md-6" v-on:click.prevent="linkTransfer"><img src="/img/plus.png" alt="">Transfer</button>
                   <div class="w-100"></div>
-                  <button class="topup col-md-6 mt-3"><img src="/img/arrow-up.png" alt=""> Top Up</button>
+
+                  <button class="topup col-md-6 mt-3"><router-link class="topup-text" to="/home/topup"><img src="/img/arrow-up.png" alt=""> Top Up</router-link> </button>
+
               </div>
           </div>
       </div>
@@ -94,12 +96,13 @@ export default {
     border: 1px solid #FFFFFF;
     box-sizing: border-box;
     border-radius: 10px;
-
+}
+.topup-text{
     font-weight: 700;
     font-size: 18px;
     line-height: 25px;
-
-    color: #FFFFFF;
+    text-decoration: none;
+    color: #FFFFFF !important;
 }
 .topup:focus{
   outline:none;

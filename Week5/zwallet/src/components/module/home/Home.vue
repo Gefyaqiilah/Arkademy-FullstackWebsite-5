@@ -2,7 +2,7 @@
   <div class="home-grid">
     <BalanceDetail :phoneNumber="userData.phoneNumber" :balance="userData.balance" l class="balance-detail"/>
     <BalanceGraphic class="balance-graphic"/>
-    <TransactionHistory class="transaction-history"/>
+    <TransactionHistory :firstName="userData.firstName" class="transaction-history"/>
   </div>
 </template>
 

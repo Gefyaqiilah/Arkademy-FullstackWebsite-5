@@ -18,7 +18,7 @@
             <img src="/img/1-70x70.png" :alt="listReceiver.firstName + ' Foto'">
         </div>
         <div class="detail-username">
-            <p class="username">{{listReceiver.firstName +' '}}{{listReceiver.lastName !==null ? listReceiver.lastName : ''}}</p>
+            <p class=""><router-link class="username" :to="'/home/inputamount/'+listReceiver.id">{{listReceiver.firstName +' '}}{{listReceiver.lastName !==null ? listReceiver.lastName : ''}}</router-link></p>
             <p class="telephone">{{listReceiver.phoneNumber}}</p>
         </div>
     </div>

@@ -7,37 +7,13 @@
           <a href="#">See all</a>
       </div>
       <div class="history">
-          <div class="transaction col-md-12">
+          <div v-for="transferTransaction in dataTransfer" :key="transferTransaction.idTransfer" class="transaction col-md-12">
               <img src="/img/1.png" alt="">
               <div class="detail-name">
-                  <p class="name">Samuel Suhi</p>
-                  <p class="status">Transfer</p>
+                  <p class="name">{{transferTransaction.Receiver}}</p>
+                  <p class="status">Transfer to {{transferTransaction.Receiver}}</p>
               </div>
-              <p class="amount green">+Rp50.000</p>
-          </div>
-          <div class="transaction col-md-12">
-              <img src="/img/logo.png" alt="">
-              <div class="detail-name">
-                  <p class="name">Netflix</p>
-                  <p class="status">Subscription</p>
-              </div>
-              <p class="amount red">-Rp149.000</p>
-          </div>
-          <div class="transaction col-md-12">
-              <img src="/img/2.png" alt="">
-              <div class="detail-name">
-                  <p class="name">Christine Mar..</p>
-                  <p class="status">Transfer</p>
-              </div>
-              <p class="amount green">+Rp150.000</p>
-          </div>
-          <div class="transaction col-md-12">
-              <img src="/img/logo-adobe.png" alt="">
-              <div class="detail-name">
-                  <p class="name">Adobe Inc.</p>
-                  <p class="status">Subscription</p>
-              </div>
-              <p class="amount red">-Rp249.000</p>
+              <p class="amount red">- Rp.{{transferTransaction.amount}}</p>
           </div>
       </div>
   </div>
@@ -46,8 +22,29 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'TransactionHistory'
+  name: 'TransactionHistory',
+  data () {
+    return {
+      dataTransfer: []
+    }
+  },
+  props: ['firstName'],
+  methods: {
+    async fetchTransactionTransfers () {
+      try {
+        const resultsFetchTransfers = await axios.get(`${process.env.VUE_APP_SERVICE_API}/transfers/search?firstName=${this.firstName}&type=transfers&page=1&limit=4`)
+        this.dataTransfer.push(...resultsFetchTransfers.data.result)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
+  mounted () {
+    this.fetchTransactionTransfers()
+    console.log(this.dataTransfer)
+  }
 }
 </script>
 
@@ -120,6 +117,7 @@ export default {
     font-size: 16px;
     line-height: 22px;
     color: #4D4B57;
+    text-transform: capitalize;
 }
 
 .transaction .detail-name p.status {

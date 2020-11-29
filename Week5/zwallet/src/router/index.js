@@ -18,6 +18,7 @@ import TopUp from '@/components/module/topup/TopUp'
 import Profile from '@/components/module/profile/Profile'
 import PersonalInformation from '@/components/module/profile/PersonalInformation'
 import ChangePin from '@/components/module/profile/ChangePin'
+import AddPhoneNumber from '@/components/module/profile/AddPhoneNumber'
 Vue.use(VueRouter)
 
 const routes = [
@@ -43,7 +44,7 @@ const routes = [
         component: SearchReceiver
       },
       {
-        path: 'inputamount',
+        path: 'inputamount/:idUser',
         name: 'InputAmount',
         component: InputAmount
       },
@@ -84,8 +85,13 @@ const routes = [
       },
       {
         path: 'changepin',
-        name: 'Change Pin',
+        name: 'ChangePin',
         component: ChangePin
+      },
+      {
+        path: 'addphonenumber',
+        name: 'AddPhoneNumber',
+        component: AddPhoneNumber
       }
     ]
   },

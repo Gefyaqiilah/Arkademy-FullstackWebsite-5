@@ -85,7 +85,7 @@ class Models {
 
   getTransactionReceiver (firstName, limit,offset,order) {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT usersSender.firstName AS Sender,usersReceiver.firstName AS receiver,transfers.amount,transfers.transferDate,transfers.notes FROM users AS usersReceiver INNER JOIN transfers ON usersReceiver.id = transfers.idReceiver AND usersReceiver.firstName LIKE ? INNER JOIN users AS usersSender ON usersSender.id = transfers.idSender ORDER BY transfers.transferDate ${order} LIMIT ${offset},${limit}`, firstName, (error, results) => {
+      connection.query(`SELECT usersSender.firstName AS Sender,usersReceiver.firstName AS receiver,transfers.amount,transfers.transferDate,transfers.notes FROM users AS usersReceiver INNER JOIN transfers ON usersReceiver.id = transfers.idReceiver AND usersReceiver.firstName LIKE ? INNER JOIN users AS usersSender ON usersSender.id = transfers.idSender ORDER BY transfers.transferDate ${order} LIMIT ${offset},${limit}`, [`%${firstName}%`], (error, results) => {
         if (!error) {
           resolve(results)
         } else {

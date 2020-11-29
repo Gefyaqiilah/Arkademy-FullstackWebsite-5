@@ -12,7 +12,7 @@
               <p>First Name</p>
           </div>
           <div class="bold gap">
-          <p>Robert</p>
+          <p class="capitalize">{{userData.firstName}}</p>
           </div>
       </div>
       <div class="last-name">
@@ -20,7 +20,7 @@
               <p>Last Name</p>
           </div>
           <div class="bold gap">
-              <p>Chandler</p>
+              <p class="capitalize">{{userData.lastName!==null?userData.lastName:'-'}}</p>
           </div>
       </div>
       <div class="verified-email">
@@ -28,7 +28,7 @@
               <p>Verified E-mail</p>
           </div>
           <div class="bold gap">
-              <p>pewdiepie1@gmail.com</p>
+              <p>{{userData.email}}</p>
           </div>
       </div>
       <div class="phone-number">
@@ -37,7 +37,7 @@
                   <p>Phone Number</p>
               </div>
               <div class="bold gap">
-                  <p>+62 813-9387-7946</p>
+                  <p>{{userData.phoneNumber!==null?userData.phoneNumber:'-'}}</p>
               </div>
           </div>
           <div class="side-right">
@@ -50,12 +50,22 @@
 
 <script>
 export default {
-
+  name: 'PersonalInformation',
+  props: ['token'],
+  data () {
+    return {
+      userData: this.token.token
+    }
+  },
+  mounted () {
+  }
 }
 </script>
 
 <style scoped>
-
+.capitalize{
+    text-transform: capitalize;
+}
 .personal-information {
     background: #FFFFFF;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);

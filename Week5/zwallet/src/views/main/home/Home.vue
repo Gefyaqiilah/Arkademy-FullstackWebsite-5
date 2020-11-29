@@ -25,7 +25,8 @@ export default {
     return {
       token: localStorage.getItem('dataUser') || null,
       timer: '',
-      renderComponent: true
+      renderComponent: true,
+      firstName: JSON.parse(localStorage.getItem('dataUser')).firstName
     }
   },
   components: {
@@ -72,7 +73,6 @@ export default {
         })
         .catch(() => {
           clearInterval(this.timer)
-          console.log(localStorage.getItem('refreshToken'))
           console.log('Looks like server having trouble')
         })
     }
@@ -88,7 +88,8 @@ export default {
     // eslint-disable-next-line vue/return-in-computed-property
     sendToken () {
       if (this.$route.name === 'HomeComponent') { return { token: JSON.parse(this.token) } }
-      // if (this.$route.name === 'SearchReceiver') { return { style: 'margin:50px 0 50px 0;' } }
+      if (this.$route.name === 'PersonalInformation') { return { token: JSON.parse(this.token) } }
+      if (this.$route.name === 'AddPhoneNumber') { return { token: JSON.parse(this.token) } }
     },
     getToken: {
       get: function () {

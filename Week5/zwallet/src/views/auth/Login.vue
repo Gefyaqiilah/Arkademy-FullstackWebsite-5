@@ -91,7 +91,7 @@ export default {
           this.$router.push('/home')
         })
         .cath(error => {
-          console.log(error)
+          console.log(error.status)
         })
     },
     detectInputInserted () {

@@ -4,14 +4,14 @@
     <div class="transfer-to-title">
       <p>Transfer To</p>
     </div>
-    <div class="transfer-to-user">
+    <div v-for="user in userReceiver" :key="user.id" class="transfer-to-user">
       <div class="receiver">
           <div class="thumbnail-photo">
-              <img src="/img/1-70x70.png" alt="">
+              <img src="/img/1-70x70.png" :alt="user.firstName">
           </div>
           <div class="detail-username">
-              <p class="username">Samuel Suhi</p>
-              <p class="telephone">+62 813-8492-9994</p>
+              <p class="username">{{user.firstName}}</p>
+              <p class="telephone">{{user.phoneNumber}}</p>
           </div>
       </div>
     </div>
@@ -20,48 +20,92 @@
         Type the amount you want to transfer and then
 press continue to the next steps.
       </p>
-    <form action="" method="">
+    <form action=""  v-on:submit="transfer" method="">
     <div class="field-amount">
         <div class="form-group">
           <div class="input-group" style="display:flex; justify-content:center;">
           <div class="input-group-prepend">
             <span class="rp" id="basic-addon1">Rp.</span>
           </div>
-         <input style="block" type="number" id="amount" class="form-control input-amount shadow-none" placeholder="0.00" aria-label="Username" aria-describedby="basic-addon1" required>
+         <input style="block" v-model="inputAmount" type="number" id="amount" class="form-control input-amount shadow-none" placeholder="0.00" aria-label="Username" aria-describedby="basic-addon1" required>
               </div>
           </div>
     </div>
-    </form>
       <p style="color:black;text-align:center;font-weight:700;">
-        Rp120.000 Available
+        {{balance === 0 ? `Rp.${balance} your balance is not enough`:`Rp.${balance} available` }}
         </p>
           <div class="form-group form-position">
             <div class="input-group input-group-position">
                <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1"><img src="/img/vector.png" alt=""></span>
                     </div>
-                <input type="text" id="notes" class="form-control input-notes shadow-none" placeholder="Add some notes" aria-label="Username" aria-describedby="basic-addon1" required>
+                <input type="text" maxlength="30" id="notes" v-model="inputNotes" class="form-control input-notes shadow-none" placeholder="Add some notes" aria-label="Username" aria-describedby="basic-addon1" required>
             </div>
           </div>
-    </div>
     <div class="button-continue">
-        <button class="btn-confirm">Continue</button>
+        <button type="submit" class="btn-confirm">Continue</button>
       </div>
+    </form>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'InputAmount',
+  data () {
+    return {
+      userReceiver: [],
+      inputAmount: '',
+      inputNotes: '',
+      balance: JSON.parse(localStorage.getItem('dataUser')).balance
+    }
+  },
   methods: {
     redirect () {
       if (!localStorage.getItem('dataUser')) {
         this.$router.replace('/auth/login')
       }
+    },
+    async getReceiver () {
+      try {
+        console.log(this.userReceiver)
+        const dataReceiver = await axios.get(`${process.env.VUE_APP_SERVICE_API}/users/${this.$route.params.idUser}`)
+        this.userReceiver.push(...dataReceiver.data.result)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async transfer (e) {
+      e.preventDefault()
+      if (this.balance < this.inputAmount) {
+        alert('Oops! Sorry your balance is not enough')
+      } else {
+        try {
+          const data = {
+            idSender: JSON.parse(localStorage.getItem('dataUser')).id,
+            idReceiver: this.$route.params.idUser,
+            amount: this.inputAmount,
+            notes: this.inputNotes
+          }
+          const resultTransfer = await axios.post(`${process.env.VUE_APP_SERVICE_API}/transfers`, data)
+          console.log(resultTransfer)
+          alert('Transfer successfully !')
+        } catch (error) {
+          console.log(error)
+        }
+      }
     }
   },
   mounted () {
     this.redirect()
+    this.getReceiver()
+  },
+  computed: {
+    balanceSender () {
+      return JSON.parse(localStorage.getItem('dataUser').balance)
+    }
   }
 }
 </script>

@@ -68,11 +68,12 @@ class Controllers {
     email --> ${email}
     password --> ${password} 
     `);
+    console.log(this.resultsTokens)
     usersModel.userLogin(email)
     .then(results=>{
         if(results.length === 0){
           const error = new Error ('Email or password you entered is incorrect.')
-          usersHelpers.response(res, null, { status: 'failed', statusCode: 404 }, error)
+          usersHelpers.response(res, null, { status: 'failed', statusCode: 403 }, error)
         }else{
           const userData = JSON.parse(JSON.stringify(results[0]))
           bcrypt.compare(password,userData.password,((errorcrypt,resultscrypt)=>{
@@ -201,9 +202,21 @@ class Controllers {
         }
     });
   }
+  updatePhoneNumber(req,res){
+    const {phoneNumber=null} = req.body
+    const id = req.params.idUser
+    if(phoneNumber===null)return usersHelpers.response(res, null, { status: 'failed', statusCode: 403 }, error)
+    usersModel.updatePhoneNumber(id,phoneNumber)
+    .then(results=>{
+      usersHelpers.response(res, results, { status: 'Succeed', statusCode: 200 }, null)
+    })
+    .catch(error=>{
+      usersHelpers.response(res, null, { status: 'failed', statusCode: 403 }, error)
+    })
+  }
   updateUsers (req, res) {
-    const { firstName = '', lastName = '', email = '', password = '', phoneNumber = '', pin = '' } = req.body
-    const idUser = req.params.idUser
+    const { firstName = null, lastName = null, email = null, password = '', phoneNumber = '', pin = '' } = req.body
+    const idUser = req.params.idUser  
     const data = {
       firstName,
       lastName,

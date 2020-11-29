@@ -47,7 +47,7 @@ class Controller {
     }
     transfersModel.insertTransfers(data)
       .then(results => {
-        transfersHelpers.response(res, results, { status: 'transfer succeed', statusCode: 200 }, null)
+        transfersHelpers.response(res, {message:'transfer successfully'}, { status: 'transfer succeed', statusCode: 200 }, null)
       })
       .catch(error => {
         transfersHelpers.response(res, null, { status: 'transfer failed', statusCode: 500 }, error.message)
@@ -59,6 +59,7 @@ class Controller {
     const offset = page ? (parseInt(page)-1)*parseInt(limit) : 0;
     const ordered = order.toUpperCase()
     console.log(offset);
+    console.log(firstName)
     if (type === 'transfers') {
       transfersModel.getTransactionTransfers(firstName, limit,offset,ordered)
         .then(results => {

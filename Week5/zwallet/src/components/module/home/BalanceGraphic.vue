@@ -8,7 +8,7 @@
       </div>
       <div class="expense">
           <img src="/img/arrow-up-red.png" alt="">
-          <p class="income-text">Income</p>
+          <p class="income-text">Expense</p>
           <p class="amount">Rp2.120.000</p>
       </div>
   </div>

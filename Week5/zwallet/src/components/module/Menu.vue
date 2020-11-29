@@ -3,24 +3,25 @@
   <div class="container">
       <div class="menu-grid">
           <div class="menu-dashboard">
-              <div class="location"><img src="/img/icon-menu-ruler.png" class="menu-icon" alt=""></div>
-              <div class=""><img src="/img/icon-menu-grid.png" class="menu-icon" alt=""></div>
-              <div class="menu-name active">Dashboard</div>
+              <div class="location"><img v-if="this.$route.name ===  'HomeComponent'" src="/img/icon-menu-ruler.png" class="menu-icon" alt=""></div>
+              <div class=""><router-link to="/home/home"><img src="/img/icon-menu-grid.png" class="menu-icon" alt=""></router-link></div>
+              <div class="menu-name active"><router-link class="decoration" to="/home/home">Dashboard</router-link></div>
           </div>
           <div class="menu-transfer">
-              <div class="location"></div>
-              <div class=""><img src="/img/icon-menu-arrow-up.png" class="menu-icon" alt=""></div>
-              <div class="menu-name">Transfer</div>
+              <div class="location"><router-link to="/home/searchreceiver"><img v-if="this.$route.name ===  'SearchReceiver'" src="/img/icon-menu-ruler.png" class="menu-icon" alt=""></router-link></div>
+              <div class=""><router-link to="/home/searchreceiver"><img src="/img/icon-menu-arrow-up.png" class="menu-icon" alt=""></router-link></div>
+              <div class="menu-name"><router-link class="color-text" to="/home/searchreceiver">Transfer</router-link></div>
           </div>
           <div class="menu-topup">
-              <div class="location"></div>
-              <div class=""><img src="/img/icon-menu-plus.png" class="menu-icon" alt=""></div>
-              <div class="menu-name">Top Up</div>
+              <div class="location"><img v-if="this.$route.name ===  'TopUp'" src="/img/icon-menu-ruler.png" class="menu-icon" alt=""></div>
+              <div class=""><router-link to="/home/topup"><img src="/img/icon-menu-plus.png" class="menu-icon" alt=""></router-link></div>
+              <div class="menu-name"><router-link class="color-text" to="/home/topup">Top Up</router-link></div>
           </div>
           <div class="menu-profile">
-              <div class="location"></div>
-              <div class=""><img src="/img/icon-menu-profile.png" class="menu-icon" alt=""></div>
-              <div class="menu-name">Profile</div>
+              <div class="location"><img v-if="this.$route.name ===  'Profile'" src="/img/icon-menu-ruler.png" class="menu-icon" alt=""></div>
+              <div class=""><router-link to="/home/profile"><img src="/img/icon-menu-profile.png" class="menu-icon" alt=""></router-link></div>
+              <div class="menu-name"><router-link class="color-text" to="/home/profile">Profile</router-link></div>
+
           </div>
           <div class="menu-logout" :style="styling" v-if="Object.keys(userData).length > 0" v-on:click.prevent="logOut">
               <div class="location"></div>
@@ -60,6 +61,19 @@ export default {
           console.log(error)
           alert('Failed to logout')
         })
+    },
+    toHome () {
+      this.$router.push('/auth')
+      console.log('occ')
+    },
+    toTransfer () {
+      this.router.push('/transfer')
+    },
+    toTopUp () {
+      this.router.push('/topup')
+    },
+    toProfile () {
+      this.router.push('/profile')
     }
   }
 }
@@ -133,6 +147,13 @@ export default {
     color: #6379F4;
 
 }
+.color-text{
+  color: rgba(58, 61, 66, 0.8);
+  text-decoration: none;
+}
+.decoration{
+  text-decoration: none;
+}
 @media (max-width:992px) {
     .menu{
         position:sticky;
@@ -151,7 +172,7 @@ export default {
   margin:auto 0 auto 0 ;
 }
 .menu-grid .menu-logout {
-    margin: auto 0 auto 0;
+    margin: auto 0 auto 0 !important;
 }
 .menu-name{
     display:none;
