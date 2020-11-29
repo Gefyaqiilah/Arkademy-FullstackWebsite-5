@@ -10,11 +10,10 @@ dizwallet ini memungkinkan users untuk :
 5.  dll
 
 ## Screenshot zwallet 
-![Uploadi
-![Screenshot (443)](https://user-images.githubusercontent.com/54069791/100553965-0abbf100-32c4-11eb-9e15-752cc438035d.png)
-ng Screenshot (445).png…]()
-![Screenshot (444)](https://user-images.githubusercontent.com/54069791/100553964-0a235a80-32c4-11eb-95d9-5b24caa247d3.png)
-![Screenshot (446)](https://user-images.githubusercontent.com/54069791/100553966-0b548780-32c4-11eb-857c-066839ec4f01.png)
+![Screenshot (447)](https://user-images.githubusercontent.com/54069791/100554060-da288700-32c4-11eb-9abb-6dcbfe92fa6d.png)
+![Screenshot (448)](https://user-images.githubusercontent.com/54069791/100554064-ddbc0e00-32c4-11eb-817c-ca5e546a44ef.png)
+![Screenshot (449)](https://user-images.githubusercontent.com/54069791/100554065-e280c200-32c4-11eb-8617-214bd5c35807.png)
+![Screenshot (452)](https://user-images.githubusercontent.com/54069791/100554070-ef9db100-32c4-11eb-9ade-a82e87c128ea.png)
 
 
 ## Project setup
