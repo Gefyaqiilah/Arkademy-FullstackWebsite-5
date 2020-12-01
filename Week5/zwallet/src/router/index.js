@@ -19,6 +19,8 @@ import Profile from '@/components/module/profile/Profile'
 import PersonalInformation from '@/components/module/profile/PersonalInformation'
 import ChangePin from '@/components/module/profile/ChangePin'
 import AddPhoneNumber from '@/components/module/profile/AddPhoneNumber'
+import EditPhoneNumber from '@/components/module/profile/EditPhoneNumber'
+import ManagePhoneNumber from '@/components/module/profile/ManagePhoneNumber'
 Vue.use(VueRouter)
 
 const routes = [
@@ -92,6 +94,16 @@ const routes = [
         path: 'addphonenumber',
         name: 'AddPhoneNumber',
         component: AddPhoneNumber
+      },
+      {
+        path: 'editphonenumber/:idUser',
+        name: 'EditPhoneNumber',
+        component: EditPhoneNumber
+      },
+      {
+        path: 'managephonenumber',
+        name: 'ManagePhoneNumber',
+        component: ManagePhoneNumber
       }
     ]
   },

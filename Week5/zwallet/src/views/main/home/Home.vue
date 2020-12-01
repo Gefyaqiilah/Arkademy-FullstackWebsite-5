@@ -18,7 +18,7 @@ import Menu from '@/components/module/Menu'
 import Footer from '@/components/module/Footer'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
-// Vue.forceUpdate()
+
 export default {
   name: 'Home',
   data () {
@@ -90,6 +90,8 @@ export default {
       if (this.$route.name === 'HomeComponent') { return { token: JSON.parse(this.token) } }
       if (this.$route.name === 'PersonalInformation') { return { token: JSON.parse(this.token) } }
       if (this.$route.name === 'AddPhoneNumber') { return { token: JSON.parse(this.token) } }
+      if (this.$route.name === 'ManagePhoneNumber') { return { token: JSON.parse(this.token) } }
+      if (this.$route.name === 'EditPhoneNumber') { return { token: JSON.parse(this.token) } }
     },
     getToken: {
       get: function () {

@@ -1,5 +1,5 @@
 <template>
-<div class="transaction-history">
+<div v-if="renderComponent" class="transaction-history">
   <div class="container ">
   <div class="transaction-history-grid">
       <div class="title">
@@ -13,7 +13,7 @@
                   <p class="name">{{transferTransaction.Receiver}}</p>
                   <p class="status">Transfer to {{transferTransaction.Receiver}}</p>
               </div>
-              <p class="amount red">- Rp.{{transferTransaction.amount}}</p>
+              <p class="amount red">- Rp.{{transferTransaction.amount}} <img src="/img/trash.png" v-on:click.prevent="deleteTransaction(transferTransaction.idTransfer,$event)" :value="transferTransaction.idTransfer" :alt="transferTransaction.idTransfer"></p>
           </div>
       </div>
   </div>
@@ -27,7 +27,8 @@ export default {
   name: 'TransactionHistory',
   data () {
     return {
-      dataTransfer: []
+      dataTransfer: [],
+      renderComponent: true
     }
   },
   props: ['firstName'],
@@ -36,14 +37,32 @@ export default {
       try {
         const resultsFetchTransfers = await axios.get(`${process.env.VUE_APP_SERVICE_API}/transfers/search?firstName=${this.firstName}&type=transfers&page=1&limit=4`)
         this.dataTransfer.push(...resultsFetchTransfers.data.result)
+        console.log(resultsFetchTransfers.data.result)
       } catch (error) {
         console.log(error)
+      }
+    },
+    async deleteTransaction (cek) {
+      // alert(event.target.value)
+      // console.log(event.target.src)
+      console.log(cek)
+      try {
+        const resultDelete = await axios.delete(`${process.env.VUE_APP_SERVICE_API}/transfers/${cek}`)
+        console.log(resultDelete)
+        alert('deleted successfully')
+        const filter = this.dataTransfer.filter((data) => data.idTransfer !== cek)
+        this.dataTransfer = filter
+      } catch (error) {
+        alert('failed to be deleted')
       }
     }
   },
   mounted () {
     this.fetchTransactionTransfers()
     console.log(this.dataTransfer)
+  },
+  beforeUpdate () {
+    console.count('celk')
   }
 }
 </script>

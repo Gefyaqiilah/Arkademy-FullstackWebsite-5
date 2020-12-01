@@ -9,7 +9,7 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1"><img src="/img/search.png" alt=""></span>
           </div>
-          <input type="text" v-model="search" class="form-control search-input-text shadow-none" placeholder="Search phone number receiver here" aria-label="Username" aria-describedby="basic-addon1">
+          <input type="text" v-model="search" class="form-control search-input-text shadow-none" placeholder="Search firstname receiver in here" aria-label="Username" aria-describedby="basic-addon1">
           </div>
       </div>
   <div v-if="!search" class="list-receiver">
@@ -29,7 +29,7 @@
             <img src="/img/1-70x70.png" :alt="listReceiver.firstName + ' Foto'">
         </div>
         <div class="detail-username">
-            <p class="username">{{listReceiver.firstName +' '}}{{listReceiver.lastName !==null ? listReceiver.lastName : ''}}</p>
+            <p class="username"><router-link class="username" :to="'/home/inputamount/'+listReceiver.id">{{listReceiver.firstName +' '}}{{listReceiver.lastName !==null ? listReceiver.lastName : ''}}</router-link></p>
             <p class="telephone">{{listReceiver.phoneNumber}}</p>
         </div>
     </div>
