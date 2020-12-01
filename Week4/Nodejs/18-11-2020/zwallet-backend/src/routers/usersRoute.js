@@ -3,18 +3,20 @@ const router = express.Router()
 
 const usersController = require('../controllers/usersController')
 const authenticateToken = require('../middleware/authenticateToken')
-// desctructuring method from class usersController
-const { getUsers, getUsersByNameAndPhoneNumber,updatePhoneNumber, getUsersById, insertUsers, updateUsers, deleteUsers, userLogin, newToken,userLogOut } = usersController
+const authorization = require('../middleware/authorization')
+const {uploadMulter} = require('../middleware/uploadImage')
+const { getUsers, getUsersByNameAndPhoneNumber,updatePhoneNumber, updatePhoto, getUsersById, insertUsers, updateUsers, deleteUsers, userLogin, newToken,userLogOut } = usersController
 
 router
-  .get('/', getUsers)
-  .get('/search', getUsersByNameAndPhoneNumber)
-  .get('/:idUser', getUsersById)
+  .get('/',authenticateToken,authorization, getUsers)
+  .get('/search',authenticateToken, getUsersByNameAndPhoneNumber)
+  .get('/:idUser',authenticateToken, getUsersById)
   .post('/token',newToken)
   .post('/', insertUsers)
   .post('/login', userLogin)
   .post('/logout',authenticateToken ,userLogOut)
-  .patch('/:idUser', updatePhoneNumber)
-  .delete('/:idUser', deleteUsers)
+  .patch('/:idUser',authenticateToken, updatePhoneNumber)
+  .patch('/photo/:idUser',authenticateToken,uploadMulter.single('photo'), updatePhoto)
+  .delete('/:idUser',authenticateToken, deleteUsers)
 
 module.exports = router

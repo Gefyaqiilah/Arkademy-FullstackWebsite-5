@@ -27,6 +27,8 @@ app.use('/users', usersRoute)
 app.use('/transfers', transfersRoute)
 app.use('/topup', topUpRoute)
 
+app.use('/photo',express.static('./uploads'))
+
 // bisa disini pakai next biar masuk ke route selanjutnya kebawah
 // kalau dimiasalkan ada yang next dengan error   
 app.use('*', (req, res) => {

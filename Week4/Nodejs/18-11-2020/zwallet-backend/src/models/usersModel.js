@@ -35,7 +35,17 @@ class Models {
       })
     })
   }
-
+  updatePhoto(id,photo){
+    return new Promise((resolve,reject)=>{
+      connection.query('UPDATE users SET photo = ? WHERE id = ?',[photo,id],(error,results)=>{
+        if(!error){
+          resolve(results)
+        }else{
+          reject(error)
+        }
+      })
+    })
+  }
   insertUsers (data) {
     return new Promise((resolve, reject) => {
       connection.query('INSERT INTO users SET ?', data, (error, results) => {
@@ -48,15 +58,10 @@ class Models {
     })
   }
 
-  checkFirstNameAndEmail (firstName,email){
+  checkEmail (email){
     return new Promise((resolve,reject)=>{
-      connection.query('SELECT firstName, email FROM users WHERE firstName = ? AND email = ?',[firstName,email],((error,results)=>{
+      connection.query('SELECT email FROM users WHERE email = ?',email,((error,results)=>{
         if(!error){
-          // if(results.length === 0){
-          //   resolve(results)          
-          // }else{
-          //   reject('username or email are already used by other users')
-          // }
           resolve(results)
         }else{
           reject(error)
@@ -80,7 +85,6 @@ class Models {
     connection.query('SELECT * from users WHERE email = ?',email,((error,results)=>{
       if(!error){
         resolve(results)
-        console.log(results);
       }else{
         reject(error)
       }
@@ -109,7 +113,17 @@ class Models {
       })
     })
   }
-
+  searchRoleId (id) {
+    return new Promise((resolve,reject)=>{
+      connection.query('SELECT roleId FROM users WHERE id = ?',id,(error,results)=>{
+        if(!error){
+          resolve(results)
+        }else{
+          reject(error)
+        }
+      })     
+    })
+  }
   deleteUsers (id) {
     return new Promise((resolve, reject) => {
       connection.query('DELETE FROM users WHERE id = ?', id, (error, results) => {

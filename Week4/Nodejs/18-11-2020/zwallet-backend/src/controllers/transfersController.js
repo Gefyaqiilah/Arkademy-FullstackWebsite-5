@@ -1,3 +1,5 @@
+const {v4:uuidv4} = require('uuid')
+
 const transfersModel = require('../models/transfersModel')
 const transfersHelpers = require('../helpers/transfersHelpers')
 
@@ -18,7 +20,6 @@ class Controller {
 
   getTransferById (req, res, next) {
     const idTransfer = req.params.idTransfer
-    console.log(idTransfer)
     transfersModel.getTransferById(idTransfer)
       .then(results => {
         console.log(results)
@@ -38,7 +39,9 @@ class Controller {
 
   insertTransfers (req, res) {
     const { idSender, idReceiver, amount, notes = '' } = req.body
+    const idTransfer = uuidv4()
     const data = {
+      idTransfer,
       idSender,
       idReceiver,
       amount,
@@ -58,8 +61,6 @@ class Controller {
     const { firstName, type = 'transfers',page=1, limit = '2',order = "DESC" } = req.query
     const offset = page ? (parseInt(page)-1)*parseInt(limit) : 0;
     const ordered = order.toUpperCase()
-    console.log(offset);
-    console.log(firstName)
     if (type === 'transfers') {
       transfersModel.getTransactionTransfers(firstName, limit,offset,ordered)
         .then(results => {

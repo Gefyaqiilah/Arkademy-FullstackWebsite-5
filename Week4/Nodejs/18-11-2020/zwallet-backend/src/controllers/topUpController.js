@@ -1,3 +1,4 @@
+const {v4:uuidv4} = require('uuid')
 const topUpModel = require('../models/topUpModel')
 const topUpHelpers = require('../helpers/topUpHelpers')
 
@@ -53,8 +54,9 @@ class Controller {
 
   insertTopUp (req, res) {
     const { idReceiver, senderName = '', amount, notes = '' } = req.body
-    console.log(idReceiver)
+    const idTopUp = uuidv4()
     const data = {
+      idTopUp,
       idReceiver,
       senderName,
       amount,

@@ -31,7 +31,6 @@ class Models {
       connection.query('SELECT balance FROM users WHERE id = ?', data.idSender, (errorSender, resultsSender) => {
         if (resultsSender.length !== 0) {
           const senderBalance = JSON.parse(JSON.stringify(resultsSender[0]))
-          console.log(senderBalance.balance)
           if (senderBalance.balance - data.amount >= 0) {
           // get balance user receiver
             connection.query('SELECT balance FROM users WHERE id = ?', data.idReceiver, (errorReceiver, resultsReceiver) => {
