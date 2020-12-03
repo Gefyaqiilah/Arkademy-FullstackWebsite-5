@@ -35,7 +35,7 @@ export default {
   methods: {
     async fetchTransactionTransfers () {
       try {
-        const resultsFetchTransfers = await axios.get(`${process.env.VUE_APP_SERVICE_API}/transfers/search?firstName=${this.firstName}&type=transfers&page=1&limit=4`)
+        const resultsFetchTransfers = await axios.get(`${process.env.VUE_APP_SERVICE_API}/transfers/search?firstName=${this.firstName}&type=transfers&page=1&limit=4`, { headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}` } })
         this.dataTransfer.push(...resultsFetchTransfers.data.result)
         console.log(resultsFetchTransfers.data.result)
       } catch (error) {
@@ -43,8 +43,6 @@ export default {
       }
     },
     async deleteTransaction (cek) {
-      // alert(event.target.value)
-      // console.log(event.target.src)
       console.log(cek)
       try {
         const resultDelete = await axios.delete(`${process.env.VUE_APP_SERVICE_API}/transfers/${cek}`)

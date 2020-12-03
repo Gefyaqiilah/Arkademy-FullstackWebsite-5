@@ -1,25 +1,37 @@
+// import module
 const bcrypt = require('bcrypt')
-const { v4: uuidv4 } = require('uuid')
-const usersHelpers = require('../helpers/usersHelpers')
-const usersModel = require('../models/usersModel')
+const {
+  v4: uuidv4
+} = require('uuid')
 const jwt = require('jsonwebtoken')
 const createError = require('http-errors')
+const redis = require("redis");
+const client = redis.createClient();
+// import file
+const usersHelpers = require('../helpers/usersHelpers')
+const usersModel = require('../models/usersModel')
 
 class Controllers {
   constructor() {
-    this.resultsTokens = []
+    // binding
     this.userLogin = this.userLogin.bind(this)
     this.generateAccessToken = this.generateAccessToken.bind(this)
     this.generateRefreshToken = this.generateRefreshToken.bind(this)
     this.newToken = this.newToken.bind(this)
     this.userLogOut = this.userLogOut.bind(this)
   }
-  getUsers(req, res,next) {
-    const { page = 1, limit = 4, order = "ASC" } = req.query
+
+  getUsers(req, res, next) {
+    const {
+      page = 1, limit = 4, order = "ASC"
+    } = req.query
     const offset = page ? (parseInt(page) - 1) * parseInt(limit) : 0
     usersModel.getUsers(limit, offset, order)
       .then(results => {
-        usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        usersHelpers.response(res, results, {
+          status: 'succeed',
+          statusCode: 200
+        }, null)
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
@@ -35,17 +47,22 @@ class Controllers {
           const error = new createError(404, `User with number ID:${idUser} not Found..`)
           next(error)
         } else {
-          usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+          usersHelpers.response(res, results, {
+            status: 'succeed',
+            statusCode: 200
+          }, null)
         }
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error)      
+        next(error)
       })
   }
 
   getUsersByNameAndPhoneNumber(req, res, next) {
-    const { firstName = '', phoneNumber = '' } = req.query
+    const {
+      firstName = '', phoneNumber = ''
+    } = req.query
 
     usersModel.getUsersByNameAndPhoneNumber(firstName, phoneNumber)
       .then(results => {
@@ -53,16 +70,22 @@ class Controllers {
           const error = new createError(404, `User with firstname : ${firstName} and phoneNumber : ${phoneNumber} not Found..`)
           next(error)
         } else {
-          usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+          usersHelpers.response(res, results, {
+            status: 'succeed',
+            statusCode: 200
+          }, null)
         }
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error)    
+        next(error)
       })
   }
   userLogin(req, res, next) {
-    const { email, password } = req.body
+    const {
+      email,
+      password
+    } = req.body
 
     usersModel.userLogin(email)
       .then(results => {
@@ -74,27 +97,60 @@ class Controllers {
           bcrypt.compare(password, userData.password, ((errorcrypt, resultscrypt) => {
             if (!errorcrypt) {
               if (resultscrypt) {
-                const userDataToken =
-                {
+                const userDataToken = {
                   id: userData.id,
                   firstName: userData.firstName,
                   lastName: userData.lastName,
                   email: userData.email,
                   phoneNumber: userData.phoneNumber,
-                  balance: userData.balance,
-                  pin: userData.pin
-
+                  balance: userData.balance
                 }
+                // function for generate token
                 const token = this.generateAccessToken(userDataToken)
                 const refreshToken = this.generateRefreshToken(userDataToken)
-                const tokenResponse = { accessToken: token, refreshToken }
+                const tokenResponse = {
+                  accessToken: token,
+                  refreshToken
+                }
+                // get data login user from redis
+                client.get("dataLogin", function (err, reply) {
+                  if (reply) {
+                    const dataLogin = [...JSON.parse(reply)]
 
-                this.resultsTokens.push({
-                  ...userDataToken,
-                  refreshToken: refreshToken
-                })
+                    // check whether the user has logged in before
+                    const checkLoggedin = dataLogin.find((x) => {
+                      return x.email === email
+                    })
+                    if (checkLoggedin) {
+                      const error = new createError(404, `Forbidden: you are logged in now`)
+                      return next(error)
+                    }
 
-                usersHelpers.response(res, tokenResponse, { status: 'Login Successful', statusCode: 200 }, null)
+                    dataLogin.push({
+                      ...userDataToken,
+                      refreshToken: refreshToken
+                    })
+                    // set redis
+                    client.setex("dataLogin",60*60, JSON.stringify(dataLogin));
+                    // send a response
+                    usersHelpers.response(res, tokenResponse, {
+                      status: 'Login Successful',
+                      statusCode: 200
+                    }, null)
+                  } else {
+                    const dataLogin = []
+                    dataLogin.push({
+                      ...userDataToken,
+                      refreshToken: refreshToken
+                    })
+                    client.setex("dataLogin",60*60, JSON.stringify(dataLogin));
+                    // send a response
+                    usersHelpers.response(res, tokenResponse, {
+                      status: 'Login Successful',
+                      statusCode: 200
+                    }, null)
+                  }
+                });
               } else {
                 const error = new createError(404, `Email or password you entered is incorrect.`)
                 next(error)
@@ -112,21 +168,35 @@ class Controllers {
       })
   }
   userLogOut(req, res, next) {
-    console.log(this.resultsTokens)
-    console.log('controller')
-    if(this.resultsTokens.length===0){
-      const error = new createError(401, `Forbidden`)
-      next(error)   
-    }
-      const filter = this.resultsTokens.filter((user) => user.email !== req.user.email)
-      this.resultsTokens = filter
-      usersHelpers.response(res, { message: `${req.user.firstName} has logged out` }, { status: 'succeed', statusCode: 200 }, null)
+    client.get("dataLogin", function (err, reply) {
+      if (!reply) {
+        const error = new createError(401, `Forbidden`)
+        return next(error)
+      }
+
+      const dataLogin = [...JSON.parse(reply)]
+
+      const checkDataLogin = dataLogin.find((user) => user.email === req.user.email)
+      if (!checkDataLogin) {
+        const error = new createError(401, `Forbidden`)
+        return next(error)
+      }
+
+      const filter = dataLogin.filter((user) => user.email !== req.user.email)
+      client.setex("dataLogin",60*60, JSON.stringify(filter));
+
+      usersHelpers.response(res, {
+        message: `${req.user.firstName} has logged out`
+      }, {
+        status: 'succeed',
+        statusCode: 200
+      }, null)
+    })
   }
   generateAccessToken(userData) {
     return jwt.sign(
       userData,
-      process.env.ACCESS_TOKEN,
-      {
+      process.env.ACCESS_TOKEN, {
         expiresIn: '24h'
       })
   }
@@ -137,56 +207,69 @@ class Controllers {
 
   newToken(req, res, next) {
     const refreshToken = req.body.token
-    
-    if (!refreshToken){
+    if (!refreshToken) {
       const error = new createError(500, `Forbidden: tokens cannot be empty`)
-      next(error)
+      return next(error)
     }
 
-    const checkRefreshToken = this.resultsTokens.find((x) => {
-      return x.refreshToken === refreshToken
-    })
+    client.get("dataLogin", function (err, reply) {
+      if (!reply) {
+        const error = new createError(401, `Forbidden: required to log in first`)
+        next(error)
+      }
 
-    if(!checkRefreshToken){
-      const error = new createError(401, `Forbidden: you are not logged in`)
-      next(error)
-    }
+      const dataLogin = [...JSON.parse(reply)]
 
-    if (checkRefreshToken) {
-      jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, user) => {
-        if(err){
-          const error = new createError(500, `Invalid token`)
-          next(error)     
-        }
-
-        usersModel.getDataToken(user.email)
-          .then(results => {
-            const userData = results[0]
-            const accessToken = this.generateAccessToken(userData)
-            usersHelpers.response(res, { accessToken }, { status: 'Succeed', statusCode: 200 }, null)
-          })
-          .catch(() => {
-            const error = new createError(500, `Looks like server having trouble`)
-            next(error)  
-         })
+      const checkRefreshToken = dataLogin.find((x) => {
+        return x.refreshToken === refreshToken
       })
-    }
-    
+      if (!checkRefreshToken) {
+        const error = new createError(401, `Forbidden: you are not logged in`)
+        return next(error)
+      }
+
+      const verifyRefreshToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN)
+
+      usersModel.getDataToken(verifyRefreshToken.email)
+        .then(results => {
+          const userData = JSON.stringify(results[0])
+          jwt.sign(userData, process.env.ACCESS_TOKEN, function (err, token) {
+            usersHelpers.response(res, {
+              accessToken: token
+            }, {
+              status: 'Succeed',
+              statusCode: 200
+            }, null)
+          });
+        })
+        .catch(() => {
+          const error = new createError(500, `Looks like server having trouble`)
+          return next(error)
+        })
+    })
   }
+
   insertUsers(req, res) {
-    const { firstName, lastName, email, password, phoneNumber, pin } = req.body
-    if(!firstName||!email||!password){
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      phoneNumber,
+      pin
+    } = req.body
+    if (!firstName || !email || !password) {
       const error = new createError(400, `firstName, email and password cannot be empty`)
-      next(error)   
+      next(error)
     }
 
     const id = uuidv4()
 
     bcrypt.genSalt(10, function (err, salt) {
       bcrypt.hash(password, salt, function (err, hash) {
-        if(!hash){
+        if (!hash) {
           const error = new createError(500, `Invalid password`)
-          next(error) 
+          next(error)
         }
 
         const data = {
@@ -204,66 +287,77 @@ class Controllers {
 
         usersModel.checkEmail(email)
           .then(results => {
-            if(results.length > 0){
+            if (results.length > 0) {
               const error = new createError(409, `Forbidden: Email already exists. `)
-              next(error)   
+              next(error)
             }
             usersModel.insertUsers(data)
               .then(results => {
-                usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+                usersHelpers.response(res, results, {
+                  status: 'succeed',
+                  statusCode: 200
+                }, null)
               })
               .catch(() => {
                 const error = new createError(500, `Looks like server having trouble`)
-                next(error)   
+                next(error)
               })
           })
           .catch(() => {
             const error = new createError(500, `Looks like server having trouble`)
-            next(error) 
-          }) 
+            next(error)
+          })
       })
     })
   }
 
   updatePhoneNumber(req, res) {
-    const { phoneNumber = null } = req.body
+    const {
+      phoneNumber = null
+    } = req.body
     const id = req.params.idUser
-    if(!id||!phoneNumber){
+    if (!id || !phoneNumber) {
       const error = new createError(400, `Forbidden: Id or phone number cannot be empty`)
-      next(error) 
+      next(error)
     }
 
     usersModel.updatePhoneNumber(id, phoneNumber)
       .then(results => {
-        usersHelpers.response(res, results, { status: 'Succeed', statusCode: 200 }, null)
+        usersHelpers.response(res, results, {
+          status: 'Succeed',
+          statusCode: 200
+        }, null)
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error) 
+        next(error)
       })
   }
   updatePhoto(req, res) {
     const id = req.params.idUser
     const photo = `${process.env.BASE_URL}/upload/${req.file.filename}`
-    
-    if (!id || !req.file.filename){
+
+    if (!id || !req.file.filename) {
       const error = new createError(400, `Forbidden: Id or Photo cannot be empty`)
-      next(error) 
-    }  
+      next(error)
+    }
     usersModel.updatePhoto(id, photo)
       .then(results => {
-        usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        usersHelpers.response(res, results, {
+          status: 'succeed',
+          statusCode: 200
+        }, null)
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error) 
+        next(error)
       })
   }
-  updateUsers(req, res,next) {
+  updateUsers(req, res, next) {
     const idUser = req.params.idUser
-    if(Object.keys(req.body).length === 0) {
+    if (Object.keys(req.body).length === 0) {
       const error = new createError(400, `Forbidden: Nothing to update`)
-      next(error) 
+      next(error)
     }
 
     const data = {
@@ -273,11 +367,14 @@ class Controllers {
 
     usersModel.updateUsers(idUser, data)
       .then(results => {
-        usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        usersHelpers.response(res, results, {
+          status: 'succeed',
+          statusCode: 200
+        }, null)
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error) 
+        next(error)
       })
   }
 
@@ -285,10 +382,16 @@ class Controllers {
     const idUser = req.params.idUser
     usersModel.deleteUsers(idUser)
       .then(results => {
-        usersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
+        usersHelpers.response(res, results, {
+          status: 'succeed',
+          statusCode: 200
+        }, null)
       })
       .catch(error => {
-        usersHelpers.response(res, null, { status: 'failed', statusCode: 500 }, error)
+        usersHelpers.response(res, null, {
+          status: 'failed',
+          statusCode: 500
+        }, error)
       })
   }
 }

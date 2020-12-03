@@ -26,7 +26,7 @@ class Models {
 
   getUsersByNameAndPhoneNumber (firstName, phoneNumber) {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM users WHERE firstName LIKE ? AND phoneNumber LIKE ?', [`%${firstName}%`, `%${phoneNumber}%`], (error, results) => {
+      connection.query('SELECT id, firstName, lastName, phoneNumber, email FROM users WHERE firstName LIKE ? AND phoneNumber LIKE ?', [`%${firstName}%`, `%${phoneNumber}%`], (error, results) => {
         if (!error) {
           resolve(results)
         } else {
@@ -70,9 +70,11 @@ class Models {
     })
   }
   getDataToken (email) {
+    console.log(email)
     return new Promise ((resolve,reject)=>{
       connection.query('SELECT id,firstName, lastName,email,phoneNumber,balance FROM users WHERE email = ?',email,(error,results)=>{
         if(!error){
+          console.log(results)
           resolve(results)
         }else{
           reject(error)
@@ -82,7 +84,7 @@ class Models {
   }
   userLogin (email) {
     return new Promise ((resolve,reject)=>{
-    connection.query('SELECT * from users WHERE email = ?',email,((error,results)=>{
+    connection.query('SELECT id, email, firstName, lastName, phoneNumber, password from users WHERE email = ?',email,((error,results)=>{
       if(!error){
         resolve(results)
       }else{

@@ -82,16 +82,19 @@ export default {
           password: this.password
         })
         .then(results => {
-          const accessToken = results.data.result.accessToken
-          const refreshToken = results.data.result.refreshToken
-          const decoded = jwt.verify(accessToken, process.env.VUE_APP_JWT_KEY)
-          localStorage.setItem('dataUser', JSON.stringify(decoded))
-          localStorage.setItem('refreshToken', refreshToken)
-          localStorage.setItem('accessToken', accessToken)
-          this.$router.push('/home')
+          if (results.status === 200) {
+            const accessToken = results.data.result.accessToken
+            const refreshToken = results.data.result.refreshToken
+            const decoded = jwt.verify(accessToken, process.env.VUE_APP_JWT_KEY)
+            localStorage.setItem('dataUser', JSON.stringify(decoded))
+            localStorage.setItem('refreshToken', refreshToken)
+            localStorage.setItem('accessToken', accessToken)
+            alert('Login successful')
+            this.$router.push('/home')
+          }
         })
-        .cath(error => {
-          console.log(error.status)
+        .cath(() => {
+          alert('Looks like server having trouble')
         })
     },
     detectInputInserted () {

@@ -35,7 +35,7 @@ app.use('*', (req, res) => {
 
 // Error handling
 app.use((err, req, res, next) => {
-  usersHelpers.response(res, null, { status: err.status, statusCode: err.statusCode }, { message: err.message })
+  return usersHelpers.response(res, null, { status: err.status, statusCode: err.statusCode }, { message: err.message })
 })
 
 app.listen(PORT, () => console.log('Express server running on port : ' + PORT))

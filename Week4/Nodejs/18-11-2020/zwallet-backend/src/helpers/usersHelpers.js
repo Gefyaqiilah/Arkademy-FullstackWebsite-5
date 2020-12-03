@@ -2,11 +2,11 @@ module.exports = {
   response: (res, result, status, err) => {
     const resultPrint = {
     }
-    console.log(status)
     resultPrint.status = status.status
     resultPrint.statusCode = status.statusCode
     resultPrint.result = result
     resultPrint.err = err || null
+    console.log(resultPrint)
     return res.status(resultPrint.statusCode).json(resultPrint)
   }
 }

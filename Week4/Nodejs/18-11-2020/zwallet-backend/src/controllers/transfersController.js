@@ -1,5 +1,5 @@
 const {v4:uuidv4} = require('uuid')
-
+const createError = require('http-errors')
 const transfersModel = require('../models/transfersModel')
 const transfersHelpers = require('../helpers/transfersHelpers')
 
@@ -65,9 +65,7 @@ class Controller {
       transfersModel.getTransactionTransfers(firstName, limit,offset,ordered)
         .then(results => {
           if (results.length === 0) {
-            const error = new Error(`Data Transfer User with firstName :${firstName} not Found..`)
-            error.statusCode = 500
-            error.status = 'failed'
+            const error = new createError(204,`Data not found`)
             return next(error)
           } else {
             transfersHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)

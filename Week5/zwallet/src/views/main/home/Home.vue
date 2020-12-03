@@ -5,7 +5,8 @@
     </header>
     <main class="grid-main">
         <Menu class="menu" :token="getToken" v-bind:styling="this.$route.name==='SearchReceiver'? 'margin:50px 0 50px 0':'margin:auto 0 50px 0' "/>
-        <router-view class="pages" :token="sendToken" v-if="renderComponent"/>
+        <router-view class
+        ="pages" :token="sendToken" v-if="renderComponent"/>
     </main>
     <footer>
       <Footer/>
@@ -71,9 +72,9 @@ export default {
             })
           }
         })
-        .catch(() => {
+        .catch(error => {
           clearInterval(this.timer)
-          console.log('Looks like server having trouble')
+          console.log(error)
         })
     }
   },

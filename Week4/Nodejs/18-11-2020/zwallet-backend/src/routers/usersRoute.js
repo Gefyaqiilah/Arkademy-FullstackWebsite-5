@@ -9,9 +9,9 @@ const { getUsers, getUsersByNameAndPhoneNumber,updatePhoneNumber, updatePhoto, g
 
 router
   .get('/', getUsers)
-  .get('/search',authenticateToken, getUsersByNameAndPhoneNumber)
-  .get('/:idUser', getUsersById)
+  .get('/search', getUsersByNameAndPhoneNumber)
   .post('/token',newToken)
+  .get('/:idUser', getUsersById)
   .post('/', insertUsers)
   .post('/login', userLogin)
   .post('/logout',authenticateToken ,userLogOut)
