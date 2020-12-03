@@ -8,14 +8,14 @@ const {uploadMulter} = require('../middleware/uploadImage')
 const { getUsers, getUsersByNameAndPhoneNumber,updatePhoneNumber, updatePhoto, getUsersById, insertUsers, updateUsers, deleteUsers, userLogin, newToken,userLogOut } = usersController
 
 router
-  .get('/',authenticateToken,authorization, getUsers)
+  .get('/', getUsers)
   .get('/search',authenticateToken, getUsersByNameAndPhoneNumber)
-  .get('/:idUser',authenticateToken, getUsersById)
+  .get('/:idUser', getUsersById)
   .post('/token',newToken)
   .post('/', insertUsers)
   .post('/login', userLogin)
   .post('/logout',authenticateToken ,userLogOut)
-  .patch('/:idUser',authenticateToken, updatePhoneNumber)
+  .patch('/:idUser', updateUsers)
   .patch('/photo/:idUser',authenticateToken,uploadMulter.single('photo'), updatePhoto)
   .delete('/:idUser',authenticateToken, deleteUsers)
 

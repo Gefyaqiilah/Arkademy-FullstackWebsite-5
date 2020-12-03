@@ -104,7 +104,7 @@ class Models {
   }
   updateUsers (id, data) {
     return new Promise((resolve, reject) => {
-      connection.query('UPDATE users SET ? WHERE id = ?', [data, id], (error, results) => {
+      connection.query('UPDATE users SET ? WHERE id = ?', [data, `${id}`], (error, results) => {
         if (!error) {
           resolve(results)
         } else {

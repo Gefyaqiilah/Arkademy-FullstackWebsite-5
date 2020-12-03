@@ -29,12 +29,11 @@ app.use('/topup', topUpRoute)
 
 app.use('/photo',express.static('./uploads'))
 
-// bisa disini pakai next biar masuk ke route selanjutnya kebawah
-// kalau dimiasalkan ada yang next dengan error   
 app.use('*', (req, res) => {
   usersHelpers.response(res, null, { status: 'failed', statusCode: 404 }, { message: 'Sorry API endpoint Not Found' })
 })
-// error handling (tanpa route '') kalau misalkan ada yang pakai next (berisi error) maka bakal dijalankan route ini
+
+// Error handling
 app.use((err, req, res, next) => {
   usersHelpers.response(res, null, { status: err.status, statusCode: err.statusCode }, { message: err.message })
 })
