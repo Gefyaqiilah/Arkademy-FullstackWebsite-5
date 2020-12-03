@@ -1,4 +1,3 @@
-// import module
 const bcrypt = require('bcrypt')
 const {
   v4: uuidv4
@@ -7,13 +6,11 @@ const jwt = require('jsonwebtoken')
 const createError = require('http-errors')
 const redis = require("redis");
 const client = redis.createClient();
-// import file
 const responseHelpers = require('../helpers/responseHelpers')
 const usersModel = require('../models/usersModel')
 
 class Controllers {
   constructor() {
-    // binding
     this.userLogin = this.userLogin.bind(this)
     this.generateAccessToken = this.generateAccessToken.bind(this)
     this.generateRefreshToken = this.generateRefreshToken.bind(this)
@@ -26,6 +23,7 @@ class Controllers {
       page = 1, limit = 4, order = "ASC"
     } = req.query
     const offset = page ? (parseInt(page) - 1) * parseInt(limit) : 0
+    
     usersModel.getUsers(limit, offset, order)
       .then(results => {
         responseHelpers.response(res, results, {
@@ -41,6 +39,7 @@ class Controllers {
 
   getUsersById(req, res, next) {
     const idUser = req.params.idUser
+
     usersModel.getUsersById(idUser)
       .then(results => {
         if (results.length === 0) {

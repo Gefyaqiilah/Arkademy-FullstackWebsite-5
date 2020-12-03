@@ -1,21 +1,24 @@
 const jwt = require('jsonwebtoken')
-const redis = require("redis");
-const client = redis.createClient();
-const usersHelpers = require('../helpers/usersHelpers')
+
 function authenticateToken (req,res,next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
-  if(token === null) return usersHelpers.response(res, null, { status: 'failed', statusCode: 403 }, {message: 'Token cannot be empty'})
-  
+  if(!token){
+    const error = new createError(401, 'Forbidden: Token cannot be empty')
+    return next(error)
+  }
+
   jwt.verify(token,process.env.ACCESS_TOKEN,(error,user)=>{
     if(!error){
       req.user = user
-      next()
+      return next()
     }else{
       if(error.name === 'TokenExpiredError'){
-        usersHelpers.response(res, null, { status: 'failed', statusCode: 403 }, {message:'Token expired'})   
+        const error = new createError(401, 'Access Token expired')
+        return next(error)  
       }else if (error.name === 'JsonWebTokenError'){
-        usersHelpers.response(res, null, { status: 'failed', statusCode: 403 }, {message: 'Invalid Token'})   
+        const error = new createError(401, 'Invalid Token')
+        return next(error)
       }
      }
   })

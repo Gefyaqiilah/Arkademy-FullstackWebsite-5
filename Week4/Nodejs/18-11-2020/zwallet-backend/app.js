@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 // import router
 const usersRoute = require('./src/routers/usersRoute')
-const usersHelpers = require('./src/helpers/usersHelpers')
+const responseHelpers = require('./src/helpers/responseHelpers')
 const transfersRoute = require('./src/routers/transfersRoute')
 const topUpRoute = require('./src/routers/topUpRoute')
 const PORT = process.env.PORT
@@ -30,12 +30,12 @@ app.use('/topup', topUpRoute)
 app.use('/photo',express.static('./uploads'))
 
 app.use('*', (req, res) => {
-  usersHelpers.response(res, null, { status: 'failed', statusCode: 404 }, { message: 'Sorry API endpoint Not Found' })
+  responseHelpers.response(res, null, { status: 'failed', statusCode: 404 }, { message: 'Sorry API endpoint Not Found' })
 })
 
 // Error handling
 app.use((err, req, res, next) => {
-  return usersHelpers.response(res, null, { status: err.status, statusCode: err.statusCode }, { message: err.message })
+  responseHelpers.response(res, null, { status: err.status, statusCode: err.statusCode }, { message: err.message })
 })
 
 app.listen(PORT, () => console.log('Express server running on port : ' + PORT))

@@ -48,7 +48,7 @@ class Controller {
       transferDate: new Date()
     }
     transfersModel.insertTransfers(data)
-      .then(results => {
+      .then(() => {
         responseHelpers.response(res, {message:'transfer successfully'}, { status: 'transfer succeed', statusCode: 200 }, null)
       })
       .catch(() => {

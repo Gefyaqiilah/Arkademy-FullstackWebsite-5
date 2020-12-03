@@ -5,9 +5,10 @@ const responseHelpers = require('../helpers/responseHelpers')
 
 class Controller {
   getTopUp (req, res) {
-    const {page = 1,limit = 2,order = "DESC"}=req.query
+    const {page = 1,limit = 2,order = "DESC"}= req.query
     const ordered = order.toUpperCase()
     const offset = page ? (parseInt(page)-1) * parseInt(limit) : 0;
+
     topUpModel.getTopUp(limit,offset,ordered)
       .then(results => {
         responseHelpers.response(res, results, { status: 'succeed', statusCode: 200 }, null)
