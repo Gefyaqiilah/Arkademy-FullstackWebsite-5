@@ -1,8 +1,8 @@
 const connection = require('../configs/db')
 class Models {
-  getUsers (limit,offset,order) {
+  getUsers(limit, offset, order) {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT id, firstName, lastName, email, phoneNumber FROM users ORDER BY createdAt ${order} LIMIT ${offset},${limit}`,(error, results) => {
+      connection.query(`SELECT id, firstName, lastName, email, phoneNumber FROM users ORDER BY createdAt ${order} LIMIT ${offset},${limit}`, (error, results) => {
         if (!error) {
           resolve(results)
         } else {
@@ -12,7 +12,7 @@ class Models {
     })
   }
 
-  getUsersById (id) {
+  getUsersById(id) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT id, firstName, lastName, email, phoneNumber FROM users WHERE id = ?', id, (error, results) => {
         if (!error) {
@@ -24,7 +24,7 @@ class Models {
     })
   }
 
-  getUsersByNameAndPhoneNumber (firstName, phoneNumber) {
+  getUsersByNameAndPhoneNumber(firstName, phoneNumber) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT id, firstName, lastName, phoneNumber, email FROM users WHERE firstName LIKE ? AND phoneNumber LIKE ?', [`%${firstName}%`, `%${phoneNumber}%`], (error, results) => {
         if (!error) {
@@ -35,18 +35,18 @@ class Models {
       })
     })
   }
-  updatePhoto(id,photo){
-    return new Promise((resolve,reject)=>{
-      connection.query('UPDATE users SET photo = ? WHERE id = ?',[photo,id],(error,results)=>{
-        if(!error){
+  updatePhoto(id, photo) {
+    return new Promise((resolve, reject) => {
+      connection.query('UPDATE users SET photo = ? WHERE id = ?', [photo, id], (error, results) => {
+        if (!error) {
           resolve(results)
-        }else{
+        } else {
           reject(error)
         }
       })
     })
   }
-  insertUsers (data) {
+  insertUsers(data) {
     return new Promise((resolve, reject) => {
       connection.query('INSERT INTO users SET ?', data, (error, results) => {
         if (!error) {
@@ -58,53 +58,53 @@ class Models {
     })
   }
 
-  checkEmail (email){
-    return new Promise((resolve,reject)=>{
-      connection.query('SELECT email FROM users WHERE email = ?',email,((error,results)=>{
-        if(!error){
+  checkEmail(email) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT email FROM users WHERE email = ?', email, ((error, results) => {
+        if (!error) {
           resolve(results)
-        }else{
+        } else {
           reject(error)
-        } 
+        }
       }))
     })
   }
-  getDataToken (email) {
+  getDataToken(email) {
     console.log(email)
-    return new Promise ((resolve,reject)=>{
-      connection.query('SELECT id,firstName, lastName,email,phoneNumber,balance FROM users WHERE email = ?',email,(error,results)=>{
-        if(!error){
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT id,firstName, lastName,email,phoneNumber,balance FROM users WHERE email = ?', email, (error, results) => {
+        if (!error) {
           console.log(results)
           resolve(results)
-        }else{
+        } else {
           reject(error)
         }
-      })    
+      })
     })
   }
-  userLogin (email) {
-    return new Promise ((resolve,reject)=>{
-    connection.query('SELECT id, email, firstName, lastName, phoneNumber, password from users WHERE email = ?',email,((error,results)=>{
-      if(!error){
-        resolve(results)
-      }else{
-        reject(error)
-      }
-    }))
-  })
-}
-  updatePhoneNumber(id,phoneNumber){
-    return new Promise((resolve,reject)=>{
-      connection.query('UPDATE users SET phoneNumber = ? WHERE id= ?',[phoneNumber,id],(error,results)=>{
-        if(!error){
+  userLogin(email) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT id, email, firstName, lastName, phoneNumber, password from users WHERE email = ?', email, ((error, results) => {
+        if (!error) {
           resolve(results)
-        }else{
+        } else {
+          reject(error)
+        }
+      }))
+    })
+  }
+  updatePhoneNumber(id, phoneNumber) {
+    return new Promise((resolve, reject) => {
+      connection.query('UPDATE users SET phoneNumber = ? WHERE id= ?', [phoneNumber, id], (error, results) => {
+        if (!error) {
+          resolve(results)
+        } else {
           reject('wooo')
         }
       })
     })
   }
-  updateUsers (id, data) {
+  updateUsers(id, data) {
     return new Promise((resolve, reject) => {
       connection.query('UPDATE users SET ? WHERE id = ?', [data, `${id}`], (error, results) => {
         if (!error) {
@@ -115,18 +115,18 @@ class Models {
       })
     })
   }
-  searchRoleId (id) {
-    return new Promise((resolve,reject)=>{
-      connection.query('SELECT roleId FROM users WHERE id = ?',id,(error,results)=>{
-        if(!error){
+  searchRoleId(id) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT roleId FROM users WHERE id = ?', id, (error, results) => {
+        if (!error) {
           resolve(results)
-        }else{
+        } else {
           reject(error)
         }
-      })     
+      })
     })
   }
-  deleteUsers (id) {
+  deleteUsers(id) {
     return new Promise((resolve, reject) => {
       connection.query('DELETE FROM users WHERE id = ?', id, (error, results) => {
         if (!error) {

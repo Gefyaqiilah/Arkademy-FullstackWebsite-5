@@ -23,7 +23,7 @@ class Controllers {
       page = 1, limit = 4, order = "ASC"
     } = req.query
     const offset = page ? (parseInt(page) - 1) * parseInt(limit) : 0
-    
+
     usersModel.getUsers(limit, offset, order)
       .then(results => {
         responseHelpers.response(res, results, {
@@ -130,7 +130,7 @@ class Controllers {
                       refreshToken: refreshToken
                     })
                     // set redis
-                    client.setex("dataLogin",60*60, JSON.stringify(dataLogin));
+                    client.setex("dataLogin", 60 * 60, JSON.stringify(dataLogin));
                     // send a response
                     responseHelpers.response(res, tokenResponse, {
                       status: 'Login Successful',
@@ -142,7 +142,7 @@ class Controllers {
                       ...userDataToken,
                       refreshToken: refreshToken
                     })
-                    client.setex("dataLogin",60*60, JSON.stringify(dataLogin));
+                    client.setex("dataLogin", 60 * 60, JSON.stringify(dataLogin));
                     // send a response
                     responseHelpers.response(res, tokenResponse, {
                       status: 'Login Successful',
@@ -182,7 +182,7 @@ class Controllers {
       }
 
       const filter = dataLogin.filter((user) => user.email !== req.user.email)
-      client.setex("dataLogin",60*60, JSON.stringify(filter));
+      client.setex("dataLogin", 60 * 60, JSON.stringify(filter));
 
       responseHelpers.response(res, {
         message: `${req.user.firstName} has logged out`
@@ -332,9 +332,10 @@ class Controllers {
         return next(error)
       })
   }
+
   updatePhoto(req, res) {
     const id = req.params.idUser
-    const photo = `${process.env.BASE_URL}/upload/${req.file.filename}`
+    const photo = `${process.env.BASE_URL}/photo/${req.file.filename}`
 
     if (!id || !req.file.filename) {
       const error = new createError(400, `Forbidden: Id or Photo cannot be empty`)

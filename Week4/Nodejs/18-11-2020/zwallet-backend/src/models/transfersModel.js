@@ -1,7 +1,7 @@
 const connection = require('../configs/db')
 
 class Models {
-  getTransfers (limit,offset,order) {
+  getTransfers(limit, offset, order) {
     return new Promise((resolve, reject) => {
       connection.query(`SELECT * FROM transfers ORDER BY transferDate ${order} LIMIT ${offset},${limit}`, (error, results) => {
         if (!error) {
@@ -13,7 +13,7 @@ class Models {
     })
   }
 
-  getTransferById (idTransfer) {
+  getTransferById(idTransfer) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM transfers WHERE idTransfer = ? ', idTransfer, (error, results) => {
         if (!error) {
@@ -25,14 +25,14 @@ class Models {
     })
   }
 
-  insertTransfers (data) {
+  insertTransfers(data) {
     return new Promise((resolve, reject) => {
       // get balance user sender
       connection.query('SELECT balance FROM users WHERE id = ?', data.idSender, (errorSender, resultsSender) => {
         if (resultsSender.length !== 0) {
           const senderBalance = JSON.parse(JSON.stringify(resultsSender[0]))
           if (senderBalance.balance - data.amount >= 0) {
-          // get balance user receiver
+            // get balance user receiver
             connection.query('SELECT balance FROM users WHERE id = ?', data.idReceiver, (errorReceiver, resultsReceiver) => {
               if (resultsReceiver.length !== 0) {
                 const receiverBalance = JSON.parse(JSON.stringify(resultsReceiver[0]))
@@ -70,7 +70,7 @@ class Models {
     })
   }
 
-  getTransactionTransfers (firstName, limit,offset,order) {
+  getTransactionTransfers(firstName, limit, offset, order) {
     return new Promise((resolve, reject) => {
       connection.query(`SELECT transfers.idTransfer AS idTransfer,usersSender.firstName AS Sender,usersReceiver.firstName as Receiver,transfers.amount,transfers.transferDate,transfers.notes FROM users as usersSender INNER JOIN transfers ON usersSender.id = transfers.idSender AND usersSender.firstName LIKE ? INNER JOIN users as usersReceiver ON usersReceiver.id = transfers.idReceiver ORDER BY transfers.transferDate ${order} LIMIT ${offset},${limit}`, [firstName], (error, results) => {
         if (!error) {
@@ -82,7 +82,7 @@ class Models {
     })
   }
 
-  getTransactionReceiver (firstName, limit,offset,order) {
+  getTransactionReceiver(firstName, limit, offset, order) {
     return new Promise((resolve, reject) => {
       connection.query(`SELECT transfers.idTransfer AS idTransfer,usersSender.firstName AS Sender,usersReceiver.firstName AS receiver,transfers.amount,transfers.transferDate,transfers.notes FROM users AS usersReceiver INNER JOIN transfers ON usersReceiver.id = transfers.idReceiver AND usersReceiver.firstName LIKE ? INNER JOIN users AS usersSender ON usersSender.id = transfers.idSender ORDER BY transfers.transferDate ${order} LIMIT ${offset},${limit}`, [`%${firstName}%`], (error, results) => {
         if (!error) {
@@ -94,7 +94,7 @@ class Models {
     })
   }
 
-  deleteTransfers (idTopUp) {
+  deleteTransfers(idTopUp) {
     return new Promise((resolve, reject) => {
       connection.query('DELETE FROM transfers WHERE idTransfer = ?', idTopUp, (error, results) => {
         if (!error) {

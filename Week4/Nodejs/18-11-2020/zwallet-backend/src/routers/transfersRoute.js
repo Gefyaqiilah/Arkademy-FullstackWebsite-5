@@ -4,7 +4,13 @@ const authenticateToken = require('../middleware/authenticateToken')
 const authorization = require('../middleware/authorization')
 const transfersController = require('../controllers/transfersController')
 // desctructuring class
-const { getTransfers, getTransferById, insertTransfers, getTransactionByNameAndType, deleteTransfers } = transfersController
+const {
+  getTransfers,
+  getTransferById,
+  insertTransfers,
+  getTransactionByNameAndType,
+  deleteTransfers
+} = transfersController
 router
   .get('/', getTransfers)
   .get('/search', getTransactionByNameAndType)

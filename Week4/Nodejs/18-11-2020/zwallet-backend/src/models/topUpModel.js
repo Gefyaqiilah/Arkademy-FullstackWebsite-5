@@ -1,7 +1,7 @@
 const connection = require('../configs/db')
 
 class Models {
-  getTopUp (limit,offset,order) {
+  getTopUp(limit, offset, order) {
     return new Promise((resolve, reject) => {
       connection.query(`SELECT * FROM topup ORDER BY topUpDate ${order} LIMIT ${offset},${limit}`, (error, results) => {
         if (!error) {
@@ -13,7 +13,7 @@ class Models {
     })
   }
 
-  getTopUpById (idTransfer) {
+  getTopUpById(idTransfer) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM topup WHERE idTopUp = ?', idTransfer, (error, results) => {
         if (!error) {
@@ -25,7 +25,7 @@ class Models {
     })
   }
 
-  getTopUpByFirstName (firstName, limit,offset,order) {
+  getTopUpByFirstName(firstName, limit, offset, order) {
     return new Promise((resolve, reject) => {
       connection.query(`SELECT topup.senderName, users.firstName AS receiverUsername ,topup.amount, topup.topUpDate, topup.notes FROM users INNER JOIN topup ON users.id = topup.idReceiver AND users.firstName LIKE ? ORDER BY topup.topUpDate ${order} LIMIT ${offset},${limit}`, firstName, (error, results) => {
         if (!error) {
@@ -37,7 +37,7 @@ class Models {
     })
   }
 
-  insertTopUp (data) {
+  insertTopUp(data) {
     return new Promise((resolve, reject) => {
       console.log(data.idReceiver)
       connection.query('SELECT balance FROM users WHERE id = ?', data.idReceiver, (error, results) => {
@@ -63,7 +63,7 @@ class Models {
     })
   }
 
-  deleteTopUp (idTopUp) {
+  deleteTopUp(idTopUp) {
     return new Promise((resolve, reject) => {
       connection.query('DELETE FROM topup WHERE idTopUp = ?', idTopUp, (error, results) => {
         if (!error) {
