@@ -8,7 +8,7 @@ const createError = require('http-errors')
 const redis = require("redis");
 const client = redis.createClient();
 // import file
-const usersHelpers = require('../helpers/usersHelpers')
+const responseHelpers = require('../helpers/responseHelpers')
 const usersModel = require('../models/usersModel')
 
 class Controllers {
@@ -28,14 +28,14 @@ class Controllers {
     const offset = page ? (parseInt(page) - 1) * parseInt(limit) : 0
     usersModel.getUsers(limit, offset, order)
       .then(results => {
-        usersHelpers.response(res, results, {
+        responseHelpers.response(res, results, {
           status: 'succeed',
           statusCode: 200
         }, null)
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error)
+        return next(error)
       })
   }
 
@@ -47,7 +47,7 @@ class Controllers {
           const error = new createError(404, `User with number ID:${idUser} not Found..`)
           next(error)
         } else {
-          usersHelpers.response(res, results, {
+          responseHelpers.response(res, results, {
             status: 'succeed',
             statusCode: 200
           }, null)
@@ -55,7 +55,7 @@ class Controllers {
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error)
+        return next(error)
       })
   }
 
@@ -68,9 +68,9 @@ class Controllers {
       .then(results => {
         if (results.length === 0) {
           const error = new createError(404, `User with firstname : ${firstName} and phoneNumber : ${phoneNumber} not Found..`)
-          next(error)
+          return next(error)
         } else {
-          usersHelpers.response(res, results, {
+          responseHelpers.response(res, results, {
             status: 'succeed',
             statusCode: 200
           }, null)
@@ -78,7 +78,7 @@ class Controllers {
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error)
+        return next(error)
       })
   }
   userLogin(req, res, next) {
@@ -91,7 +91,7 @@ class Controllers {
       .then(results => {
         if (results.length === 0) {
           const error = new createError(404, `Email or password you entered is incorrect.`)
-          next(error)
+          return next(error)
         } else {
           const userData = results[0]
           bcrypt.compare(password, userData.password, ((errorcrypt, resultscrypt) => {
@@ -133,7 +133,7 @@ class Controllers {
                     // set redis
                     client.setex("dataLogin",60*60, JSON.stringify(dataLogin));
                     // send a response
-                    usersHelpers.response(res, tokenResponse, {
+                    responseHelpers.response(res, tokenResponse, {
                       status: 'Login Successful',
                       statusCode: 200
                     }, null)
@@ -145,7 +145,7 @@ class Controllers {
                     })
                     client.setex("dataLogin",60*60, JSON.stringify(dataLogin));
                     // send a response
-                    usersHelpers.response(res, tokenResponse, {
+                    responseHelpers.response(res, tokenResponse, {
                       status: 'Login Successful',
                       statusCode: 200
                     }, null)
@@ -153,18 +153,18 @@ class Controllers {
                 });
               } else {
                 const error = new createError(404, `Email or password you entered is incorrect.`)
-                next(error)
+                return next(error)
               }
             } else {
               const error = new createError(404, `Email or password you entered is incorrect.`)
-              next(error)
+              return next(error)
             }
           }))
         }
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error)
+        return next(error)
       })
   }
   userLogOut(req, res, next) {
@@ -185,7 +185,7 @@ class Controllers {
       const filter = dataLogin.filter((user) => user.email !== req.user.email)
       client.setex("dataLogin",60*60, JSON.stringify(filter));
 
-      usersHelpers.response(res, {
+      responseHelpers.response(res, {
         message: `${req.user.firstName} has logged out`
       }, {
         status: 'succeed',
@@ -215,7 +215,7 @@ class Controllers {
     client.get("dataLogin", function (err, reply) {
       if (!reply) {
         const error = new createError(401, `Forbidden: required to log in first`)
-        next(error)
+        return next(error)
       }
 
       const dataLogin = [...JSON.parse(reply)]
@@ -234,7 +234,7 @@ class Controllers {
         .then(results => {
           const userData = JSON.stringify(results[0])
           jwt.sign(userData, process.env.ACCESS_TOKEN, function (err, token) {
-            usersHelpers.response(res, {
+            responseHelpers.response(res, {
               accessToken: token
             }, {
               status: 'Succeed',
@@ -260,7 +260,7 @@ class Controllers {
     } = req.body
     if (!firstName || !email || !password) {
       const error = new createError(400, `firstName, email and password cannot be empty`)
-      next(error)
+      return next(error)
     }
 
     const id = uuidv4()
@@ -269,7 +269,7 @@ class Controllers {
       bcrypt.hash(password, salt, function (err, hash) {
         if (!hash) {
           const error = new createError(500, `Invalid password`)
-          next(error)
+          return next(error)
         }
 
         const data = {
@@ -289,23 +289,23 @@ class Controllers {
           .then(results => {
             if (results.length > 0) {
               const error = new createError(409, `Forbidden: Email already exists. `)
-              next(error)
+              return next(error)
             }
             usersModel.insertUsers(data)
               .then(results => {
-                usersHelpers.response(res, results, {
+                responseHelpers.response(res, results, {
                   status: 'succeed',
                   statusCode: 200
                 }, null)
               })
               .catch(() => {
                 const error = new createError(500, `Looks like server having trouble`)
-                next(error)
+                return next(error)
               })
           })
           .catch(() => {
             const error = new createError(500, `Looks like server having trouble`)
-            next(error)
+            return next(error)
           })
       })
     })
@@ -318,19 +318,19 @@ class Controllers {
     const id = req.params.idUser
     if (!id || !phoneNumber) {
       const error = new createError(400, `Forbidden: Id or phone number cannot be empty`)
-      next(error)
+      return next(error)
     }
 
     usersModel.updatePhoneNumber(id, phoneNumber)
       .then(results => {
-        usersHelpers.response(res, results, {
+        responseHelpers.response(res, results, {
           status: 'Succeed',
           statusCode: 200
         }, null)
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error)
+        return next(error)
       })
   }
   updatePhoto(req, res) {
@@ -339,25 +339,25 @@ class Controllers {
 
     if (!id || !req.file.filename) {
       const error = new createError(400, `Forbidden: Id or Photo cannot be empty`)
-      next(error)
+      return next(error)
     }
     usersModel.updatePhoto(id, photo)
       .then(results => {
-        usersHelpers.response(res, results, {
+        responseHelpers.response(res, results, {
           status: 'succeed',
           statusCode: 200
         }, null)
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error)
+        return next(error)
       })
   }
   updateUsers(req, res, next) {
     const idUser = req.params.idUser
     if (Object.keys(req.body).length === 0) {
       const error = new createError(400, `Forbidden: Nothing to update`)
-      next(error)
+      return next(error)
     }
 
     const data = {
@@ -367,14 +367,14 @@ class Controllers {
 
     usersModel.updateUsers(idUser, data)
       .then(results => {
-        usersHelpers.response(res, results, {
+        responseHelpers.response(res, results, {
           status: 'succeed',
           statusCode: 200
         }, null)
       })
       .catch(() => {
         const error = new createError(500, `Looks like server having trouble`)
-        next(error)
+        return next(error)
       })
   }
 
@@ -382,13 +382,13 @@ class Controllers {
     const idUser = req.params.idUser
     usersModel.deleteUsers(idUser)
       .then(results => {
-        usersHelpers.response(res, results, {
+        responseHelpers.response(res, results, {
           status: 'succeed',
           statusCode: 200
         }, null)
       })
       .catch(error => {
-        usersHelpers.response(res, null, {
+        responseHelpers.response(res, null, {
           status: 'failed',
           statusCode: 500
         }, error)

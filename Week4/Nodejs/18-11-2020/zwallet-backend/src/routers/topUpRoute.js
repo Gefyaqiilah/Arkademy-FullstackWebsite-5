@@ -5,9 +5,9 @@ const authenticateToken = require('../middleware/authenticateToken')
 const authorization = require('../middleware/authorization')
 const { getTopUp, getTopUpById, getTopUpByFirstName, deleteTopUp, insertTopUp } = topUpController
 router
-  .get('/',authenticateToken,authorization, getTopUp)
-  .get('/search',authenticateToken, getTopUpByFirstName)
-  .get('/:idTopUp',authenticateToken, getTopUpById)
-  .delete('/:idTopUp',authenticateToken, deleteTopUp)
+  .get('/', getTopUp)
+  .get('/search', getTopUpByFirstName)
+  .get('/:idTopUp', getTopUpById)
+  .delete('/:idTopUp', deleteTopUp)
   .post('/', insertTopUp)
 module.exports = router

@@ -7,8 +7,8 @@ const transfersController = require('../controllers/transfersController')
 const { getTransfers, getTransferById, insertTransfers, getTransactionByNameAndType, deleteTransfers } = transfersController
 router
   .get('/', getTransfers)
-  .get('/search',authenticateToken, getTransactionByNameAndType)
-  .get('/:idTransfer',authenticateToken, getTransferById)
+  .get('/search', getTransactionByNameAndType)
+  .get('/:idTransfer', getTransferById)
   .post('/', insertTransfers)
-  .delete('/:idTransfer',authenticateToken, deleteTransfers)
+  .delete('/:idTransfer', deleteTransfers)
 module.exports = router
