@@ -4,7 +4,9 @@ const router = express.Router()
 const usersController = require('../controllers/usersController')
 const emailController = require('../controllers/emailController')
 const authenticateToken = require('../middleware/authenticateToken')
-const authorization = require('../middleware/authorization')
+const authorizationAdmin = require('../middleware/authorizationAdmin')
+const authorizationUser = require('../middleware/authorizationUser')
+const authorizationGeneral = require('../middleware/authorizationGeneral')
 const {uploadMulter} = require('../middleware/uploadImage')
 
 const {
@@ -24,14 +26,14 @@ const {
 router
   .get('/', getUsers)
   .get('/search', getUsersByNameAndPhoneNumber)
-  .post('/token', newToken)
-  .get('/:idUser', getUsersById)
+  .post('/token', authorizationGeneral , newToken)
+  .get('/:idUser', authenticateToken, authorizationUser, getUsersById)
   .post('/', insertUsers)
   .post('/login', userLogin)
   .post('/logout', authenticateToken, userLogOut)
-  .patch('/:idUser', updateUsers)
+  .patch('/:idUser', authenticateToken, authorizationUser, updateUsers)
   .post('/photo', uploadMulter.single('photo'),insertPhoto)
   .patch('/photo/:idUser', uploadMulter.single('photo'), updatePhoto)
-  .delete('/:idUser', deleteUsers)
+  .delete('/:idUser', authenticateToken, authorizationAdmin, deleteUsers)
 
 module.exports = router

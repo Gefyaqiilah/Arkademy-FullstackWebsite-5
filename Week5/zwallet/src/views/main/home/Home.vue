@@ -72,13 +72,18 @@ export default {
             })
           }
         })
-        .catch(error => {
+        .catch(() => {
           clearInterval(this.timer)
-          console.log(error)
         })
+    },
+    redirect () {
+      if (!localStorage.getItem('accessToken')) {
+        return this.$router.push('/auth/login')
+      }
     }
   },
   mounted () {
+    this.redirect()
     this.fetchToken()
     this.timer = setInterval(this.fetchToken, 5000)
   },

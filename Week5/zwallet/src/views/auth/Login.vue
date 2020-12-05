@@ -81,7 +81,7 @@ export default {
           email: this.email,
           password: this.password
         })
-        .then(results => {
+        .then(async results => {
           if (results.status === 200) {
             const accessToken = results.data.result.accessToken
             const refreshToken = results.data.result.refreshToken
@@ -93,7 +93,7 @@ export default {
             this.$router.push('/home')
           }
         })
-        .cath(() => {
+        .catch(() => {
           alert('Looks like server having trouble')
         })
     },

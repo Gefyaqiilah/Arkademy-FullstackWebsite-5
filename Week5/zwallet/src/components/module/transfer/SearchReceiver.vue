@@ -92,7 +92,6 @@ export default {
   mounted () {
     this.fetchReceiver()
     this.redirect()
-    console.log()
   },
   computed: {
     searchUser () {

@@ -57,16 +57,16 @@ export default {
     },
     async addPhoneNumber () {
       const id = this.userData.id
-      console.log(id)
       try {
-        const results = await axios.patch(`${process.env.VUE_APP_SERVICE_API}/users/${id}`, {
+        await axios.patch(`${process.env.VUE_APP_SERVICE_API}/users/${id}`, {
           phoneNumber: this.phoneNumber
+        }, {
+          headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}` }
         })
         alert('Phone number has been updated')
         this.$router.push('/home/managephonenumber')
-        console.log(results)
       } catch (error) {
-        console.log(error)
+
       }
     },
     redirect () {
@@ -76,10 +76,11 @@ export default {
     },
     async editPhoneNumber () {
       try {
-        const resultEdit = await axios.patch(`${process.env.VUE_APP_SERVICE_API}/users/${this.$route.params.idUser}`, {
+        await axios.patch(`${process.env.VUE_APP_SERVICE_API}/users/${this.$route.params.idUser}`, {
           phoneNumber: this.phoneNumber
+        }, {
+          headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}` }
         })
-        console.log(resultEdit)
       } catch (error) {
 
       }

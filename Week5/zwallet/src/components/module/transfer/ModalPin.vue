@@ -87,16 +87,13 @@ export default {
     showModalPin () {
       // Get the modal
       const modal = document.getElementById('modalPIN')
-      console.log(modal)
       // Get the button that opens the modal
       const btn = document.getElementById('show-modal-pin')
-      console.log(btn)
       // Get the <span> element that closes the modal
       const span = document.getElementsByClassName('close')[0]
 
       // When the user clicks the button, open the modal
       btn.onclick = function () {
-        console.log('masuk ke function button clik')
         modal.style.display = 'block'
       }
 

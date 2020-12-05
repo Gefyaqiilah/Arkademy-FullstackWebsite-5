@@ -57,14 +57,12 @@ export default {
           alert('Logout successfull')
           this.$router.replace('/auth/login')
         })
-        .catch(error => {
-          console.log(error)
+        .catch(() => {
           alert('Failed to logout')
         })
     },
     toHome () {
       this.$router.push('/auth')
-      console.log('occ')
     },
     toTransfer () {
       this.router.push('/transfer')

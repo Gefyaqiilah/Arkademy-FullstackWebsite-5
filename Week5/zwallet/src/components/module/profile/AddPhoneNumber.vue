@@ -57,12 +57,12 @@ export default {
     },
     async addPhoneNumber () {
       const id = this.userData.id
-      console.log(id)
       try {
-        const results = await axios.patch(`${process.env.VUE_APP_SERVICE_API}/users/${id}`, {
+        await axios.patch(`${process.env.VUE_APP_SERVICE_API}/users/${id}`, {
           phoneNumber: this.phoneNumber
+        }, {
+          headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}` }
         })
-        console.log(results)
         this.$router.replace('/home')
       } catch (error) {
         console.log(error)

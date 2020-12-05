@@ -218,15 +218,15 @@ class Controllers {
       const error = new createError(500, `Forbidden: tokens cannot be empty`)
       return next(error)
     }
-
+    
     client.get("dataLogin", function (err, reply) {
       if (!reply) {
         const error = new createError(401, `Forbidden: required to log in first`)
         return next(error)
       }
-
+      
       const dataLogin = [...JSON.parse(reply)]
-
+      
       const checkRefreshToken = dataLogin.find((x) => {
         return x.refreshToken === refreshToken
       })
@@ -234,14 +234,14 @@ class Controllers {
         const error = new createError(401, `Forbidden: you are not logged in`)
         return next(error)
       }
-
+      
       const verifyRefreshToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN)
-
+      
       usersModel.getDataToken(verifyRefreshToken.email)
-        .then(results => {
-          const userData = JSON.stringify(results[0])
-          jwt.sign(userData, process.env.ACCESS_TOKEN, function (err, token) {
-            responseHelpers.response(res, {
+      .then(results => {
+        const userData = JSON.stringify(results[0])
+        jwt.sign(userData, process.env.ACCESS_TOKEN, function (err, token) {
+          return responseHelpers.response(res, {
               accessToken: token
             }, {
               status: 'Succeed',
@@ -250,6 +250,7 @@ class Controllers {
           });
         })
         .catch(() => {
+          console.log('masuk ke catch')
           const error = new createError(500, `Looks like server having trouble`)
           return next(error)
         })

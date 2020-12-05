@@ -21,7 +21,7 @@ const sendEmail = async (email,name) =>{
     <title>Email</title>
     <style>
       body {
-        background-color: #F9F9F9;
+        background-color: #F9F9F9 !important;
         font-family: 'Helvetica Neue', Helvetica;
       }
   
@@ -103,7 +103,7 @@ const sendEmail = async (email,name) =>{
           harum accusantium tenetur praesentium delectus sit? Ipsum officiis hic laborum architecto delectus! Et.</p>
         <p class="desc mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores ducimus, nostrum ea rerum
           quaerat suscipit!</p>
-        <a href="${process.env.BASE_URL}/emailverification/${email}" class="btn">Verify email</a >
+        <a href="${process.env.BASE_URL_FRONT_END}/emailverification/${email}" class="btn">Verify email</a >
         <hr>
         <p class="footer">
           Need help? Contact our support team or hit us up on email <a

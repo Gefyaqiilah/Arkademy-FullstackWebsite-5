@@ -67,7 +67,6 @@ export default {
   },
   methods: {
     showModalPin () {
-      console.log('ini dipanggil')
       this.$refs.modal.showModalPin()
     },
     redirect () {

@@ -70,7 +70,9 @@ export default {
     },
     async getReceiver () {
       try {
-        const dataReceiver = await axios.get(`${process.env.VUE_APP_SERVICE_API}/users/${this.$route.params.idUser}`)
+        const dataReceiver = await axios.get(`${process.env.VUE_APP_SERVICE_API}/users/${this.$route.params.idUser}`, {
+          headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}` }
+        })
         this.userReceiver.push(...dataReceiver.data.result)
       } catch (error) {
         console.log(error)
@@ -81,15 +83,14 @@ export default {
       if (this.balance < this.inputAmount) {
         alert('Oops! Sorry your balance is not enough')
       } else {
+        const data = {
+          idSender: JSON.parse(localStorage.getItem('dataUser')).id,
+          idReceiver: this.$route.params.idUser,
+          amount: this.inputAmount,
+          notes: this.inputNotes
+        }
         try {
-          const data = {
-            idSender: JSON.parse(localStorage.getItem('dataUser')).id,
-            idReceiver: this.$route.params.idUser,
-            amount: this.inputAmount,
-            notes: this.inputNotes
-          }
-          const resultTransfer = await axios.post(`${process.env.VUE_APP_SERVICE_API}/transfers`, data)
-          console.log(resultTransfer)
+          await axios.post(`${process.env.VUE_APP_SERVICE_API}/transfers`, data)
           alert('Transfer successfully !')
         } catch (error) {
           console.log(error)

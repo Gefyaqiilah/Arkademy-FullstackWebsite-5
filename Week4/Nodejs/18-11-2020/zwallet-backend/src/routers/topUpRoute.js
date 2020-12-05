@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router()
 const topUpController = require('../controllers/topUpController')
 const authenticateToken = require('../middleware/authenticateToken')
-const authorization = require('../middleware/authorization')
+const authorizationAdmin = require('../middleware/authorizationAdmin')
+const authorizationUser = require('../middleware/authorizationUser')
 const {
   getTopUp,
   getTopUpById,

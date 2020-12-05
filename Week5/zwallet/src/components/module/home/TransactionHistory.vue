@@ -37,16 +37,13 @@ export default {
       try {
         const resultsFetchTransfers = await axios.get(`${process.env.VUE_APP_SERVICE_API}/transfers/search?firstName=${this.firstName}&type=transfers&page=1&limit=4`, { headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}` } })
         this.dataTransfer.push(...resultsFetchTransfers.data.result)
-        console.log(resultsFetchTransfers.data.result)
       } catch (error) {
         console.log(error)
       }
     },
     async deleteTransaction (cek) {
-      console.log(cek)
       try {
-        const resultDelete = await axios.delete(`${process.env.VUE_APP_SERVICE_API}/transfers/${cek}`)
-        console.log(resultDelete)
+        await axios.delete(`${process.env.VUE_APP_SERVICE_API}/transfers/${cek}`)
         alert('deleted successfully')
         const filter = this.dataTransfer.filter((data) => data.idTransfer !== cek)
         this.dataTransfer = filter
@@ -57,10 +54,6 @@ export default {
   },
   mounted () {
     this.fetchTransactionTransfers()
-    console.log(this.dataTransfer)
-  },
-  beforeUpdate () {
-    console.count('celk')
   }
 }
 </script>
