@@ -7,7 +7,8 @@ const createError = require('http-errors')
 const redis = require("redis");
 const client = redis.createClient();
 const responseHelpers = require('../helpers/responseHelpers')
-const usersModel = require('../models/usersModel')
+const usersModel = require('../models/usersModel');
+const fs = require('fs')
 
 class Controllers {
   constructor() {
@@ -62,7 +63,7 @@ class Controllers {
     const {
       firstName = '', phoneNumber = ''
     } = req.query
-
+    
     usersModel.getUsersByNameAndPhoneNumber(firstName, phoneNumber)
       .then(results => {
         if (results.length === 0) {
@@ -80,6 +81,7 @@ class Controllers {
         return next(error)
       })
   }
+  
   userLogin(req, res, next) {
     const {
       email,
@@ -332,16 +334,54 @@ class Controllers {
         return next(error)
       })
   }
-
-  updatePhoto(req, res) {
-    const id = req.params.idUser
+  insertPhoto(req,res,next){
+    if (!req.file.filename) {
+      const error = new createError(400, `Forbidden: Id or Photo cannot be empty`)
+      return next(error)
+    }
     const photo = `${process.env.BASE_URL}/photo/${req.file.filename}`
+    usersModel.insertPhoto(photo)
+    .then(results => {
+      responseHelpers.response(res, results, {
+        status: 'succeed',
+        statusCode: 200
+      }, null)
+    })
+    .catch(() => {
+      const error = new createError(500, `Looks like server having trouble`)
+      return next(error)
+    })
+  }
 
+  updatePhoto(req, res,next) {
+    const id = req.params.idUser
     if (!id || !req.file.filename) {
       const error = new createError(400, `Forbidden: Id or Photo cannot be empty`)
       return next(error)
     }
-    usersModel.updatePhoto(id, photo)
+    const photo = `${process.env.BASE_URL}/photo/${req.file.filename}`
+
+    usersModel.getUsersById(id)
+    .then(async results=>{
+      if(results.length===0){
+        const error = new createError(404, `ID Not Found`)
+        return next(error)
+      } 
+      const dataResults = results[0]
+
+      const oldImage = dataResults.photo
+      // check wether the previous user has uploaded photo 
+      if(oldImage){
+        const replaceString = oldImage.replace('http://localhost:3000/photo/','')
+        fs.unlink(`./uploads/${replaceString}`, err=>{
+         if(err){
+           const error = new createError(500, 'Failed to delete old photos') 
+           return next(error)
+         }
+        })
+      }
+      // if the user hasn't uploaded a photo before,program will skip and go down here
+      usersModel.updatePhoto(id, photo)
       .then(results => {
         responseHelpers.response(res, results, {
           status: 'succeed',
@@ -352,6 +392,13 @@ class Controllers {
         const error = new createError(500, `Looks like server having trouble`)
         return next(error)
       })
+
+    })
+    .catch(()=>{
+      const error = new createError(500, `Looks like server having trouble`)
+      return next(error)
+    })
+
   }
   updateUsers(req, res, next) {
     const idUser = req.params.idUser

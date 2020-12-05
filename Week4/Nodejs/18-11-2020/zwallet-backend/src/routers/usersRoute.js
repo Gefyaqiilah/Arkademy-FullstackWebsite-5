@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const usersController = require('../controllers/usersController')
+const emailController = require('../controllers/emailController')
 const authenticateToken = require('../middleware/authenticateToken')
 const authorization = require('../middleware/authorization')
 const {uploadMulter} = require('../middleware/uploadImage')
@@ -16,9 +17,12 @@ const {
   deleteUsers,
   userLogin,
   newToken,
-  userLogOut
+  userLogOut,
+  insertPhoto
 } = usersController
-
+const {
+  sendEmailVerification
+} = emailController
 router
   .get('/', getUsers)
   .get('/search', getUsersByNameAndPhoneNumber)
@@ -28,7 +32,8 @@ router
   .post('/login', userLogin)
   .post('/logout', authenticateToken, userLogOut)
   .patch('/:idUser', updateUsers)
-  .post('/photo',updatePhoto)
+  .post('/email',sendEmailVerification)
+  .post('/photo', uploadMulter.single('photo'),insertPhoto)
   .patch('/photo/:idUser', uploadMulter.single('photo'), updatePhoto)
   .delete('/:idUser', deleteUsers)
 

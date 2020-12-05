@@ -9,6 +9,7 @@ const usersRoute = require('./src/routers/usersRoute')
 const responseHelpers = require('./src/helpers/responseHelpers')
 const transfersRoute = require('./src/routers/transfersRoute')
 const topUpRoute = require('./src/routers/topUpRoute')
+const emailRoute = require('./src/routers/emailRoute')
 const PORT = process.env.PORT
 
 // CORS
@@ -26,6 +27,7 @@ app.use(morgan('dev'))
 app.use('/users', usersRoute)
 app.use('/transfers', transfersRoute)
 app.use('/topup', topUpRoute)
+app.use('/email',emailRoute)
 
 app.use('/photo',express.static('./uploads'))
 

@@ -2,7 +2,7 @@ const connection = require('../configs/db')
 class Models {
   getUsers(limit, offset, order) {
     return new Promise((resolve, reject) => {
-      connection.query(`SELECT id, firstName, lastName, email, phoneNumber FROM users ORDER BY createdAt ${order} LIMIT ${offset},${limit}`, (error, results) => {
+      connection.query(`SELECT id, firstName, lastName, email, phoneNumber, photo FROM users ORDER BY createdAt ${order} LIMIT ${offset},${limit}`, (error, results) => {
         if (!error) {
           resolve(results)
         } else {
@@ -14,7 +14,7 @@ class Models {
 
   getUsersById(id) {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT id, firstName, lastName, email, phoneNumber FROM users WHERE id = ?', id, (error, results) => {
+      connection.query('SELECT id, firstName, lastName, email, phoneNumber, photo FROM users WHERE id = ?', id, (error, results) => {
         if (!error) {
           resolve(results)
         } else {
@@ -26,10 +26,21 @@ class Models {
 
   getUsersByNameAndPhoneNumber(firstName, phoneNumber) {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT id, firstName, lastName, phoneNumber, email FROM users WHERE firstName LIKE ? AND phoneNumber LIKE ?', [`%${firstName}%`, `%${phoneNumber}%`], (error, results) => {
+      connection.query('SELECT id, firstName, lastName, phoneNumber, email, photo FROM users WHERE firstName LIKE ? AND phoneNumber LIKE ?', [`%${firstName}%`, `%${phoneNumber}%`], (error, results) => {
         if (!error) {
           resolve(results)
         } else {
+          reject(error)
+        }
+      })
+    })
+  }
+  insertPhoto(photo){
+    return new Promise((resolve,reject)=>{
+      connection.query('INSERT INTO post_image SET photo = ?',photo,(error,results)=>{
+        if(!error){
+          resolve(results)
+        }else{
           reject(error)
         }
       })
