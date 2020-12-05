@@ -2,6 +2,7 @@ const createError = require('http-errors')
 const sendEmail = require('../helpers/sendEmail')
 const emailModel = require('../models/emailModel')
 const responseHelpers = require('../helpers/responseHelpers')
+const connection = require('../configs/db')
 
 class Controller {
 
@@ -36,9 +37,7 @@ class Controller {
     }
     emailModel.checkEmailStatus(email)
     .then(results=>{
-      console.log(results[0])
       const emailStatus = results[0].emailStatus
-      console.log(`emailstuatu --> ${emailStatus}`)
       if(emailStatus === 1){
         const error = new createError(404, 'Forbidden')
         return next(error)
@@ -50,15 +49,35 @@ class Controller {
           return responseHelpers.response(res,message,{status:'Succeedd',statusCode:200},null)
         })
         .catch(()=>{
-          console.log('masuk error')
           const error = new createError(500, 'Looks like server having trouble')
           return next(error)
         })
       }
     })
     .catch(()=>{
-      console.log('masuk error bawah')
       const error = new createError(500, 'Looks like server having trouble..')
+      return next(error)
+    })
+  }
+
+  checkIfEmailVerified(req,res,next){
+    const email = req.headers.email
+    emailModel.checkEmailStatus(email)
+    .then(results=>{
+      if(results[0].length === 0){
+        const error = new createError(404, 'Forbidden: You are not user')
+        return next(error)
+      }
+      if(results[0].emailStatus === 1){
+        const error = new createError(404, 'Forbidden: Your account has been verified')
+        return next(error)
+      }
+      const message = {message: 'your account can be verified'}
+      return responseHelpers.response(res,message,{status:'Succeedd',statusCode:200},null)
+    })
+    .catch(()=>{
+      const error = new createError(500, 'Looks like server having trouble..')
+      return next(error)
     })
   }
 }

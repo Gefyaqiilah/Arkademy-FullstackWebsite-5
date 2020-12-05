@@ -109,7 +109,7 @@ class Controllers {
                 // function for generate token
                 const token = this.generateAccessToken(userDataToken)
                 const refreshToken = this.generateRefreshToken(userDataToken)
-                const tokenResponse = {
+                let tokenResponse = {
                   accessToken: token,
                   refreshToken
                 }
@@ -123,10 +123,15 @@ class Controllers {
                       return x.email === email
                     })
                     if (checkLoggedin) {
-                      const error = new createError(404, `Forbidden: you are logged in now`)
-                      return next(error)
+                      tokenResponse = {
+                        accessToken:token,
+                        refreshToken:checkLoggedin.refreshToken
+                      }
+                      return responseHelpers.response(res, tokenResponse, {
+                        status: 'Login Successful',
+                        statusCode: 200
+                      }, null)
                     }
-
                     dataLogin.push({
                       ...userDataToken,
                       refreshToken: refreshToken
@@ -138,6 +143,7 @@ class Controllers {
                       status: 'Login Successful',
                       statusCode: 200
                     }, null)
+
                   } else {
                     const dataLogin = []
                     dataLogin.push({

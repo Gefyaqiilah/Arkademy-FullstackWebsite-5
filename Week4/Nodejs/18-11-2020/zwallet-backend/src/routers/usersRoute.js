@@ -20,9 +20,7 @@ const {
   userLogOut,
   insertPhoto
 } = usersController
-const {
-  sendEmailVerification
-} = emailController
+
 router
   .get('/', getUsers)
   .get('/search', getUsersByNameAndPhoneNumber)
@@ -32,7 +30,6 @@ router
   .post('/login', userLogin)
   .post('/logout', authenticateToken, userLogOut)
   .patch('/:idUser', updateUsers)
-  .post('/email',sendEmailVerification)
   .post('/photo', uploadMulter.single('photo'),insertPhoto)
   .patch('/photo/:idUser', uploadMulter.single('photo'), updatePhoto)
   .delete('/:idUser', deleteUsers)

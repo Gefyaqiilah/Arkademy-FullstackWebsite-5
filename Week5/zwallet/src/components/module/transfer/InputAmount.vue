@@ -42,7 +42,7 @@ press continue to the next steps.
                 <input type="text" maxlength="30" id="notes" v-model="inputNotes" class="form-control input-notes shadow-none" placeholder="Add some notes" aria-label="Username" aria-describedby="basic-addon1" required>
             </div>
           </div>
-    <div class="button-continue">
+          <div class="button-continue">
         <button type="submit" class="btn-confirm">Continue</button>
       </div>
     </form>
@@ -70,7 +70,6 @@ export default {
     },
     async getReceiver () {
       try {
-        console.log(this.userReceiver)
         const dataReceiver = await axios.get(`${process.env.VUE_APP_SERVICE_API}/users/${this.$route.params.idUser}`)
         this.userReceiver.push(...dataReceiver.data.result)
       } catch (error) {

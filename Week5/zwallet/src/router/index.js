@@ -21,6 +21,7 @@ import ChangePin from '@/components/module/profile/ChangePin'
 import AddPhoneNumber from '@/components/module/profile/AddPhoneNumber'
 import EditPhoneNumber from '@/components/module/profile/EditPhoneNumber'
 import ManagePhoneNumber from '@/components/module/profile/ManagePhoneNumber'
+import EmailVerification from '@/views/email/EmailVerification'
 Vue.use(VueRouter)
 
 const routes = [
@@ -134,7 +135,11 @@ const routes = [
         component: ResetPassword
       }
     ]
-    // redirect: '/register'
+  },
+  {
+    path: '/emailverification/:email',
+    name: 'EmailVerification',
+    component: EmailVerification
   }
 ]
 
