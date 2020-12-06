@@ -15,7 +15,7 @@
   <div v-if="!search" class="list-receiver">
     <div v-for="listReceiver in userReceiver" :key="listReceiver.id" class="receiver">
         <div class="thumbnail-photo">
-            <img src="/img/1-70x70.png" :alt="listReceiver.firstName + ' Foto'">
+            <img class="photo" :src="listReceiver.photo" :alt="listReceiver.firstName + ' Foto'">
         </div>
         <div class="detail-username">
             <p class=""><router-link class="username" :to="'/home/inputamount/'+listReceiver.id">{{listReceiver.firstName +' '}}{{listReceiver.lastName !==null ? listReceiver.lastName : ''}}</router-link></p>
@@ -26,7 +26,7 @@
   <div v-if="search" class="list-receiver">
     <div v-for="listReceiver in searchUser" :key="listReceiver.id" class="receiver">
         <div class="thumbnail-photo">
-            <img src="/img/1-70x70.png" :alt="listReceiver.firstName + ' Foto'">
+            <img class="photo" :src="listReceiver.photo" :alt="listReceiver.firstName + ' Foto'">
         </div>
         <div class="detail-username">
             <p class="username"><router-link class="username" :to="'/home/inputamount/'+listReceiver.id">{{listReceiver.firstName +' '}}{{listReceiver.lastName !==null ? listReceiver.lastName : ''}}</router-link></p>
@@ -125,7 +125,11 @@ export default {
     display: flex;
     align-items: center;
 }
-
+.photo{
+  width:60px;
+  border-radius:10px;
+  /* height:60px; */
+}
 .search-receiver-title {
     margin: 0 30px 0 30px;
 }

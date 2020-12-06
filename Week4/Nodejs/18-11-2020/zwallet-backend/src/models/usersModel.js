@@ -82,7 +82,7 @@ class Models {
   }
   getDataToken(email) {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT id,firstName, lastName,email,phoneNumber,balance FROM users WHERE email = ?', email, (error, results) => {
+      connection.query('SELECT id,firstName, lastName,email,phoneNumber, photo, balance FROM users WHERE email = ?', email, (error, results) => {
         if (!error) {
           resolve(results)
         } else {

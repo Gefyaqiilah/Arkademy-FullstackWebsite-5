@@ -16,6 +16,6 @@ router
   .get('/', getTransfers)
   .get('/search', getTransactionByNameAndType)
   .get('/:idTransfer', getTransferById)
-  .post('/', insertTransfers)
+  .post('/',authenticateToken, authorizationUser, insertTransfers)
   .delete('/:idTransfer', deleteTransfers)
 module.exports = router

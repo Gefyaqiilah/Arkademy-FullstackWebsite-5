@@ -9,7 +9,7 @@ const client = redis.createClient();
 const responseHelpers = require('../helpers/responseHelpers')
 const usersModel = require('../models/usersModel');
 const fs = require('fs')
-
+const sendEmail = require('../helpers/sendEmail')
 class Controllers {
   constructor() {
     this.userLogin = this.userLogin.bind(this)
@@ -257,7 +257,7 @@ class Controllers {
     })
   }
 
-  insertUsers(req, res) {
+  insertUsers(req, res, next) {
     const {
       firstName,
       lastName,
@@ -319,7 +319,25 @@ class Controllers {
     })
   }
 
-  updatePhoneNumber(req, res) {
+  sendEmailVerification (req,res,next) {
+    const email = req.body.email
+    const name = req.body.firstName
+    if(!email||!name){
+      const error = new createError(404, 'Forbidden: message and email cannot be empty')
+      return next(error)
+    }
+
+    sendEmail(email,name)
+    .then(()=>{
+      return next()
+    })
+    .catch(()=>{
+      const error = new createError(500,'Looks like server having trouble..')
+      return next(error)
+    })
+  }
+
+  updatePhoneNumber(req, res, next) {
     const {
       phoneNumber = null
     } = req.body
@@ -432,7 +450,7 @@ class Controllers {
       })
   }
 
-  deleteUsers(req, res) {
+  deleteUsers(req, res, next) {
     const idUser = req.params.idUser
     usersModel.deleteUsers(idUser)
       .then(results => {

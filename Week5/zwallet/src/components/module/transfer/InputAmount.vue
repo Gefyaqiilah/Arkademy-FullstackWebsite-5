@@ -7,7 +7,7 @@
     <div v-for="user in userReceiver" :key="user.id" class="transfer-to-user">
       <div class="receiver">
           <div class="thumbnail-photo">
-              <img src="/img/1-70x70.png" :alt="user.firstName">
+              <img class="photo" :src="user.photo" :alt="user.firstName">
           </div>
           <div class="detail-username">
               <p class="username">{{user.firstName}}</p>
@@ -90,7 +90,9 @@ export default {
           notes: this.inputNotes
         }
         try {
-          await axios.post(`${process.env.VUE_APP_SERVICE_API}/transfers`, data)
+          await axios.post(`${process.env.VUE_APP_SERVICE_API}/transfers`, data, {
+            headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}` }
+          })
           alert('Transfer successfully !')
         } catch (error) {
           console.log(error)
@@ -134,7 +136,11 @@ export default {
     display: flex;
     align-items: center;
 }
-
+.photo{
+  width:60px;
+  border-radius:10px;
+  /* height:60px; */
+}
 .receiver {
     display: grid;
     grid-template-columns: 0.4fr 5fr;
@@ -148,7 +154,7 @@ export default {
 
 .receiver .thumbnail-photo {
     grid-area: thumbnail-photo;
-    margin: auto auto;
+    margin: auto 20px;
 }
 
 .receiver .detail-username {

@@ -82,7 +82,7 @@ export default {
         password: this.password
       })
         .then(() => {
-          alert('Your account has been successfully created.')
+          alert('Your account has been successfully created. Check your email for verification')
           this.clearForm()
           this.$router.replace('/auth/login')
         })

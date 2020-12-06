@@ -8,6 +8,7 @@ const authorizationAdmin = require('../middleware/authorizationAdmin')
 const authorizationUser = require('../middleware/authorizationUser')
 const authorizationGeneral = require('../middleware/authorizationGeneral')
 const {uploadMulter} = require('../middleware/uploadImage')
+const sendEmail = require('../helpers/sendEmail')
 
 const {
   getUsers,
@@ -20,7 +21,8 @@ const {
   userLogin,
   newToken,
   userLogOut,
-  insertPhoto
+  insertPhoto,
+  sendEmailVerification
 } = usersController
 
 router
@@ -28,7 +30,7 @@ router
   .get('/search', getUsersByNameAndPhoneNumber)
   .post('/token', authorizationGeneral , newToken)
   .get('/:idUser', authenticateToken, authorizationUser, getUsersById)
-  .post('/', insertUsers)
+  .post('/', sendEmailVerification, insertUsers)
   .post('/login', userLogin)
   .post('/logout', authenticateToken, userLogOut)
   .patch('/:idUser', authenticateToken, authorizationUser, updateUsers)

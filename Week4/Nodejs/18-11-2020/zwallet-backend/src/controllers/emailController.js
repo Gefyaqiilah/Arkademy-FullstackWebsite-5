@@ -2,7 +2,6 @@ const createError = require('http-errors')
 const sendEmail = require('../helpers/sendEmail')
 const emailModel = require('../models/emailModel')
 const responseHelpers = require('../helpers/responseHelpers')
-const connection = require('../configs/db')
 
 class Controller {
 
